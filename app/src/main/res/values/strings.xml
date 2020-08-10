@@ -1,4 +1,23 @@
 <resources>
     <string name="app_name">Null</string>
     <string name="splashText">به بهترین ها فکر کنید! خوش آمدید</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="icon_of_logo">Icon Of Logo</string>
+    <string name="bg_image_splash">Background Of Splash Image</string>
+    <string name="signUp">عضویت</string>
+    <string name="tv_createNewAccount">ایجاد حساب کاربری جدید</string>
+    <string name="userName">نام و نام خانوادگی</string>
+    <string name="userEmail">ایمیل</string>
+    <string name="password">کلمه عبور</string>
+    <string name="repetition_password">تکرار کلمه عبور</string>
+    <string name="signUp_tv_button">عضویت</string>
+    <string name="tv_ask_account">حساب کاربری دارید؟</string>
+    <string name="tv_signIn">!وارد شوید</string>
+    <string name="group_icon">Group Icon</string>
+    <string name="tv_login">ورود</string>
+    <string name="tv_login_to_account">ورود به حساب کاربری</string>
+    <string name="tv_button_email_or_userName">نام کاربری (ایمیل)</string>
+    <string name="tv_ask_no_account">حساب کاربری ندارید ؟</string>
+    <string name="tv_be_member">!عضو شوید</string>
 </resources>
