@@ -30,6 +30,7 @@ class SplashFragment : Fragment() {
 
 
 
+
         return view
     }
 
