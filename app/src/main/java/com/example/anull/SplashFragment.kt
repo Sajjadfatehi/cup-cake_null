@@ -24,6 +24,7 @@ class SplashFragment : Fragment() {
 //            View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 //        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 //        window.setStatusBarColor(Color.TRANSPARENT);
+        //test
         val window = requireActivity().window
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         return view
