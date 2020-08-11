@@ -17,7 +17,6 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(R.id.splashFrame, splashFragment).commit()
 
         Handler().postDelayed({
-            //Do something after 100ms
             val window = window
 
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
