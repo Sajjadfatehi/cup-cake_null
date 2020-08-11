@@ -131,7 +131,7 @@
         />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/tv_go_to_be_member"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="6dp"
