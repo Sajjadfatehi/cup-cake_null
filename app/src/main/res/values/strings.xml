@@ -24,4 +24,18 @@
     <string name="tv_follow_button">دنبال کردن</string>
     <string name="tv_follower">دنبال کننده</string>
     <string name="tv_post">نوشته</string>
+    <string name="tv_name">علی خرامان</string>
+    <string name="tv_summary">طراح رابط و تجربه کاربری</string>
+    <string name="tv_number_posts">255</string>
+    <string name="tv_number_followers">5465</string>
+    <string name="image_of_profile_desc">Image Of Profile</string>
+    <string name="date_of_post">3 روز پیش</string>
+    <string name="tv_item_description">اپل در طول اعلام نتایج درآمد سه‌ ماهه سوم خود در روز پنج شنبه گفت که هیات‌ مدیره شرکت یک تجزیه سهام چهار به یک را تصویب کرده‌ است</string>
+    <string name="tv_item_title">کاهش درآمدهای گوگل در سه‌ماهه دوم سال ۲۰۲۰ طی ۱۶ سال اخیر بی‌سابقه بوده است</string>
+    <string name="numberOfFollowers">2.5k</string>
+    <string name="numberOfComments">دیدگاه 20</string>
+    <string name="menu_icon_post">Menu Icon</string>
+    <string name="tag_icon_post">Tag Icon</string>
+    <string name="like_icon_post">Like Icon</string>
+    <string name="comment_icon_post">Comment Icon</string>
 </resources>

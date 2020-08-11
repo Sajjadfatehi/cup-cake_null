@@ -66,12 +66,12 @@
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
-                android:src="@drawable/profImage"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/image_of_profile_desc"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
 
-                />
+                android:src="@drawable/prof_image" />
 
             <TextView
                 android:id="@+id/tv_name"
@@ -80,7 +80,7 @@
                 android:layout_marginEnd="16dp"
                 android:gravity="end"
                 android:lineSpacingExtra="9dp"
-                android:text="علی خرامان"
+                android:text="@string/tv_name"
                 android:textAlignment="viewEnd"
                 android:textColor="#000000"
                 android:textSize="16sp"
@@ -93,8 +93,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:layout_marginRight="16dp"
-                android:text="طراح رابط و تجربه کاربری"
+                android:layout_marginEnd="16dp"
+                android:text="@string/tv_summary"
                 android:textColor="#9e9e9e"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toStartOf="@id/image_profile"
@@ -126,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="255"
+                android:text="@string/tv_number_posts"
                 android:textAlignment="center"
                 android:textColor="#363636"
                 android:textSize="24sp"
@@ -141,7 +141,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:text="5465"
+                android:text="@string/tv_number_followers"
                 android:textColor="#363636"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toStartOf="@id/image_profile"

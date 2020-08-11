@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="backTab"
+       android:id="@+id/backTab"
         android:icon="@drawable/ic_arrow_right"
-        android:title="backTab"
+        android:title="back_tab"
         app:showAsAction="ifRoom"
 
         />
