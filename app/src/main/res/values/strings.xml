@@ -22,4 +22,6 @@
     <string name="tv_be_member">!عضو شوید</string>
     <string name="tv_profile">پروفایل</string>
     <string name="tv_follow_button">دنبال کردن</string>
+    <string name="tv_follower">دنبال کننده</string>
+    <string name="tv_post">نوشته</string>
 </resources>
