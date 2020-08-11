@@ -20,4 +20,6 @@
     <string name="tv_button_email_or_userName">نام کاربری (ایمیل)</string>
     <string name="tv_ask_no_account">حساب کاربری ندارید ؟</string>
     <string name="tv_be_member">!عضو شوید</string>
+    <string name="tv_profile">پروفایل</string>
+    <string name="tv_follow_button">دنبال کردن</string>
 </resources>
