@@ -227,11 +227,11 @@
         android:id="@+id/ask_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
         android:text="@string/tv_ask_account"
         android:textAlignment="center"
         android:textColor="#9e9e9e"
-        android:layout_marginStart="@dimen/_5sdp"
-        android:layout_marginEnd="@dimen/_5sdp"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@id/tv_go_login_screen"
         app:layout_constraintTop_toTopOf="@id/tv_go_login_screen" />
@@ -275,7 +275,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.9056088" />
+        app:layout_constraintGuide_percent="0.93" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline17"
