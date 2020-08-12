@@ -7,5 +7,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-
+    <!--........................................................-->
+    <style name="title_bar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/default_title_bar</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+    </style>
+    <!--........................................................-->
+    <style name="title_bar_icon">
+        <item name="android:layout_width">@dimen/default_title_bar_icon</item>
+        <item name="android:layout_height">@dimen/default_title_bar_icon</item>
+        <item name="android:foreground">?selectableItemBackground</item>
+    </style>
+    <!--........................................................-->
 </resources>
