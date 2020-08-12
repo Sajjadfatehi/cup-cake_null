@@ -29,6 +29,18 @@ class LoginFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        textViewEnter.setOnClickListener {
+            val profileFragment = ProfileFragment()
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.splashFrame, profileFragment).commit()
+
+        }
+
+
+    }
+
     private fun setDefault() {
         outlinedTextField2b
     }
