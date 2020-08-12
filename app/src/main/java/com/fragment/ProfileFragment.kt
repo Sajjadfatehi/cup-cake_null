@@ -26,11 +26,6 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        val layOutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
-//        titleList.layoutManager=layOutManager
-//
-//        val arrayAdapter=ArrayAdapter<String>(requireContext(),android.R.layout.simple_list_item_activated_1,titles)
-//        titleList.adapter=arrayAdapter
 
     }
 }

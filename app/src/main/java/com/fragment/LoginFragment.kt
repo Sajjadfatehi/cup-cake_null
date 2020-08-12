@@ -4,9 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.anull.R
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -35,7 +32,13 @@ class LoginFragment : Fragment(), View.OnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.splashFrame, profileFragment).commit()
 
+
         }
+
+        SignUpFragment.textChange(edt_user, edt_user_inputLayout)
+        SignUpFragment.textChange(passLogin, passLoginInputLayout)
+
+
     }
 
     override fun onClick(v: View?) {
@@ -53,13 +56,13 @@ class LoginFragment : Fragment(), View.OnClickListener {
 
     private fun checkData() {
         username = edt_user.text.toString()
-        if (!username.trim().isNotEmpty()) {
-            Toast.makeText(context, getString(R.string.emptyfields), Toast.LENGTH_SHORT).show()
+        if (username.trim().isEmpty()) {
+            edt_user_inputLayout.error = "خطا! این کادر را پر کنید"
         }
 
-        password = pass.text.toString()
-        if (!password.trim().isNotEmpty()) {
-            Toast.makeText(context, getString(R.string.emptyfields), Toast.LENGTH_SHORT).show()
+        password = passLogin.text.toString()
+        if (password.trim().isEmpty()) {
+            passLoginInputLayout.error = "خطا! این کادر را پر کنید"
         }
     }
 }

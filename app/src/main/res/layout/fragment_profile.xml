@@ -5,42 +5,53 @@
     android:layout_height="match_parent"
     android:background="#f3f3f3"
     android:layoutDirection="ltr">
-
-    <com.google.android.material.appbar.AppBarLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/title_bar"
+        android:background="@color/Purple"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/add"
+            style="@style/title_bar_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
 
-        >
+            app:srcCompat="@drawable/ic_arrow_right" />
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBar"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        <TextView
+            android:id="@+id/text_title_bar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/tab_menu"
-
-            >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/tv_profile"
-                android:textAlignment="center"
-                android:textColor="#ffffff"
-                android:textSize="16sp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/tv_profile"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_11sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-                />
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="@dimen/_10sdp"-->
+        <!--            android:background="@color/Purple"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent">-->
 
-        </com.google.android.material.appbar.MaterialToolbar>
+        <!--            <include-->
+        <!--                android:id="@+id/progress"-->
+        <!--                layout="@layout/progress"-->
+        <!--                android:visibility="gone" />-->
 
-    </com.google.android.material.appbar.AppBarLayout>
+        <!--        </LinearLayout>-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Note: A RecyclerView can also be used -->
 
