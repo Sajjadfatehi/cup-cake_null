@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import com.example.anull.R
 
 class ProfileFragment : Fragment() {
+    private val titles = arrayListOf<String>("نوشته ها", "علاقه مندی ها")
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -19,6 +21,17 @@ class ProfileFragment : Fragment() {
 
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+//        val layOutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+//        titleList.layoutManager=layOutManager
+//
+//        val arrayAdapter=ArrayAdapter<String>(requireContext(),android.R.layout.simple_list_item_activated_1,titles)
+//        titleList.adapter=arrayAdapter
+
     }
 }
 
