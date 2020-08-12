@@ -1,10 +1,17 @@
-package com.example.anull
+package com.activity
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
+import com.config.Setting
+import com.example.anull.R
+import com.fragment.HomeFragment
+import com.fragment.SignUpFragment
+import com.fragment.SplashFragment
 
 class MainActivity : AppCompatActivity() {
     private val splashTimeOut: Long = 3000 // 1 sec
@@ -20,15 +27,13 @@ class MainActivity : AppCompatActivity() {
             val window = window
 
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            Toast.makeText(this, "grgesgeg", Toast.LENGTH_SHORT).show()
             supportFragmentManager.beginTransaction().remove(splashFragment).commit()
-
             supportFragmentManager.beginTransaction().replace(R.id.splashFrame, signUpFragment)
                 .commit()
-
-
         }, splashTimeOut)
 
 
     }
+
+
 }

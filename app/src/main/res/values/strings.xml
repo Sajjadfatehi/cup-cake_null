@@ -38,4 +38,6 @@
     <string name="tag_icon_post">Tag Icon</string>
     <string name="like_icon_post">Like Icon</string>
     <string name="comment_icon_post">Comment Icon</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

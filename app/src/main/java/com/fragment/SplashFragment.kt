@@ -1,10 +1,11 @@
-package com.example.anull
+package com.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.anull.R
 
 /**
  * An example full-screen fragment that shows and hides the system UI (i.e.

@@ -1,4 +1,4 @@
-package com.example.anull
+package com.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.example.anull.R
+import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment() {
     lateinit var goToBeMember: TextView
@@ -23,9 +25,12 @@ class LoginFragment : Fragment() {
                 .replace(R.id.splashFrame, signUpFragment).commit()
 
         }
-
-
+        setDefault()
         return view
+    }
+
+    private fun setDefault() {
+        outlinedTextField2b
     }
 
 }
