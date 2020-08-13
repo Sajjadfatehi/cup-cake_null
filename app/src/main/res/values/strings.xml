@@ -40,8 +40,8 @@
     <string name="comment_icon_post">Comment Icon</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="first_page">صفحه اوول</string>
-    <string name="emptyfields">خطا!تمامی فیلدها را پرکنید.</string>
+    <string name="first_page">صفحه اول</string>
+    <string name="emptyFields">خطا!تمامی فیلدها را پرکنید.</string>
     <string name="emptyEditText">خطا! این کادر را پر کنید</string>
 
 </resources>

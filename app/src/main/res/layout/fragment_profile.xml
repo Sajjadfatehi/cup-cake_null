@@ -5,22 +5,17 @@
     android:layout_height="match_parent"
     android:background="#f3f3f3"
     android:layoutDirection="ltr">
+
+    <!-- Note: A RecyclerView can also be used -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/appBarLayout"
+
         style="@style/title_bar"
         android:background="@color/Purple"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/add"
-            style="@style/title_bar_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
-            app:srcCompat="@drawable/ic_arrow_right" />
 
         <TextView
             android:id="@+id/text_title_bar"
@@ -35,25 +30,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/ic_arrow_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
 
-        <!--        <LinearLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="@dimen/_10sdp"-->
-        <!--            android:background="@color/Purple"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent">-->
 
-        <!--            <include-->
-        <!--                android:id="@+id/progress"-->
-        <!--                layout="@layout/progress"-->
-        <!--                android:visibility="gone" />-->
+            />
 
-        <!--        </LinearLayout>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- Note: A RecyclerView can also be used -->
 
 
     <com.google.android.material.card.MaterialCardView
