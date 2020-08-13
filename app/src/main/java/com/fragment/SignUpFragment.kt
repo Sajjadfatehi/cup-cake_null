@@ -32,40 +32,12 @@ class SignUpFragment : Fragment() {
         }
 
 
-        emailEditText.setOnFocusChangeListener { view, b ->
-            if (!b) {
-                if (emailEditText.text.isNullOrEmpty()) emailInputLayout.error =
-                    "خطا! این کادر نباید خالی باشد"
-                else if (!isValid(emailEditText.text.toString().trim()))
 
-                    emailInputLayout.error = "قالب ایمیل وارد شده نامعتبر است"
-            }
-
-        }
-        passSignUp.setOnFocusChangeListener { view, b ->
-            if (!b && !passSignUp.text.isNullOrEmpty() && passSignUp.text.toString()
-                    .trim().length < 8
-            ) {
-                passSignUpInputLayout.error = "تعداد حروف وارد شده حداقل باید 8 عدد باشد !"
-            }
-
-        }
-        repetitionPass.setOnFocusChangeListener { view, b ->
-            if (!b) {
-                if (!repetitionPass.text.isNullOrEmpty() && repetitionPass.text.toString()
-                        .trim().length < 8
-                ) {
-                    repetitionPassInputLayout.error = "تعداد حروف وارد شده حداقل باید 8 عدد باشد !"
-                } else if (!passSignUp.text.isNullOrEmpty() &&
-                    !passSignUp.text.toString().trim().equals(repetitionPass.text.toString().trim())
-                ) {
-                    repetitionPassInputLayout.error =
-                        "پسورد وارد شده با پسوردی که قبلا وارد شد یکسان نیست ! "
-                }
-            }
+        HandleError().handleErrorForEmail()
+        HandleError().handleErrorForPassword()
+        HandleError().handleErrorForRepetitionPassword()
 
 
-        }
 
 
         textChange(userNameEditText, userNameInputLayout)
@@ -73,8 +45,8 @@ class SignUpFragment : Fragment() {
         textChange(repetitionPass, repetitionPassInputLayout)
         textChange(emailEditText, emailInputLayout)
 
-
     }
+
 
     companion object {
         fun isValid(email: String): Boolean {
@@ -111,6 +83,61 @@ class SignUpFragment : Fragment() {
 
             })
         }
+
+
+    }
+
+    inner class HandleError {
+        fun handleErrorForEmail() {
+            var emailText = emailEditText.text
+            emailEditText.setOnFocusChangeListener { view, b ->
+                if (!b) {
+                    if (emailText.isNullOrEmpty()) emailInputLayout.error =
+                        "خطا! این کادر نباید خالی باشد"
+                    else if (!isValid(emailText.toString().trim()))
+
+                        emailInputLayout.error = "قالب ایمیل وارد شده نامعتبر است"
+                }
+
+            }
+
+        }
+
+        fun handleErrorForPassword() {
+            var passText = passSignUp.text
+            passSignUp.setOnFocusChangeListener { view, b ->
+                if (!b && !passText.isNullOrEmpty() && passText.toString()
+                        .trim().length < 8
+                ) {
+                    passSignUpInputLayout.error = "تعداد حروف وارد شده حداقل باید 8 عدد باشد !"
+                }
+
+            }
+        }
+
+        fun handleErrorForRepetitionPassword() {
+            var passText = passSignUp.text
+            var repetitionPassText = repetitionPass.text
+            repetitionPass.setOnFocusChangeListener { view, b ->
+                if (!b) {
+
+                    if (!repetitionPassText.isNullOrEmpty() && repetitionPassText.toString()
+                            .trim().length < 8
+                    ) {
+                        repetitionPassInputLayout.error =
+                            "تعداد حروف وارد شده حداقل باید 8 عدد باشد !"
+                    } else if (!passText.isNullOrEmpty() &&
+                        !passText.toString().trim().equals(repetitionPassText.toString().trim())
+                    ) {
+                        repetitionPassInputLayout.error =
+                            "پسورد وارد شده با پسوردی که قبلا وارد شد یکسان نیست ! "
+                    }
+                }
+
+
+            }
+        }
+
 
     }
 
