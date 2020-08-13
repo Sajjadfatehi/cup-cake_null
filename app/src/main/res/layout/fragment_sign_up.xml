@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:layoutDirection="rtl">
 
 
@@ -37,7 +38,7 @@
         app:layout_constraintGuide_percent="0.703163" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvMemberShip"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -71,6 +72,8 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:maxLength="60"
+            android:maxLines="2"
             android:id="@+id/userNameEditText"
             android:text=""
 
@@ -112,6 +115,8 @@
             android:padding="@dimen/_5sdp"
             android:paddingVertical="14dp"
             android:textAlignment="viewStart"
+            android:maxLength="60"
+            android:maxLines="2"
             android:textSize="16sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -146,6 +151,8 @@
             android:paddingVertical="14dp"
             android:textAlignment="viewStart"
             android:textSize="14sp"
+            android:maxLength="30"
+            android:maxLines="2"
 
             />
 
@@ -181,6 +188,8 @@
             android:paddingVertical="14dp"
             android:textAlignment="viewStart"
             android:textSize="14sp"
+            android:maxLength="30"
+            android:maxLines="2"
 
             />
 
@@ -208,20 +217,6 @@
         android:orientation="horizontal"
         android:textAlignment="center"
         app:layout_constraintGuide_percent="0.21" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:gravity="center"
-        android:text="@string/tv_createNewAccount"
-        android:textAlignment="center"
-        android:textColor="#9e9e9e"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline7"
-        app:layout_constraintStart_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/singUpButton"

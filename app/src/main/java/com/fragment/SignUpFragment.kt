@@ -1,5 +1,6 @@
 package com.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -22,6 +23,7 @@ class SignUpFragment : Fragment() {
         return view
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -39,11 +41,19 @@ class SignUpFragment : Fragment() {
 
 
 
-
         textChange(userNameEditText, userNameInputLayout)
         textChange(passSignUp, passSignUpInputLayout)
         textChange(repetitionPass, repetitionPassInputLayout)
         textChange(emailEditText, emailInputLayout)
+
+        tvMemberShip.setOnClickListener {
+            val profileFragment = ProfileFragment()
+            requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.splashFrame, profileFragment).commit()
+
+        }
+
 
     }
 
@@ -140,5 +150,6 @@ class SignUpFragment : Fragment() {
 
 
     }
+
 
 }

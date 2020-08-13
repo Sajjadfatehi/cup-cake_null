@@ -27,13 +27,6 @@ class LoginFragment : Fragment(), View.OnClickListener {
         tv_go_to_be_member.setOnClickListener(this)
         btn_login.setOnClickListener(this)
 
-        textViewEnter.setOnClickListener {
-            val profileFragment = ProfileFragment()
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.splashFrame, profileFragment).commit()
-
-
-        }
 
         SignUpFragment.textChange(edt_user, edt_user_inputLayout)
         SignUpFragment.textChange(passLogin, passLoginInputLayout)

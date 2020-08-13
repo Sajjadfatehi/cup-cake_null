@@ -9,4 +9,6 @@
     <color name="Purple">#8c45cc</color>
     <color name="white">#FFFFFF</color>
     <color name="trans">#83000000</color>
+
+    <color name="statusBar">#813ac1</color>
 </resources>
