@@ -1,10 +1,10 @@
 package com.fragment
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.example.anull.R
 import com.model.TabModel
 import kotlinx.android.synthetic.main.fragment_home.*
