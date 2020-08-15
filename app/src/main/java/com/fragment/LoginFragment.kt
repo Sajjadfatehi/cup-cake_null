@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.activity.MainActivity
+import com.config.FunctionHelper
 import com.example.anull.R
 import kotlinx.android.synthetic.main.fragment_login.*
 
@@ -12,6 +14,8 @@ class LoginFragment : Fragment(), View.OnClickListener {
 
     var username: String = ""
     var password: String = ""
+    var mainActivity: MainActivity ?= null
+    val functionHelper :FunctionHelper = FunctionHelper()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,20 +46,26 @@ class LoginFragment : Fragment(), View.OnClickListener {
             R.id.tv_go_to_be_member -> {
                 val signUpFragment = SignUpFragment()
                 requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.splashFrame, signUpFragment).commit()
+                    .replace(R.id.frame, signUpFragment).commit()
             }
         }
     }
 
     private fun checkData() {
         username = edt_user.text.toString()
+        password = passLogin.text.toString()
+
         if (username.trim().isEmpty()) {
             edt_user_inputLayout.error = "خطا! این کادر را پر کنید"
-        }
-
-        password = passLogin.text.toString()
-        if (password.trim().isEmpty()) {
+        } else if (password.trim().isEmpty()) {
             passLoginInputLayout.error = "خطا! این کادر را پر کنید"
         }
+        else {
+            val homeFragment = HomeFragment()
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.frame, homeFragment).commit()        }
+        functionHelper.getPublicSharedPreferences(context)?.setToken(passLogin.text.toString())
+
+
     }
 }

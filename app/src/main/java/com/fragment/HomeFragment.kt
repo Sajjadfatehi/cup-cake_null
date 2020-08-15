@@ -16,8 +16,8 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private var tab : Boolean = false
-    private var tabs : MutableList<TabModel> ?= null
+    private var tab: Boolean = false
+    private var tabs: ArrayList<TabModel> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -55,11 +55,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun setTabs() {
-        tabs?.add(TabModel("tab one"))
-        tabs?.add(TabModel("tab two"))
-        tabs?.add(TabModel("tab there"))
-        tabLayout.addTab(tabLayout.newTab().setText(tabs?.elementAt(0).toString()))
-        tabLayout.addTab(tabLayout.newTab().setText(tabs?.elementAt(1).toString()))
-        tabLayout.addTab(tabLayout.newTab().setText(tabs?.elementAt(2).toString()))
+        tabs.add(TabModel("tab one"))
+        tabs.add(TabModel("tab two"))
+        tabs.add(TabModel("tab there"))
+        tabLayout.addTab(tabLayout.newTab().setText(tabs[0].name))
+        tabLayout.addTab(tabLayout.newTab().setText(tabs[1].name))
+        tabLayout.addTab(tabLayout.newTab().setText(tabs[2].name))
     }
 }
