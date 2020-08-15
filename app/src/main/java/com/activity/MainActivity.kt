@@ -6,29 +6,38 @@ import android.os.Handler
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.config.FunctionHelper
 import com.example.anull.R
+import com.fragment.HomeFragment
+import com.fragment.LoginFragment
 import com.fragment.SignUpFragment
 import com.fragment.SplashFragment
 
 class MainActivity : AppCompatActivity() {
     private val splashTimeOut: Long = 3000 // 1 sec
+    val splashFragment = SplashFragment()
+    val signUpFragment = SignUpFragment()
+    val homeFragment = HomeFragment()
+    val loginFragment = LoginFragment()
+    val functionHelper: FunctionHelper = FunctionHelper()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        loginFragment.mainActivity = this
 
-
-        val splashFragment = SplashFragment()
-        val signUpFragment = SignUpFragment()
-        supportFragmentManager.beginTransaction().replace(R.id.splashFrame, splashFragment).commit()
-
-
+        supportFragmentManager.beginTransaction().replace(R.id.frame, splashFragment).commit()
         Handler().postDelayed({
-
-
             changeTopOfScreen()
-            supportFragmentManager.beginTransaction().remove(splashFragment).commit()
-            supportFragmentManager.beginTransaction().replace(R.id.splashFrame, signUpFragment)
-                .commit()
+            if (functionHelper.getPublicSharedPreferences(this)?.getToken()!!.isEmpty()) {
+                supportFragmentManager.beginTransaction().remove(splashFragment).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.frame, signUpFragment)
+                    .commit()
+            } else {
+                supportFragmentManager.beginTransaction().remove(splashFragment).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.frame, homeFragment)
+                    .commit()
+            }
+
         }, splashTimeOut)
 
 

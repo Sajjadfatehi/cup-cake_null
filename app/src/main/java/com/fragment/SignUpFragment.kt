@@ -30,7 +30,7 @@ class SignUpFragment : Fragment() {
         tv_go_login_screen.setOnClickListener {
             val loginFragment = LoginFragment()
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.splashFrame, loginFragment).commit()
+                .replace(R.id.frame, loginFragment).commit()
         }
 
 
@@ -54,7 +54,7 @@ class SignUpFragment : Fragment() {
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.splashFrame, profileFragment).commit()
+                .replace(R.id.frame, profileFragment).commit()
 
         }
 
