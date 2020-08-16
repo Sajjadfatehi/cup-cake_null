@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         val splashFragment = SplashFragment()
         val signUpFragment = SignUpFragment()
         supportFragmentManager.beginTransaction().replace(R.id.splashFrame, splashFragment).commit()

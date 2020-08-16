@@ -22,4 +22,27 @@
         <item name="android:foreground">?selectableItemBackground</item>
     </style>
     <!--........................................................-->
+
+    <style name="Widget.App.Chip" parent="Widget.MaterialComponents.Chip.Entry">
+
+        <item name="chipBackgroundColor">@color/white</item>
+        <item name="chipStrokeWidth">0dp</item>
+
+        <item name="checkedIconVisible">false</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+    </style>
+
+
+    <style name="chip_select" parent="Widget.MaterialComponents.Chip.Choice">
+
+        <item name="backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/statusBar</item>
+    </style>
+
+    <style name="chip_unSelect" parent="Widget.MaterialComponents.Chip.Choice">
+
+        <item name="backgroundTint">#f3f3f3</item>
+        <item name="android:textColor">#363636</item>
+    </style>
+
 </resources>

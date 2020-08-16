@@ -43,5 +43,8 @@
     <string name="first_page">صفحه اول</string>
     <string name="emptyFields">خطا!تمامی فیلدها را پرکنید.</string>
     <string name="emptyEditText">خطا! این کادر را پر کنید</string>
+    <string name="tv_posts">نوشته ها</string>
+    <string name="tv_interest">علاقه مندی</string>
+    <string name="tv_favorite">علاقه مندی</string>
 
 </resources>
