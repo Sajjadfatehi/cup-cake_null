@@ -47,5 +47,6 @@
     <string name="tv_interest">علاقه مندی</string>
     <string name="tv_favorite">علاقه مندی</string>
     <string name="searchArticle">جستجو مقاله</string>
+    <string name="hint_box_search">جستجو مقاله</string>
 
 </resources>
