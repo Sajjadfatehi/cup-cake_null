@@ -45,9 +45,7 @@ class MainActivity : AppCompatActivity() {
 
     fun changeTopOfScreen() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = Color.TRANSPARENT
 
     }
 

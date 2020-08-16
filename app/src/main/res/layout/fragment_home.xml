@@ -42,49 +42,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_lock" />
-
-        <!--        <LinearLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="@dimen/_10sdp"-->
-        <!--            android:background="@color/Purple"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent">-->
-
-        <!--            <include-->
-        <!--                android:id="@+id/progress"-->
-        <!--                layout="@layout/progress"-->
-        <!--                android:visibility="gone" />-->
-
-        <!--        </LinearLayout>-->
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--    <com.google.android.material.tabs.TabLayout-->
-<!--        android:id="@+id/tabLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layoutDirection="rtl"-->
-<!--        app:tabBackground="@color/Purple"-->
-<!--        app:tabGravity="fill"-->
-<!--        app:tabIndicatorHeight="4dp"-->
-<!--        app:tabMode="fixed"-->
-<!--        app:tabIndicator="@drawable/tab_color_selector"-->
-<!--        app:tabSelectedTextColor="@color/Purple"-->
-<!--        app:tabTextColor="@color/white" />-->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabMode="fixed"
+        android:backgroundTint="@color/colorPrimary"
+        android:layoutDirection="rtl"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title_bar"
-        android:backgroundTint="@color/colorPrimary"
         app:tabIndicator="@drawable/tab_color_selector"
+        app:tabIndicatorColor="@color/white"
         app:tabIndicatorGravity="stretch"
-        app:tabTextColor="@color/Purple"
-        app:tabIndicatorColor="@color/white"/>
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/Purple"
+        app:tabTextColor="@color/white" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -108,22 +82,23 @@
             android:id="@+id/edt_search"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="start"
             android:background="@drawable/shape_empty"
+            android:gravity="start"
+            android:hint="@string/hint_box_search"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/icon_search"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:hint="@string/hint_box_search"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/vertical_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/tabLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem=""
-        android:id="@+id/vertical_list"/>
+        app:layout_constraintTop_toBottomOf="@id/tabLayout"
+        tools:listitem="" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
