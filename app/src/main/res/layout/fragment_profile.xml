@@ -13,7 +13,7 @@
 
         <!-- Note: A RecyclerView can also be used -->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/appBarLayout"
+            android:id="@+id/appBarLayoutTitle"
 
             style="@style/title_bar"
             android:background="@color/Purple"
@@ -23,7 +23,7 @@
 
 
             <TextView
-                android:id="@+id/text_title_bar"
+                android:id="@+id/tv_title_bar_in_title_page"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -61,7 +61,7 @@
             app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+            app:layout_constraintTop_toBottomOf="@id/appBarLayoutTitle"
 
             >
 
