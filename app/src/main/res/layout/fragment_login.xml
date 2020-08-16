@@ -31,7 +31,6 @@
         app:layout_constraintStart_toStartOf="@+id/guideline9b"
         app:layout_constraintTop_toTopOf="@+id/guideline11b" />
 
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edt_user_inputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/hint_search"
     tools:context="com.fragment.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,24 +65,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layoutDirection="rtl"
-        android:minHeight="?actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title_bar"
-        app:tabBackground="@color/Purple"
+        app:tabBackground="@drawable/tab_color_selector"
         app:tabGravity="fill"
-        app:tabIndicatorColor="@color/white"
+        android:backgroundTint="@color/Purple"
         app:tabIndicatorHeight="4dp"
+        style="@style/MyTabTextAppearance"
         app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/Purple"
         app:tabTextColor="@color/white" />
 
-    <FrameLayout
-        android:id="@+id/frame"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_3sdp"
+        android:background="@drawable/shape_search_box"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+        app:layout_constraintTop_toBottomOf="@id/tabLayout">
+
+        <ImageView
+            android:id="@+id/icon_search"
+            android:layout_width="@dimen/_45sdp"
+            android:layout_height="@dimen/_45sdp"
+            android:padding="@dimen/_8sdp"
+            android:src="@drawable/ic_arrow_right"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edt_search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="end"
+            app:layout_constraintEnd_toStartOf="@id/icon_search"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

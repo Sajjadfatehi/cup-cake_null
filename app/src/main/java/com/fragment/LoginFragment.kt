@@ -14,8 +14,8 @@ class LoginFragment : Fragment(), View.OnClickListener {
 
     var username: String = ""
     var password: String = ""
-    var mainActivity: MainActivity ?= null
-    val functionHelper :FunctionHelper = FunctionHelper()
+    var mainActivity: MainActivity? = null
+    val functionHelper: FunctionHelper = FunctionHelper()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -59,11 +59,11 @@ class LoginFragment : Fragment(), View.OnClickListener {
             edt_user_inputLayout.error = "خطا! این کادر را پر کنید"
         } else if (password.trim().isEmpty()) {
             passLoginInputLayout.error = "خطا! این کادر را پر کنید"
-        }
-        else {
+        } else {
             val homeFragment = HomeFragment()
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.frame, homeFragment).commit()        }
+                .replace(R.id.frame, homeFragment).commit()
+        }
         functionHelper.getPublicSharedPreferences(context)?.setToken(passLogin.text.toString())
 
 
