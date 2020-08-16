@@ -1,4 +1,4 @@
-package com.model
+package com.model.home
 
 /**
 Created by Moha.Azizi on 15/08/2020 .
