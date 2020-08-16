@@ -44,5 +44,6 @@
     <string name="emptyFields">خطا!تمامی فیلدها را پرکنید.</string>
     <string name="emptyEditText">خطا! این کادر را پر کنید</string>
     <string name="searchArticle">جستجو مقاله</string>
+    <string name="hint_box_search">جستجو مقاله</string>
 
 </resources>
