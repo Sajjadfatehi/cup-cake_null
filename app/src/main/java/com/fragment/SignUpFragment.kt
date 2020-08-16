@@ -31,8 +31,11 @@ class SignUpFragment : Fragment() {
             val loginFragment = LoginFragment()
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.frame, loginFragment).commit()
-        }
 
+        }
+        singUpButton.setOnClickListener {
+        fragmentManager?.popBackStack()
+        }
 
 
         HandleError().handleErrorForEmail()

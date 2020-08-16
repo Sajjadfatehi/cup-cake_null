@@ -31,20 +31,6 @@
         app:layout_constraintStart_toStartOf="@+id/guideline9b"
         app:layout_constraintTop_toTopOf="@+id/guideline11b" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:gravity="center"
-        android:text="@string/tv_login_to_account"
-        android:textAlignment="center"
-        android:textColor="#9e9e9e"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline7b"
-        app:layout_constraintStart_toStartOf="@+id/guideline6b"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edt_user_inputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

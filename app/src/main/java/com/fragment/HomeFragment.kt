@@ -1,14 +1,17 @@
 package com.fragment
 
+import android.R.attr.rating
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import com.example.anull.R
 import com.model.TabModel
 import kotlinx.android.synthetic.main.fragment_home.*
+
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -16,6 +19,8 @@ private const val ARG_PARAM2 = "param2"
 class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
+    private var test1: String? = null
+    private var test2: String? = null
 
     private var tab: Boolean = false
     private var tabs: ArrayList<TabModel> = ArrayList()
@@ -53,7 +58,9 @@ class HomeFragment : Fragment() {
             setTabs()
             tab = true
         }
+
     }
+
 
     private fun setTabs() {
         tabs.add(TabModel("tab one"))
