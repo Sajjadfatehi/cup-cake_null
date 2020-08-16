@@ -1,9 +1,12 @@
 package com.fragment
 
+import android.R.attr.rating
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import com.example.anull.R
 import com.model.home.TabModel
