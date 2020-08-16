@@ -33,6 +33,9 @@ class SignUpFragment : Fragment() {
                 .replace(R.id.frame, loginFragment).commit()
 
         }
+        requireActivity().window.decorView.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+
         singUpButton.setOnClickListener {
         fragmentManager?.popBackStack()
         }
@@ -53,9 +56,7 @@ class SignUpFragment : Fragment() {
 
             val profileFragment = ProfileFragment()
             //below line is for app bar layout that don,t go behind the status bar
-            requireActivity().window.decorView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
+
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.frame, profileFragment).commit()
 
