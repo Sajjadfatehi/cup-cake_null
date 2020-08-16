@@ -68,12 +68,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title_bar"
-        app:tabBackground="@drawable/tab_color_selector"
+        app:tabBackground="@color/Purple"
         app:tabGravity="fill"
-        android:backgroundTint="@color/Purple"
         app:tabIndicatorHeight="4dp"
-        style="@style/MyTabTextAppearance"
         app:tabMode="fixed"
+        app:tabIndicator="@drawable/tab_color_selector"
         app:tabSelectedTextColor="@color/Purple"
         app:tabTextColor="@color/white" />
 
@@ -104,6 +103,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem=""
+        android:id="@+id/vertical_list"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
