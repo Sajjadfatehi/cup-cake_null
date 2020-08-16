@@ -19,8 +19,8 @@ import kotlinx.android.synthetic.main.item_profile_post.view.tv_desc_post_prof
 Created by Moha.Azizi on 16/08/2020 .
  */
 
-class PersonArticleAdapter(private val list: MutableList<PersonArticleModel>) :
-    RecyclerView.Adapter<PersonArticleAdapter.ViewHolder>() {
+class BestArticleAdapter(private val list: MutableList<PersonArticleModel>) :
+    RecyclerView.Adapter<BestArticleAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(personArticleModel: PersonArticleModel) {
@@ -52,7 +52,7 @@ class PersonArticleAdapter(private val list: MutableList<PersonArticleModel>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_person_article, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_best_article, parent, false)
         )
     }
 

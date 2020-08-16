@@ -1,4 +1,4 @@
-package com.`class`
+package com.model
 
 // must be data class
 data class PostInProf(

@@ -48,5 +48,11 @@
     <string name="tv_favorite">علاقه مندی</string>
     <string name="searchArticle">جستجو مقاله</string>
     <string name="hint_box_search">جستجو مقاله</string>
+    <string name="best_article">برترین مقالات</string>
+    <string name="foryou">برای شما</string>
+    <string name="bors">بورس</string>
+    <string name="eqtsad">اقتصاد</string>
+    <string name="sarmaye">سرمایه گذاری</string>
+    <string name="saham">سهام</string>
 
 </resources>

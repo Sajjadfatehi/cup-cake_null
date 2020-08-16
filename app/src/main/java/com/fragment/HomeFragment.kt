@@ -6,7 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.adapter.BestArticleAdapter
+import com.adapter.PersonArticleAdapter
 import com.example.anull.R
+import com.model.PostInProf
+import com.model.home.PersonArticleModel
 import com.model.home.TabModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -17,6 +21,7 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private var list = mutableListOf<PersonArticleModel>()
     private var tab: Boolean = false
     private var tabs: ArrayList<TabModel> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,20 +56,40 @@ class HomeFragment : Fragment() {
         //------------------------------------------------
         requireActivity().window.decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-//        requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
 
         if (!tab) {
             setTabs()
             tab = true
         }
+
+        repeat(20) {
+            list.add(
+                PersonArticleModel(
+                    "محمد",
+                    "دو روز قبل",
+                    true,
+                    " ین متن میتواند یک تست موقت باشد ین متن میتواند یک تست موقت باشد ین متن میتواند یک تست موقت باشد ین متن میتواند یک تست موقت باشد"
+                )
+            )
+        }
+        recycler_person_article.apply {
+            adapter = PersonArticleAdapter(list)
+        }
+        recycler_best_article.apply {
+            adapter = BestArticleAdapter(list)
+        }
     }
 
     private fun setTabs() {
-        tabs.add(TabModel("tab one"))
-        tabs.add(TabModel("tab two"))
-        tabs.add(TabModel("tab there"))
-        tabLayout.addTab(tabLayout.newTab().setText(tabs[0].name))
-        tabLayout.addTab(tabLayout.newTab().setText(tabs[1].name))
-        tabLayout.addTab(tabLayout.newTab().setText(tabs[2].name))
+        tabs.add(TabModel(getString(R.string.foryou)))
+        tabs.add(TabModel(getString(R.string.bors)))
+        tabs.add(TabModel(getString(R.string.saham)))
+        tabs.add(TabModel(getString(R.string.eqtsad)))
+        tabs.add(TabModel(getString(R.string.sarmaye)))
+
+        for (i in 0 until  tabs.size){
+            tabLayout.addTab(tabLayout.newTab().setText(tabs[i].name))
+        }
+
     }
 }

@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.fragment.app.Fragment
-import com.`class`.PostInProf
-import com.`class`.PostsInProfAdapter
+import com.model.PostInProf
+import com.adapter.PostsInProfAdapter
 import com.example.anull.R
 import kotlinx.android.synthetic.main.fragment_profile.*
 

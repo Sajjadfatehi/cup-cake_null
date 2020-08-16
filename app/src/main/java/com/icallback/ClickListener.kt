@@ -1,4 +1,4 @@
-package com.`class`
+package com.icallback
 
 interface ClickListener {
     fun onClick(title: String, layoutPosition: Int)

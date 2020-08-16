@@ -1,4 +1,4 @@
-package com.`class`
+package com.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anull.R
+import com.model.PostInProf
 import kotlinx.android.synthetic.main.item_profile_post.view.*
 
 class PostsInProfAdapter(private val list: MutableList<PostInProf>) :
