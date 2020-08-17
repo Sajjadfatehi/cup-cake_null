@@ -18,8 +18,7 @@
             style="@style/title_bar_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_write" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_title_bar_in_title_page"
@@ -37,10 +36,11 @@
         <ImageView
             android:id="@+id/personIcon"
             style="@style/title_bar_icon"
+            android:layout_width="21dp"
+            android:layout_height="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_person_icon" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!--        <LinearLayout-->
         <!--            android:layout_width="match_parent"-->

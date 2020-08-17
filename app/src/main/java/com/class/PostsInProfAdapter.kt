@@ -29,7 +29,7 @@ class PostsInProfAdapter(private val list: MutableList<PostInProf>) :
 
 
     inner class PostInProfViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private var image: ImageView? = null
+    //    private var image: ImageView? = null
         private var title: TextView? = null
         private var lastDate: TextView? = null
         private var desc: TextView? = null
@@ -40,7 +40,7 @@ class PostsInProfAdapter(private val list: MutableList<PostInProf>) :
 
         init {
 
-            image = itemView.item_image_post_prof
+          //  image = itemView.item_image_post_prof
             title = itemView.tv_title_post_prof
             lastDate = itemView.tv_date_of_post
             desc = itemView.tv_desc_post_prof
@@ -52,7 +52,7 @@ class PostsInProfAdapter(private val list: MutableList<PostInProf>) :
 
         fun bind(post: PostInProf) {
             //bind image
-            image?.setImageResource(R.drawable.prof_image)
+            //image?.setImageResource(R.drawable.prof_image)
             name?.text = post.name
             title?.text = post.title
             lastDate?.text = post.lastDate
