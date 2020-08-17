@@ -29,24 +29,12 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         tv_go_login_screen.setOnClickListener {
-<<<<<<< HEAD
-            val loginFragment = LoginFragment()
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.frame, loginFragment).commit()
-
-=======
 //            val loginFragment = LoginFragment()
 //            requireActivity().supportFragmentManager.beginTransaction()
 //                .replace(R.id.splashFrame, loginFragment).commit()
             Navigation.findNavController(it).navigate(R.id.action_signUpFragment_to_loginFragment)
->>>>>>> add navigation on project
         }
-        requireActivity().window.decorView.systemUiVisibility =
-            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 
-        singUpButton.setOnClickListener {
-        fragmentManager?.popBackStack()
-        }
 
 
         HandleError().handleErrorForEmail()
@@ -64,18 +52,12 @@ class SignUpFragment : Fragment() {
 
             val profileFragment = ProfileFragment()
             //below line is for app bar layout that don,t go behind the status bar
-<<<<<<< HEAD
-
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.frame, profileFragment).commit()
-=======
             requireActivity().window.decorView.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
             Navigation.findNavController(it).navigate(R.id.action_signUpFragment_to_homeFragment)
 //            requireActivity().supportFragmentManager.beginTransaction()
 //                .replace(R.id.splashFrame, profileFragment).commit()
->>>>>>> add navigation on project
 
         }
 
