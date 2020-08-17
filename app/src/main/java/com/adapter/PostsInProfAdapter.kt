@@ -36,21 +36,25 @@ class PostsInProfAdapter(private val list: MutableList<PostInProf>) :
         private var desc: TextView? = null
         private var like: TextView? = null
         private var comment: TextView? = null
+        private var name: TextView? = null
 
 
         init {
+
             image = itemView.item_image_post_prof
             title = itemView.tv_title_post_prof
             lastDate = itemView.tv_date_of_post
             desc = itemView.tv_desc_post_prof
             like = itemView.tv_like_post_prof
             comment = itemView.tv_number_of_comments_post_prof
+            name = itemView.item_tv_name_post_prof
 
         }
 
         fun bind(post: PostInProf) {
             //bind image
             image?.setImageResource(R.drawable.prof_image)
+            name?.text = post.name
             title?.text = post.title
             lastDate?.text = post.lastDate
             desc?.text = post.desc

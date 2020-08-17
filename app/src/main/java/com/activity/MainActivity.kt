@@ -1,17 +1,16 @@
 package com.activity
 
-import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.config.FunctionHelper
 import com.example.anull.R
+<<<<<<< HEAD
 import com.fragment.HomeFragment
 import com.fragment.LoginFragment
 import com.fragment.SignUpFragment
 import com.fragment.SplashFragment
+=======
+>>>>>>> add navigation on project
 
 class MainActivity : AppCompatActivity() {
     private val splashTimeOut: Long = 3000 // 1 sec
@@ -25,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         loginFragment.mainActivity = this
 
+<<<<<<< HEAD
         supportFragmentManager.beginTransaction().replace(R.id.frame, splashFragment).commit()
         Handler().postDelayed({
             changeTopOfScreen()
@@ -46,8 +46,33 @@ class MainActivity : AppCompatActivity() {
     fun changeTopOfScreen() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+=======
+
+//        val splashFragment = SplashFragment()
+//        val signUpFragment = SignUpFragment()
+//        supportFragmentManager.beginTransaction().replace(R.id.splashFrame, splashFragment).commit()
+//
+
+//        Handler().postDelayed({
+//
+//
+//            changeTopOfScreen()
+//            supportFragmentManager.beginTransaction().remove(splashFragment).commit()
+//            supportFragmentManager.beginTransaction().replace(R.id.splashFrame, signUpFragment)
+//                .commit()
+//        }, splashTimeOut)
+
+>>>>>>> add navigation on project
 
     }
+//
+//    fun changeTopOfScreen() {
+//        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//
+//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+//        window.statusBarColor = Color.TRANSPARENT
+//
+//    }
 
 
 }

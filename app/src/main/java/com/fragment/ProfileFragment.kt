@@ -32,7 +32,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         titleInProfList.add("نوشته ها")
         titleInProfList.add("علاقه مندی")
-        repeat(20) {
+        repeat(6) {
             postLists.add(
                 PostInProf(
                     "سجاد فاتحی",

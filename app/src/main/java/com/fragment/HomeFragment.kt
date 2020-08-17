@@ -2,16 +2,21 @@ package com.fragment
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+<<<<<<< HEAD
 import com.adapter.BestArticleAdapter
 import com.adapter.PersonArticleAdapter
 import com.example.anull.R
 import com.model.PostInProf
 import com.model.home.PersonArticleModel
 import com.model.home.TabModel
+=======
+import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import com.example.anull.R
+>>>>>>> add navigation on project
 import kotlinx.android.synthetic.main.fragment_home.*
 
 private const val ARG_PARAM1 = "param1"
@@ -38,6 +43,16 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        personIcon.setOnClickListener {
+
+            Navigation.findNavController(it).navigate(R.id.action_homeFragment_to_profileFragment)
+        }
     }
 
     companion object {
