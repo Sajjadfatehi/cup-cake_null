@@ -20,8 +20,8 @@
             android:id="@+id/item_image_post_prof"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/image_of_profile_desc"
             android:src="@drawable/prof_image"
+            android:contentDescription="@string/image_of_profile_desc"
 
 
             app:layout_constraintStart_toEndOf="@id/guidelineLeft"

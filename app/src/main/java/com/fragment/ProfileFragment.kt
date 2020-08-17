@@ -10,6 +10,7 @@ import android.widget.RadioButton
 import androidx.fragment.app.Fragment
 import com.model.PostInProf
 import com.adapter.PostsInProfAdapter
+import androidx.navigation.Navigation
 import com.example.anull.R
 import kotlinx.android.synthetic.main.fragment_profile.*
 
@@ -45,6 +46,11 @@ class ProfileFragment : Fragment() {
             )
         }
 
+        backArrow.setOnClickListener {
+
+            Navigation.findNavController(it).navigate(ProfileFragmentDirections.actionProfileFragmentToHomeFragment())
+
+        }
 
         titleRadioBtn.setOnCheckedChangeListener { radioGroup, i ->
             val radio = requireActivity().findViewById<RadioButton>(i)

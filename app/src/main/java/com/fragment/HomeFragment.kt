@@ -50,8 +50,8 @@ class HomeFragment : Fragment() {
 
 
         personIcon.setOnClickListener {
+           Navigation.findNavController(it).navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())
 
-            Navigation.findNavController(it).navigate(R.id.action_homeFragment_to_profileFragment)
         }
     }
 
