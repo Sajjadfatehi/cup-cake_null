@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.anull.R
 
 /**
@@ -42,8 +42,8 @@ class SplashFragment : Fragment() {
 
 
             changeTopOfScreen()
-            Navigation.findNavController(requireActivity(), R.id.splash)
-                .navigate(R.id.action_splashFragment_to_signUpFragment)
+
+            findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToSignUpFragment())
 
 //            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.splashFrame, signUpFragment)
 //                .commit()

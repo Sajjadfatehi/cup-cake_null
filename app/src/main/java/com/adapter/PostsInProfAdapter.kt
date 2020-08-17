@@ -3,7 +3,6 @@ package com.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anull.R
@@ -21,7 +20,7 @@ class PostsInProfAdapter(private val list: MutableList<PostInProf>) :
     }
 
     override fun onBindViewHolder(holder: PostInProfViewHolder, position: Int) {
-        // holder.itemView.fi
+
         holder.bind(list[position])
     }
 

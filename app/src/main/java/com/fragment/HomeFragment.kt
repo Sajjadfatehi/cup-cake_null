@@ -1,14 +1,14 @@
 package com.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.adapter.BestArticleAdapter
 import com.adapter.PersonArticleAdapter
 import com.example.anull.R
-import com.model.PostInProf
 import com.model.home.PersonArticleModel
 import com.model.home.TabModel
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -59,6 +59,13 @@ class HomeFragment : Fragment() {
         if (!tab) {
             setTabs()
             tab = true
+        }
+        ic_profile.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())
+
+        }
+        add.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToTitleFragment())
         }
 
         repeat(20) {

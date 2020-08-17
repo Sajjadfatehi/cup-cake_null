@@ -45,7 +45,8 @@
         android:label="ProfileFragment" >
         <action
             android:id="@+id/action_profileFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -55,5 +56,12 @@
         <action
             android:id="@+id/action_homeFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_titleFragment"
+            app:destination="@id/titleFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/titleFragment"
+        android:name="com.fragment.TitleFragment"
+        android:label="TitleFragment" />
 </navigation>
