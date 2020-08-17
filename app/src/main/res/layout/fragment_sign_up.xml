@@ -138,7 +138,6 @@
         app:errorEnabled="true"
         app:startIconCheckable="true"
         app:startIconDrawable="@drawable/ic_lock"
-
         app:layout_constraintTop_toBottomOf="@id/emailInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText

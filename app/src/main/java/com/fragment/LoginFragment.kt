@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.activity.MainActivity
 import com.config.FunctionHelper
+import androidx.navigation.Navigation
 import com.example.anull.R
 import kotlinx.android.synthetic.main.fragment_login.*
 
@@ -14,9 +15,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
 
     var username: String = ""
     var password: String = ""
-    var mainActivity: MainActivity? = null
-    val functionHelper: FunctionHelper = FunctionHelper()
-    override fun onCreateView(
+ override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,31 +40,34 @@ class LoginFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btn_login -> {
-                checkData()
+                // checkData()
+                Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_homeFragment)
             }
             R.id.tv_go_to_be_member -> {
-                val signUpFragment = SignUpFragment()
-                requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.frame, signUpFragment).commit()
+//                val signUpFragment = SignUpFragment()
+//                requireActivity().supportFragmentManager.beginTransaction()
+//                    .replace(R.id.splashFrame, signUpFragment).commit()
+                Navigation.findNavController(v)
+                    .navigate(R.id.action_loginFragment_to_signUpFragment)
             }
         }
     }
 
-    private fun checkData() {
-        username = edt_user.text.toString()
-        password = passLogin.text.toString()
-
-        if (username.trim().isEmpty()) {
-            edt_user_inputLayout.error = "خطا! این کادر را پر کنید"
-        } else if (password.trim().isEmpty()) {
-            passLoginInputLayout.error = "خطا! این کادر را پر کنید"
-        } else {
-            val homeFragment = HomeFragment()
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.frame, homeFragment).commit()
-        }
-        functionHelper.getPublicSharedPreferences(context)?.setToken(passLogin.text.toString())
+//    private fun checkData() {
+//        username = edt_user.text.toString()
+//        password = passLogin.text.toString()
+//
+//        if (username.trim().isEmpty()) {
+//            edt_user_inputLayout.error = "خطا! این کادر را پر کنید"
+//        } else if (password.trim().isEmpty()) {
+//            passLoginInputLayout.error = "خطا! این کادر را پر کنید"
+//        } else {
+//            val homeFragment = HomeFragment()
+//            requireActivity().supportFragmentManager.beginTransaction()
+//                .replace(R.id.frame, homeFragment).commit()
+//        }
+//        functionHelper.getPublicSharedPreferences(context)?.setToken(passLogin.text.toString())
 
 
     }
-}
+//}

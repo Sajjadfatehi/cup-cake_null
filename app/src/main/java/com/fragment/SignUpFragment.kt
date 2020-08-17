@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.example.anull.R
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -28,17 +29,12 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         tv_go_login_screen.setOnClickListener {
-            val loginFragment = LoginFragment()
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.frame, loginFragment).commit()
-
+//            val loginFragment = LoginFragment()
+//            requireActivity().supportFragmentManager.beginTransaction()
+//                .replace(R.id.splashFrame, loginFragment).commit()
+            Navigation.findNavController(it).navigate(R.id.action_signUpFragment_to_loginFragment)
         }
-        requireActivity().window.decorView.systemUiVisibility =
-            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 
-        singUpButton.setOnClickListener {
-        fragmentManager?.popBackStack()
-        }
 
 
         HandleError().handleErrorForEmail()
@@ -52,13 +48,16 @@ class SignUpFragment : Fragment() {
         textChange(repetitionPass, repetitionPassInputLayout)
         textChange(emailEditText, emailInputLayout)
 
-        tvMemberShip.setOnClickListener {
+        singUpButton.setOnClickListener {
 
             val profileFragment = ProfileFragment()
             //below line is for app bar layout that don,t go behind the status bar
-
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.frame, profileFragment).commit()
+            requireActivity().window.decorView.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
+            Navigation.findNavController(it).navigate(R.id.action_signUpFragment_to_homeFragment)
+//            requireActivity().supportFragmentManager.beginTransaction()
+//                .replace(R.id.splashFrame, profileFragment).commit()
 
         }
 

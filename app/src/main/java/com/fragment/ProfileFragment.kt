@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.model.PostInProf
 import com.adapter.PostsInProfAdapter
 import com.example.anull.R
@@ -32,7 +33,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         titleInProfList.add("نوشته ها")
         titleInProfList.add("علاقه مندی")
-        repeat(20) {
+        repeat(6) {
             postLists.add(
                 PostInProf(
                     "سجاد فاتحی",
@@ -45,6 +46,11 @@ class ProfileFragment : Fragment() {
             )
         }
 
+        backArrow.setOnClickListener {
+
+            Navigation.findNavController(it).navigate(ProfileFragmentDirections.actionProfileFragmentToHomeFragment())
+
+        }
 
         titleRadioBtn.setOnCheckedChangeListener { radioGroup, i ->
             val radio = requireActivity().findViewById<RadioButton>(i)
