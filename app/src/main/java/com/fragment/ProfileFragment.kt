@@ -25,9 +25,8 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.testlayout, container, false)
 
-        return view
+        return inflater.inflate(R.layout.testlayout, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,6 +71,7 @@ class ProfileFragment : Fragment() {
 
 
         recycler_posts_in_prof.apply {
+            setHasFixedSize(true)
             adapter = PostsInProfAdapter(postLists)
         }
 

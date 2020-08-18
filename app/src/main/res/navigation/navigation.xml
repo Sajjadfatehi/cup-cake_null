@@ -59,9 +59,16 @@
         <action
             android:id="@+id/action_homeFragment_to_titleFragment"
             app:destination="@id/titleFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_writeArticleFragment"
+            app:destination="@id/writeArticleFragment" />
     </fragment>
     <fragment
         android:id="@+id/titleFragment"
         android:name="com.fragment.TitleFragment"
         android:label="TitleFragment" />
+    <fragment
+        android:id="@+id/writeArticleFragment"
+        android:name="com.fragment.WriteArticleFragment"
+        android:label="WriteArticleFragment" />
 </navigation>

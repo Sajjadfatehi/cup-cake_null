@@ -10,7 +10,6 @@ import com.example.anull.R
 import com.model.home.PersonArticleModel
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_person_article.view.*
-import kotlinx.android.synthetic.main.item_profile_post.view.*
 
 /**
 Created by Moha.Azizi on 16/08/2020 .
@@ -28,7 +27,7 @@ class PersonArticleAdapter(private val list: MutableList<PersonArticleModel>) :
         private var favorite: ImageView? = null
 
         init {
-            image = itemView.item_image_post_prof
+            image = itemView.item_image_person_article
             name = itemView.title_item_person_article
             lastDate = itemView.date_item_person_article
             desc = itemView.tv_desc_person_article

@@ -65,7 +65,8 @@ class HomeFragment : Fragment() {
 
         }
         add.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToTitleFragment())
+            //  findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToTitleFragment())
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToWriteArticleFragment())
         }
 
         repeat(20) {

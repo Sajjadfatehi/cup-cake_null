@@ -45,4 +45,20 @@
         <item name="android:textColor">#363636</item>
     </style>
 
+
+    <style name="social_button_style" parent="Widget.AppCompat.Button.Borderless">
+
+        <item name="android:paddingRight">30dp</item>
+        <item name="android:paddingLeft">30dp</item>
+        <item name="android:background">@drawable/article_button_stroke</item>
+        <item name="android:textColor">@color/Purple</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+
+    </style>
+
+
 </resources>
