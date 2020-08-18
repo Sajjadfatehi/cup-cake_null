@@ -70,5 +70,7 @@
     <string name="tv_submit_article">انتشار مقاله</string>
     <string name="add_media">افزودن عکس ویدیو یا صدا</string>
     <string name="tv_keyword">کلمه کلیدی</string>
+    <string name="tv_upload_file">بارگذاری فایل</string>
+    <string name="tv_back">back to previous page</string>
 
 </resources>
