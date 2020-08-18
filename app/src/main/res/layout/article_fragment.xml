@@ -16,12 +16,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/bookmark"
+            android:id="@+id/back"
             style="@style/title_bar_icon"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_is_bookmark_white" />
+            app:srcCompat="@drawable/ic_back" />
 
         <TextView
             android:id="@+id/text_title_bar"
@@ -37,12 +37,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/back"
+            android:id="@+id/bookmark"
             style="@style/title_bar_icon"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back" />
+            app:srcCompat="@drawable/ic_is_bookmark_white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -193,10 +193,10 @@
                 </RadioGroup>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/article_box_comment"
+                    android:id="@+id/button_comment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/shape_button_comment"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/radioGroup">
@@ -236,7 +236,7 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/article_box_comment" />
+                    app:layout_constraintTop_toBottomOf="@id/button_comment" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_article_related"
@@ -249,12 +249,11 @@
                     android:layoutDirection="rtl"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_article_related"
                     app:reverseLayout="false"
-                    tools:listitem="@layout/item_best_article" />
+                    tools:listitem="@layout/item_related_article" />
 
                 <TextView
                     android:id="@+id/text_comment"
@@ -287,7 +286,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_comment"
                     app:reverseLayout="false"
-                    tools:listitem="@layout/item_best_article" />
+                    tools:listitem="@layout/comment_adapter" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

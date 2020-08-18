@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.adapter.CommentAdapter
 import com.adapter.RelatedArticleAdapter
 import com.example.anull.R
 import com.model.article.CommentArticleModel
 import com.model.article.RelatedArticleModel
+import kotlinx.android.synthetic.main.article_fragment.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 /**
@@ -38,7 +40,7 @@ class ArticleFragment : Fragment() {
                 )
             )
         }
-        recycler_person_article.apply {
+        recycler_article_related.apply {
             adapter = CommentAdapter(list)
         }
         repeat(20) {
@@ -49,8 +51,12 @@ class ArticleFragment : Fragment() {
                 )
             )
         }
-        recycler_best_article.apply {
+        recycler_comment.apply {
             adapter = RelatedArticleAdapter(list2)
         }
+        button_comment.setOnClickListener {
+            findNavController().navigate(ArticleFragmentDirections.actionArticleFragmentToCommentDialogFragment())
+        }
+
     }
 }

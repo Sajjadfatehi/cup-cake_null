@@ -1,12 +1,17 @@
 package com.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anull.R
+import com.fragment.HomeFragmentDirections
+import com.fragment.LoginFragmentDirections
 import com.model.home.PersonArticleModel
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_person_article.view.*
@@ -34,7 +39,8 @@ class PersonArticleAdapter(private val list: MutableList<PersonArticleModel>) :
                 favorite?.setImageResource(R.drawable.ic_bookmark)
             }
             itemView.setOnClickListener{
-
+//                findNavController(itemView).navigate(HomeFragmentDirections.actionHomeFragmentToArticleFragment())
+                itemView.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToArticleFragment())
             }
         }
 

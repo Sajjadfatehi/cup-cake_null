@@ -15,5 +15,7 @@
     <color name="white">#FFFFFF</color>
     <color name="trans">#83000000</color>
     <color name="hint_search">#d5d5d5</color>
+    <color name="border_comment_edit_text">#e2e2e2</color>
+    <color name="btn_send_comment">#286de6</color>
 
 </resources>
