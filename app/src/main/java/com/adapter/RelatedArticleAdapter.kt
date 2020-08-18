@@ -7,34 +7,28 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anull.R
-import com.model.home.PersonArticleModel
+import com.model.article.RelatedArticleModel
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_person_article.view.*
-import kotlinx.android.synthetic.main.item_profile_post.view.*
 import kotlinx.android.synthetic.main.item_profile_post.view.item_image_post_prof
-import kotlinx.android.synthetic.main.item_profile_post.view.tv_date_of_post
-import kotlinx.android.synthetic.main.item_profile_post.view.tv_desc_post_prof
 
 /**
 Created by Moha.Azizi on 16/08/2020 .
  */
 
-class PersonArticleAdapter(private val list: MutableList<PersonArticleModel>) :
-    RecyclerView.Adapter<PersonArticleAdapter.ViewHolder>() {
+class RelatedArticleAdapter(private val list: MutableList<RelatedArticleModel>) :
+    RecyclerView.Adapter<RelatedArticleAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(personArticleModel: PersonArticleModel) {
+        fun bind(relatedArticleModel: RelatedArticleModel) {
             image?.setImageResource(R.drawable.prof_image)
-            name?.text = personArticleModel.name
-            lastDate?.text = personArticleModel.date
-            desc?.text = personArticleModel.description
-            if (personArticleModel.favorite) {
+            name?.text = relatedArticleModel.name
+            lastDate?.text = relatedArticleModel.date
+            desc?.text = relatedArticleModel.description
+            if (relatedArticleModel.favorite) {
                 favorite?.setImageResource(R.drawable.ic_is_bookmark)
             } else {
                 favorite?.setImageResource(R.drawable.ic_bookmark)
-            }
-            itemView.setOnClickListener{
-
             }
         }
 
@@ -55,7 +49,7 @@ class PersonArticleAdapter(private val list: MutableList<PersonArticleModel>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_person_article, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_related_article, parent, false)
         )
     }
 
