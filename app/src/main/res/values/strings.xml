@@ -54,5 +54,9 @@
     <string name="eqtsad">اقتصاد</string>
     <string name="sarmaye">سرمایه گذاری</string>
     <string name="saham">سهام</string>
+    <string name="article_text_sample" >اپل در طول اعلام نتایج درآمد سه‌ ماهه سوم خود در روز پنج شنبه گفت که هیات‌ مدیره شرکت یک تجزیه سهام چهار به یک را تصویب کرده‌ استاپل در طول اعلام نتایج درآمد سه‌ ماهه سوم خود در روز پنج شنبه گفت که هیات‌ مدیره شرکت یک تجزیه سهام چهار به یک را تصویب کرده‌ است</string>
+    <string name="text_send_comment">اسال دیدگاه</string>
+    <string name="article_related">مقالات مرتبط</string>
+    <string name="article_single">تک مقاله</string>
 
 </resources>
