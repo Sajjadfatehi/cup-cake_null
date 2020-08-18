@@ -55,5 +55,7 @@
     <string name="sarmaye">سرمایه گذاری</string>
     <string name="saham">سهام</string>
     <string name="tv_economy">اقتصاد</string>
+    <string name="tv_edit_article">ویرایش مقاله</string>
+    <string name="tv_delete_article">حذف مقاله</string>
 
 </resources>

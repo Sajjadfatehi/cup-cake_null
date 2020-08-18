@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.activity.MainActivity
-import com.config.FunctionHelper
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.anull.R
 import kotlinx.android.synthetic.main.fragment_login.*
 
@@ -41,14 +39,13 @@ class LoginFragment : Fragment(), View.OnClickListener {
         when (v?.id) {
             R.id.btn_login -> {
                 // checkData()
-                Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_homeFragment)
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
             }
             R.id.tv_go_to_be_member -> {
 //                val signUpFragment = SignUpFragment()
 //                requireActivity().supportFragmentManager.beginTransaction()
 //                    .replace(R.id.splashFrame, signUpFragment).commit()
-                Navigation.findNavController(v)
-                    .navigate(R.id.action_loginFragment_to_signUpFragment)
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignUpFragment())
             }
         }
     }

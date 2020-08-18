@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.anull.R
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -32,7 +32,7 @@ class SignUpFragment : Fragment() {
 //            val loginFragment = LoginFragment()
 //            requireActivity().supportFragmentManager.beginTransaction()
 //                .replace(R.id.splashFrame, loginFragment).commit()
-            Navigation.findNavController(it).navigate(R.id.action_signUpFragment_to_loginFragment)
+            findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToLoginFragment())
         }
 
 
@@ -55,9 +55,7 @@ class SignUpFragment : Fragment() {
             requireActivity().window.decorView.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
-            Navigation.findNavController(it).navigate(R.id.action_signUpFragment_to_homeFragment)
-//            requireActivity().supportFragmentManager.beginTransaction()
-//                .replace(R.id.splashFrame, profileFragment).commit()
+            findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeFragment())
 
         }
 

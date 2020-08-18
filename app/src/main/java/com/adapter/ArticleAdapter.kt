@@ -9,17 +9,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.anull.R
 import com.model.home.PersonArticleModel
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.item_person_article.view.*
-import kotlinx.android.synthetic.main.item_profile_post.view.*
+import kotlinx.android.synthetic.main.item_title.view.*
 
-/**
-Created by Moha.Azizi on 16/08/2020 .
- */
+class ArticleAdapter(private val list: MutableList<PersonArticleModel>) :
+    RecyclerView.Adapter<ArticleAdapter.TitleViewHolder>() {
 
-class PersonArticleAdapter(private val list: MutableList<PersonArticleModel>) :
-    RecyclerView.Adapter<PersonArticleAdapter.ViewHolder>() {
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TitleViewHolder {
+        return TitleViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_title, parent, false)
+        )
+    }
+
+    override fun getItemCount() = list.size
+
+
+    override fun onBindViewHolder(holder: ArticleAdapter.TitleViewHolder, position: Int) {
+        holder.bind(list[position])
+
+    }
+
+    inner class TitleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
 
         private var image: CircleImageView? = null
         private var lastDate: TextView? = null
@@ -28,11 +39,11 @@ class PersonArticleAdapter(private val list: MutableList<PersonArticleModel>) :
         private var favorite: ImageView? = null
 
         init {
-            image = itemView.item_image_post_prof
-            name = itemView.title_item_person_article
-            lastDate = itemView.date_item_person_article
-            desc = itemView.tv_desc_person_article
-            favorite = itemView.item_favorite_person_article
+            image = itemView.item_image_title
+            name = itemView.item_tv_name_title
+            lastDate = itemView.tv_date_of_title
+            desc = itemView.tv_item_title
+            favorite = itemView.item_icon_tag_title
         }
 
         fun bind(personArticleModel: PersonArticleModel) {
@@ -48,17 +59,5 @@ class PersonArticleAdapter(private val list: MutableList<PersonArticleModel>) :
         }
 
 
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_person_article, parent, false)
-        )
-    }
-
-    override fun getItemCount() = list.size
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(list[position])
     }
 }

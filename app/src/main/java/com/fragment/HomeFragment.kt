@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.adapter.BestArticleAdapter
 import com.adapter.PersonArticleAdapter
 import com.example.anull.R
-import com.model.PostInProf
 import com.model.home.PersonArticleModel
 import com.model.home.TabModel
-import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -62,6 +62,13 @@ class HomeFragment : Fragment() {
             setTabs()
             tab = true
         }
+        ic_profile.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())
+
+        }
+        add.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToTitleFragment())
+        }
 
         repeat(20) {
             list.add(
@@ -74,8 +81,9 @@ class HomeFragment : Fragment() {
             )
         }
 
-        personIcon.setOnClickListener {
-            Navigation.findNavController(it).navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())
+        ic_profile.setOnClickListener {
+            Navigation.findNavController(it)
+                .navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())
 
         }
         recycler_person_article.apply {
@@ -93,7 +101,7 @@ class HomeFragment : Fragment() {
         tabs.add(TabModel(getString(R.string.eqtsad)))
         tabs.add(TabModel(getString(R.string.sarmaye)))
 
-        for (i in 0 until  tabs.size){
+        for (i in 0 until tabs.size) {
             tabLayout.addTab(tabLayout.newTab().setText(tabs[i].name))
         }
 

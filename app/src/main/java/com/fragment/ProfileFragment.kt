@@ -8,11 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.fragment.app.Fragment
-import com.model.PostInProf
 import com.adapter.PostsInProfAdapter
-import androidx.navigation.Navigation
 import com.example.anull.R
-import kotlinx.android.synthetic.main.fragment_profile.*
+import com.model.PostInProf
+import kotlinx.android.synthetic.main.fragment_profile.recycler_posts_in_prof
+import kotlinx.android.synthetic.main.fragment_profile.titleRadioBtn
+import kotlinx.android.synthetic.main.testlayout.*
 
 class ProfileFragment : Fragment() {
     private val postLists = mutableListOf<PostInProf>()
@@ -25,7 +26,8 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
-
+//        val view = inflater.inflate(R.layout.        val view = inflater.inflate(R.layout.testlayout, container, false)
+//            , container, false)
         return view
     }
 
@@ -45,14 +47,15 @@ class ProfileFragment : Fragment() {
                 )
             )
         }
+//
+        follow_button.setOnClickListener {
 
-        backArrow.setOnClickListener {
-
-            Navigation.findNavController(it).navigate(ProfileFragmentDirections.actionProfileFragmentToHomeFragment())
+            // findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToHomeFragment())
+            val bottomSheet = BottomSheetFragment()
+            bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
 
         }
-
-        titleRadioBtn.setOnCheckedChangeListener { radioGroup, i ->
+        titleRadioBtn.setOnCheckedChangeListener { _, i ->
             val radio = requireActivity().findViewById<RadioButton>(i)
             // Toast.makeText(requireContext(),"${radio.text}",Toast.LENGTH_SHORT).show()
             if (radio.tag == "posts") {
@@ -73,5 +76,18 @@ class ProfileFragment : Fragment() {
         }
 
     }
+
+//    override fun onSupportNavigateUp(): Boolean {
+//        val navController = this.findNavController(R.id.fragment)
+//        return when(navController.currentDestination?.id) {
+//            R.id.redFragment -> {
+//                // custom behavior here
+//                true
+//            }
+//            else -> navController.navigateUp()
+//        }
+//    }
+
+
 }
 

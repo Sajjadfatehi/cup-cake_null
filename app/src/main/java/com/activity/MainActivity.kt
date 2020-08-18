@@ -1,17 +1,8 @@
 package com.activity
 
-import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.config.FunctionHelper
 import com.example.anull.R
-import com.fragment.HomeFragment
-import com.fragment.LoginFragment
-import com.fragment.SignUpFragment
-import com.fragment.SplashFragment
 
 class MainActivity : AppCompatActivity() {
     private val splashTimeOut: Long = 3000 // 1 sec
@@ -35,6 +26,12 @@ class MainActivity : AppCompatActivity() {
 //        }, splashTimeOut)
 
 
+/*
+        val navController=Navigation.findNavController(this,R.id.nav_host_fragment)
+        NavigationUI.setupActionBarWithNavController(this,navController)
+*/
+
+
     }
 //
 //    fun changeTopOfScreen() {
@@ -45,5 +42,14 @@ class MainActivity : AppCompatActivity() {
 //
 //    }
 
-
+//    override fun onSupportNavigateUp(): Boolean {
+//        val navController = this.findNavController(R.id.fragment)
+//        return when(navController.currentDestination?.id) {
+//            R.id.redFragment -> {
+//                // custom behavior here
+//                true
+//            }
+//            else -> navController.navigateUp()
+//        }
+//    }
 }
