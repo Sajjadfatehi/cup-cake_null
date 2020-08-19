@@ -8,15 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.anull.R
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_write_article.*
 
 
 class WriteArticleFragment : Fragment() {
-    val textOfTags = ArrayList<String>()
+
     val tagsChip = mutableMapOf<Chip, String>()
-    val checkOfTags = booleanArrayOf(true, false, true, false)
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,21 +30,12 @@ class WriteArticleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        arrow_back_WA.setOnClickListener {
+            findNavController().navigate(WriteArticleFragmentDirections.actionWriteArticleFragmentToHomeFragment())
 
-
-        //tagChipGroup.removeView(chip)
+        }
         addTagHandle(setTagEdt)
-//
-
-
-//        addTagBtn.setOnClickListener {
-//            showTagDialog()
-//
-//        }
-
-
     }
-
 
     private fun addTagHandle(editText: EditText) {
 
@@ -85,33 +77,5 @@ class WriteArticleFragment : Fragment() {
         })
     }
 
-
 }
 
-
-//    fun showTagDialog(){
-//         val build=AlertDialog.Builder(requireContext())
-//
-//
-//        build.setTitle("").setCancelable(true).setMultiChoiceItems(textOfTags, checkOfTags) {dialog,witch,isChecked->
-//            checkOfTags[witch]=isChecked
-//            val textOfItem=textOfTags[witch]
-//            Toast.makeText(requireContext(),textOfItem,Toast.LENGTH_SHORT).show()
-//
-//        }
-//
-//        build.setPositiveButton("OK") { dialog,witch->
-//
-//
-//        }
-//        build.setNeutralButton("Cancel") {dialog,witch->
-//
-//            dialog.dismiss()
-//        }
-//        val dialog=build.create()
-//        dialog.show()
-//
-//    }
-
-
-//rgr
