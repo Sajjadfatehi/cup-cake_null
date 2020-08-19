@@ -8,10 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.adapter.PostsInProfAdapter
 import com.example.anull.R
 import com.model.PostInProf
-import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.fragment_profile.recycler_posts_in_prof
+import kotlinx.android.synthetic.main.fragment_profile.titleRadioBtn
+import kotlinx.android.synthetic.main.testlayout.*
 
 class ProfileFragment : Fragment() {
     private val postLists = mutableListOf<PostInProf>()
@@ -46,11 +49,14 @@ class ProfileFragment : Fragment() {
 //
 //         {
 //
-//            // findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToHomeFragment())
+//            //
 //            val bottomSheet = BottomSheetFragment()
 //            bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
 //
 //        }
+        arrow_back.setOnClickListener {
+            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToHomeFragment())
+        }
 
         titleRadioBtn.setOnCheckedChangeListener { radioGroup, i ->
             val radio = requireActivity().findViewById<RadioButton>(i)
