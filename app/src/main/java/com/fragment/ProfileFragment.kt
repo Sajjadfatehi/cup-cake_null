@@ -11,9 +11,7 @@ import androidx.fragment.app.Fragment
 import com.adapter.PostsInProfAdapter
 import com.example.anull.R
 import com.model.PostInProf
-import kotlinx.android.synthetic.main.fragment_profile.recycler_posts_in_prof
-import kotlinx.android.synthetic.main.fragment_profile.titleRadioBtn
-import kotlinx.android.synthetic.main.testlayout.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
     private val postLists = mutableListOf<PostInProf>()
@@ -33,7 +31,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         titleInProfList.add("نوشته ها")
         titleInProfList.add("علاقه مندی")
-        repeat(6) {
+        repeat(60) {
             postLists.add(
                 PostInProf(
                     "سجاد فاتحی",
@@ -46,13 +44,13 @@ class ProfileFragment : Fragment() {
             )
         }
 //
-        arrow_back.setOnClickListener {
-
-            // findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToHomeFragment())
-            val bottomSheet = BottomSheetFragment()
-            bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
-
-        }
+//         {
+//
+//            // findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToHomeFragment())
+//            val bottomSheet = BottomSheetFragment()
+//            bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
+//
+//        }
 
         titleRadioBtn.setOnCheckedChangeListener { radioGroup, i ->
             val radio = requireActivity().findViewById<RadioButton>(i)
