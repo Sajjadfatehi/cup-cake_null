@@ -3,6 +3,7 @@ package com.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anull.R
@@ -21,6 +22,7 @@ class PostsInProfAdapter(private val list: MutableList<PostInProf>) :
 
     override fun onBindViewHolder(holder: PostInProfViewHolder, position: Int) {
 
+
         holder.name?.text = list[position].name
         holder.title?.text = list[position].title
         holder.lastDate?.text = list[position].lastDate
@@ -36,7 +38,8 @@ class PostsInProfAdapter(private val list: MutableList<PostInProf>) :
 
 
     inner class PostInProfViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        //    private var image: ImageView? = null
+        private var image: ImageView? = null
+
         var title: TextView? = null
         var lastDate: TextView? = null
         var desc: TextView? = null
@@ -47,7 +50,7 @@ class PostsInProfAdapter(private val list: MutableList<PostInProf>) :
 
         init {
 
-            /*image = itemView.item_image_post_prof*/
+            image = itemView.item_image_post_prof
             title = itemView.tv_title_post_prof
             lastDate = itemView.tv_date_of_post
             desc = itemView.tv_desc_post_prof

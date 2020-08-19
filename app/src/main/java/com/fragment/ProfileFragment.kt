@@ -8,14 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.adapter.PostsInProfAdapter
 import com.example.anull.R
 import com.model.PostInProf
-import kotlinx.android.synthetic.main.fragment_profile.recycler_posts_in_prof
-import kotlinx.android.synthetic.main.fragment_profile.titleRadioBtn
-import kotlinx.android.synthetic.main.testlayout.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
     private val postLists = mutableListOf<PostInProf>()
@@ -27,16 +23,15 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.testlayout, container, false)
 
-        return view
+        return inflater.inflate(R.layout.testlayout, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         titleInProfList.add("نوشته ها")
         titleInProfList.add("علاقه مندی")
-        repeat(6) {
+        repeat(60) {
             postLists.add(
                 PostInProf(
                     "سجاد فاتحی",
@@ -49,14 +44,13 @@ class ProfileFragment : Fragment() {
             )
         }
 //
-        follow_button.setOnClickListener {
-
-            // findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToHomeFragment())
+//         {
+//
+//            // findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToHomeFragment())
 //            val bottomSheet = BottomSheetFragment()
 //            bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
-            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToTitleFragment())
-
-        }
+//
+//        }
 
         titleRadioBtn.setOnCheckedChangeListener { radioGroup, i ->
             val radio = requireActivity().findViewById<RadioButton>(i)
@@ -75,6 +69,7 @@ class ProfileFragment : Fragment() {
 
 
         recycler_posts_in_prof.apply {
+            setHasFixedSize(true)
             adapter = PostsInProfAdapter(postLists)
         }
 
