@@ -5,8 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anull.R
+import com.fragment.HomeFragmentDirections
+import com.fragment.SplashFragmentDirections
 import com.model.article.RelatedArticleModel
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_person_article.view.*
@@ -30,6 +34,12 @@ class RelatedArticleAdapter(private val list: MutableList<RelatedArticleModel>) 
             } else {
                 favorite?.setImageResource(R.drawable.ic_bookmark)
             }
+
+            itemView.setOnClickListener {
+                itemView.findNavController()
+                    .navigate(HomeFragmentDirections.actionHomeFragmentToArticleFragment())
+
+            }
         }
 
         private var image: CircleImageView? = null
@@ -49,7 +59,8 @@ class RelatedArticleAdapter(private val list: MutableList<RelatedArticleModel>) 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_related_article, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_related_article, parent, false)
         )
     }
 
