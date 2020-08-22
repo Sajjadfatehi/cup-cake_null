@@ -60,5 +60,71 @@
 
     </style>
 
+    <style name="tvInWriteArticle">
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+    <style name="tvTitleInWriteArticle" parent="tvInWriteArticle">
+
+        <item name="android:text">@string/tv_title_in_write_article</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
+
+    <style name="tvTextInWriteArticle" parent="tvInWriteArticle">
+
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:text">@string/tv_text_of_article</item>
+
+    </style>
+
+
+    <style name="tvKeywordInWriteArticle" parent="tvInWriteArticle">
+
+        <item name="android:text">@string/tv_keyword</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
+    <style name="edtInWriteArticle">
+
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:inputType">text</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textColorHint">@color/hint_search</item>
+
+    </style>
+
+    <style name="editTextTitleInWriteArticle" parent="edtInWriteArticle">
+        <item name="maxLines">5</item>
+        <item name="android:lines">2</item>
+
+
+    </style>
+
+    <style name="editTextTextInWriteArticle" parent="edtInWriteArticle">
+        <item name="maxLines">9</item>
+        <item name="android:lines">14</item>
+
+
+    </style>
+
+    <style name="editTextKeywordInWriteArticle" parent="edtInWriteArticle">
+        <item name="maxLines">3</item>
+        <item name="android:lines">2</item>
+    </style>
+
+
+    <!--    <style name="materialBtn"-->
+
 
 </resources>

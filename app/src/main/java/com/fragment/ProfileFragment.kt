@@ -8,13 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.adapter.PostsInProfAdapter
 import com.example.anull.R
 import com.model.PostInProf
-import kotlinx.android.synthetic.main.fragment_profile.recycler_posts_in_prof
-import kotlinx.android.synthetic.main.fragment_profile.titleRadioBtn
-import kotlinx.android.synthetic.main.testlayout.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
     private val postLists = mutableListOf<PostInProf>()
@@ -35,7 +32,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         titleInProfList.add("نوشته ها")
         titleInProfList.add("علاقه مندی")
-        repeat(6) {
+        for (i in 0..60) {
             postLists.add(
                 PostInProf(
                     "سجاد فاتحی",
