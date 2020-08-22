@@ -55,7 +55,7 @@ class ArticleFragment : Fragment() {
             adapter = RelatedArticleAdapter(list2)
         }
         button_comment.setOnClickListener {
-            findNavController().navigate(ArticleFragmentDirections.actionArticleFragmentToCommentDialogFragment())
+//            findNavController().navigate(ArticleFragmentDirections.actionArticleFragmentToCommentDialogFragment())
         }
 
     }

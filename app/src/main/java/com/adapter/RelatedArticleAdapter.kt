@@ -36,13 +36,13 @@ class RelatedArticleAdapter(private val list: MutableList<RelatedArticleModel>) 
             }
 
             itemView.setOnClickListener {
-                itemView.findNavController()
-                    .navigate(HomeFragmentDirections.actionHomeFragmentToArticleFragment())
+//                itemView.findNavController()
+//                    .navigate(HomeFragmentDirections.actionHomeFragmentToArticleFragment())
 
             }
         }
 
-        private var image: CircleImageView? = null
+        private var image: ImageView? = null
         private var lastDate: TextView? = null
         private var name: TextView? = null
         private var desc: TextView? = null

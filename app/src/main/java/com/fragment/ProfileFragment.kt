@@ -54,9 +54,9 @@ class ProfileFragment : Fragment() {
 //            bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
 //
 //        }
-        arrow_back.setOnClickListener {
-            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToHomeFragment())
-        }
+//        arrow_back.setOnClickListener {
+//            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToHomeFragment())
+//        }
 
         titleRadioBtn.setOnCheckedChangeListener { radioGroup, i ->
             val radio = requireActivity().findViewById<RadioButton>(i)
