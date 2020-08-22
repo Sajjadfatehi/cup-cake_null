@@ -1,11 +1,13 @@
 package com.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -62,6 +64,12 @@ class WriteArticleFragment : Fragment() {
                     if (!tagsChip.containsValue(tag)) {
                         tagChipGroup.addView(chip)
                         tagsChip.put(chip, tag)
+                    }
+                    val view = requireActivity().currentFocus
+                    view?.let { v ->
+                        val imm =
+                            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        imm?.hideSoftInputFromWindow(v.windowToken, 0)
                     }
                 }
 
