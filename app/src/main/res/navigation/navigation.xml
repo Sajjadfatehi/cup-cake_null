@@ -63,23 +63,15 @@
             android:id="@+id/action_homeFragment_to_titleFragment"
             app:destination="@id/titleFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_articleFragment"
-            app:destination="@id/articleFragment" />
+            android:id="@+id/action_homeFragment_to_writeArticleFragment"
+            app:destination="@id/writeArticleFragment" />
     </fragment>
     <fragment
         android:id="@+id/titleFragment"
         android:name="com.fragment.TitleFragment"
         android:label="TitleFragment" />
     <fragment
-        android:id="@+id/articleFragment"
-        android:name="com.fragment.ArticleFragment"
-        android:label="ArticleFragment" >
-        <action
-            android:id="@+id/action_articleFragment_to_commentDialogFragment"
-            app:destination="@id/commentDialogFragment" />
-    </fragment>
-    <dialog
-        android:id="@+id/commentDialogFragment"
-        android:name="com.fragment.CommentDialogFragment"
-        android:label="CommentDialogFragment" />
+        android:id="@+id/writeArticleFragment"
+        android:name="com.fragment.WriteArticleFragment"
+        android:label="WriteArticleFragment" />
 </navigation>

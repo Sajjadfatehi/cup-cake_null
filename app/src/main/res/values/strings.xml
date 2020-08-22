@@ -62,5 +62,13 @@
     <string name="tv_edit_article">ویرایش مقاله</string>
     <string name="tv_delete_article">حذف مقاله</string>
     <string name="hint_text_send_comment">دیدگاه خود را اینجا بنویسید</string>
+    <string name="tv_write_article">نوشتن مقاله</string>
+    <string name="tv_draft">پیش نویس</string>
+    <string name="tv_title_in_write_article">عنوان</string>
+    <string name="tv_text_of_article">متن مقاله</string>
+    <string name="tv_add_attach">افزودن پیوست</string>
+    <string name="tv_submit_article">انتشار مقاله</string>
+    <string name="add_media">افزودن عکس ویدیو یا صدا</string>
+    <string name="tv_keyword">کلمه کلیدی</string>
 
 </resources>

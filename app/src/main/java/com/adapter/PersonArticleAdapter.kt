@@ -1,17 +1,13 @@
 package com.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anull.R
-import com.fragment.HomeFragmentDirections
-import com.fragment.LoginFragmentDirections
 import com.model.home.PersonArticleModel
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_person_article.view.*
@@ -51,7 +47,7 @@ class PersonArticleAdapter(private val list: MutableList<PersonArticleModel>) :
         private var favorite: ImageView? = null
 
         init {
-            image = itemView.item_image_post_prof
+            image = itemView.item_image_person_article
             name = itemView.title_item_person_article
             lastDate = itemView.date_item_person_article
             desc = itemView.tv_desc_person_article

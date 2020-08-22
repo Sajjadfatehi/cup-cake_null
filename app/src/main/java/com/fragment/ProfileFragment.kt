@@ -27,9 +27,8 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_profile, container, false)
-//        val view = inflater.inflate(R.layout.        val view = inflater.inflate(R.layout.testlayout, container, false)
-//            , container, false)
+        val view = inflater.inflate(R.layout.testlayout, container, false)
+
         return view
     }
 
@@ -58,9 +57,8 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToTitleFragment())
 
         }
-        titleRadioBtn.setOnCheckedChangeListener { _, i ->
 
-            // TODO: 22/08/2020 hard code colors
+        titleRadioBtn.setOnCheckedChangeListener { radioGroup, i ->
             val radio = requireActivity().findViewById<RadioButton>(i)
             // Toast.makeText(requireContext(),"${radio.text}",Toast.LENGTH_SHORT).show()
             if (radio.tag == "posts") {

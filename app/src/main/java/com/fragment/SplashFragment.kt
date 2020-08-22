@@ -25,8 +25,6 @@ class SplashFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_splash, container, false)
 
 
-        val window = requireActivity().window
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
 
 //java code for example
 //        Window window = getWindow();
