@@ -86,4 +86,16 @@
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="com.fragment.ArticleFragment"
+        android:label="ArticleFragment">
+        <action
+            android:id="@+id/action_articleFragment_to_commentDialogFragment"
+            app:destination="@id/commentDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/commentDialogFragment"
+        android:name="com.fragment.CommentDialogFragment"
+        android:label="CommentDialogFragment" />
 </navigation>

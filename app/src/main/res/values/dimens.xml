@@ -4,5 +4,41 @@
     <dimen name="default_title_bar_icon">24dp</dimen>
     <dimen name="default_title_bar">65dp</dimen>
 
+    <dimen name="one">1dp</dimen>
+    <dimen name="two">2dp</dimen>
+    <dimen name="four">4dp</dimen>
+    <dimen name="six">6dp</dimen>
+    <dimen name="eight">8dp</dimen>
+    <dimen name="tenD">10dp</dimen>
+    <dimen name="tenS">10sp</dimen>
+
+    <dimen name="twelveD">12dp</dimen>
+    <dimen name="twelveS">12sp</dimen>
+    <dimen name="fourteenD">14dp</dimen>
+    <dimen name="fourteenS">14sp</dimen>
+    <dimen name="sixteenD">16dp</dimen>
+    <dimen name="sixteenS">16sp</dimen>
+    <dimen name="eighteenD">18dp</dimen>
+    <dimen name="eighteenS">18sp</dimen>
+    <dimen name="twentyD">20dp</dimen>
+    <dimen name="twentyS">20sp</dimen>
+    <dimen name="twentyTwoD">22dp</dimen>
+    <dimen name="twentyTwoS">22sp</dimen>
+    <dimen name="twentyFourD">24dp</dimen>
+    <dimen name="twentyFourS">24sp</dimen>
+    <dimen name="twentySixD">26dp</dimen>
+    <dimen name="twentySixS">26sp</dimen>
+    <dimen name="twentyEightD">28dp</dimen>
+    <dimen name="twentyEightS">28sp</dimen>
+    <dimen name="thirtyD">30dp</dimen>
+    <dimen name="thirtyS">30sp</dimen>
+    <dimen name="thirtyTowD">32dp</dimen>
+    <dimen name="thirtyToS">32sp</dimen>
+    <dimen name="thirtyFourD">34dp</dimen>
+    <dimen name="thirtyFourS">34sp</dimen>
+    <dimen name="thirtySixD">36dp</dimen>
+    <dimen name="thirtyEightD">38dp</dimen>
+    <dimen name="fortyD">40dp</dimen>
+
 
 </resources>
