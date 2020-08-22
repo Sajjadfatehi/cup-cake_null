@@ -69,7 +69,13 @@ class ProfileFragment : Fragment() {
 
             }
         }
+        val params = recycler_posts_in_prof.layoutParams
+        params.apply {
+            width = requireContext().resources.displayMetrics.widthPixels
+            height = requireContext().resources.displayMetrics.widthPixels
+        }
 
+        recycler_posts_in_prof.layoutParams = params
 
         recycler_posts_in_prof.apply {
             adapter = PostsInProfAdapter(postLists)
