@@ -5,17 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anull.R
-import com.fragment.HomeFragmentDirections
 import com.model.home.PersonArticleModel
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_person_article.view.*
 import kotlinx.android.synthetic.main.item_profile_post.view.*
-import kotlinx.android.synthetic.main.item_profile_post.view.item_image_post_prof
-import kotlinx.android.synthetic.main.item_profile_post.view.tv_date_of_post
-import kotlinx.android.synthetic.main.item_profile_post.view.tv_desc_post_prof
 
 /**
 Created by Moha.Azizi on 16/08/2020 .
@@ -25,21 +20,6 @@ class PersonArticleAdapter(private val list: MutableList<PersonArticleModel>) :
     RecyclerView.Adapter<PersonArticleAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(personArticleModel: PersonArticleModel) {
-            image?.setImageResource(R.drawable.prof_image)
-            name?.text = personArticleModel.name
-            lastDate?.text = personArticleModel.date
-            desc?.text = personArticleModel.description
-            if (personArticleModel.favorite) {
-                favorite?.setImageResource(R.drawable.ic_is_bookmark)
-            } else {
-                favorite?.setImageResource(R.drawable.ic_bookmark)
-            }
-            itemView.setOnClickListener{
-//                findNavController(itemView).navigate(HomeFragmentDirections.actionHomeFragmentToArticleFragment())
-//                itemView.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToArticleFragment())
-            }
-        }
 
         private var image: CircleImageView? = null
         private var lastDate: TextView? = null
@@ -54,6 +34,20 @@ class PersonArticleAdapter(private val list: MutableList<PersonArticleModel>) :
             desc = itemView.tv_desc_person_article
             favorite = itemView.item_favorite_person_article
         }
+
+        fun bind(personArticleModel: PersonArticleModel) {
+            image?.setImageResource(R.drawable.prof_image)
+            name?.text = personArticleModel.name
+            lastDate?.text = personArticleModel.date
+            desc?.text = personArticleModel.description
+            if (personArticleModel.favorite) {
+                favorite?.setImageResource(R.drawable.ic_is_bookmark)
+            } else {
+                favorite?.setImageResource(R.drawable.ic_bookmark)
+            }
+        }
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

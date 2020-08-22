@@ -26,6 +26,7 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val view = inflater.inflate(R.layout.testlayout, container, false)
 
         return inflater.inflate(R.layout.testlayout, container, false)
     }
@@ -34,7 +35,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         titleInProfList.add("نوشته ها")
         titleInProfList.add("علاقه مندی")
-        repeat(60) {
+        repeat(6) {
             postLists.add(
                 PostInProf(
                     "سجاد فاتحی",
@@ -75,7 +76,6 @@ class ProfileFragment : Fragment() {
 
 
         recycler_posts_in_prof.apply {
-            setHasFixedSize(true)
             adapter = PostsInProfAdapter(postLists)
         }
 
