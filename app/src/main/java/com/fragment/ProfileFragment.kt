@@ -7,34 +7,36 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.adapter.PostsInProfAdapter
 import com.example.anull.R
-import com.example.anull.databinding.FragmentLoginBinding
-import com.example.anull.databinding.FragmentProfileBinding
 import com.model.PostInProf
-import com.model.profile.ProfileModel
-import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.fragment_profile.recycler_posts_in_prof
+import kotlinx.android.synthetic.main.fragment_profile.titleRadioBtn
+import kotlinx.android.synthetic.main.testlayout.*
 
 class ProfileFragment : Fragment() {
     private val postLists = mutableListOf<PostInProf>()
+    private val titleInProfList = mutableListOf<String>()
 
-    private lateinit var binding: FragmentProfileBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
-        return binding.root
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+//        val view = inflater.inflate(R.layout.        val view = inflater.inflate(R.layout.testlayout, container, false)
+//            , container, false)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.user = ProfileModel("محمد عزیزی","برنامه نویس اندروید","214","5010")
+        titleInProfList.add("نوشته ها")
+        titleInProfList.add("علاقه مندی")
         repeat(6) {
             postLists.add(
                 PostInProf(
@@ -47,11 +49,50 @@ class ProfileFragment : Fragment() {
                 )
             )
         }
-        recycler_my_articles.apply {
+//
+        follow_button.setOnClickListener {
+
+            // findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToHomeFragment())
+//            val bottomSheet = BottomSheetFragment()
+//            bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
+            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToTitleFragment())
+
+        }
+        titleRadioBtn.setOnCheckedChangeListener { _, i ->
+
+            // TODO: 22/08/2020 hard code colors
+            val radio = requireActivity().findViewById<RadioButton>(i)
+            // Toast.makeText(requireContext(),"${radio.text}",Toast.LENGTH_SHORT).show()
+            if (radio.tag == "posts") {
+                radio.setTextColor(Color.parseColor("#813ac1"))
+                requireActivity().findViewById<RadioButton>(R.id.radio2)
+                    .setTextColor(Color.parseColor("#363636"))
+            } else {
+                radio.setTextColor(Color.parseColor("#813ac1"))
+                requireActivity().findViewById<RadioButton>(R.id.radio1)
+                    .setTextColor(Color.parseColor("#363636"))
+
+            }
+        }
+
+
+        recycler_posts_in_prof.apply {
             adapter = PostsInProfAdapter(postLists)
-            setHasFixedSize(true)
         }
 
     }
+
+//    override fun onSupportNavigateUp(): Boolean {
+//        val navController = this.findNavController(R.id.fragment)
+//        return when(navController.currentDestination?.id) {
+//            R.id.redFragment -> {
+//                // custom behavior here
+//                true
+//            }
+//            else -> navController.navigateUp()
+//        }
+//    }
+
+
 }
 
