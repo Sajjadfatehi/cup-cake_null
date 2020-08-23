@@ -7,13 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.adapter.PostsInProfAdapter
 import com.example.anull.R
+import com.icallback.ClickListener
 import com.model.PostInProf
-import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.fragment_profile.recycler_posts_in_prof
+import kotlinx.android.synthetic.main.fragment_profile.titleRadioBtn
+import kotlinx.android.synthetic.main.testlayout.*
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(), ClickListener {
     private val postLists = mutableListOf<PostInProf>()
     private val titleInProfList = mutableListOf<String>()
 
@@ -32,9 +37,10 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         titleInProfList.add("نوشته ها")
         titleInProfList.add("علاقه مندی")
-        for (i in 0..60) {
+        for (i in 0..20) {
             postLists.add(
                 PostInProf(
+                    R.drawable.prof_image,
                     "سجاد فاتحی",
                     "3روز پیش",
                     "کاهش درآمدهای گوگل در سهماهه دوم سال ۲۰۲۰ طی ۱۶ سال اخیر بیسابقه بوده است ",
@@ -44,6 +50,9 @@ class ProfileFragment : Fragment() {
                 )
             )
         }
+        back.setOnClickListener {
+            findNavController().navigateUp()
+        }
 //
 //         {
 //
@@ -52,9 +61,7 @@ class ProfileFragment : Fragment() {
 //            bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
 //
 //        }
-//        arrow_back.setOnClickListener {
-//            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToHomeFragment())
-//        }
+//
 
         titleRadioBtn.setOnCheckedChangeListener { radioGroup, i ->
             val radio = requireActivity().findViewById<RadioButton>(i)
@@ -77,6 +84,17 @@ class ProfileFragment : Fragment() {
         }
 
     }
+
+    override fun onClick(postInProf: PostInProf, layoutPosition: Int) {
+        Toast.makeText(requireContext(), "fytgyhhhhhhhw", Toast.LENGTH_SHORT).show()
+        findNavController().navigate(
+            ProfileFragmentDirections.actionProfileFragmentToBottomSheetFragment(
+                postInProf,
+                layoutPosition
+            )
+        )
+    }
+
 
 //    override fun onSupportNavigateUp(): Boolean {
 //        val navController = this.findNavController(R.id.fragment)

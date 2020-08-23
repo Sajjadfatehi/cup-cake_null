@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.Fragment
@@ -33,9 +34,22 @@ class WriteArticleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arrow_back_WA.setOnClickListener {
-            findNavController().navigate(WriteArticleFragmentDirections.actionWriteArticleFragmentToHomeFragment())
+            val view = requireActivity().currentFocus
+            view?.let { v ->
+                val imm =
+                    requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v.windowToken, 0)
+            }
+            findNavController().navigateUp()
 
         }
+
+        setTagEdt.setOnFocusChangeListener { _, b ->
+            if (b)
+                requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
+        }
+
         addTagHandle(setTagEdt)
     }
 
@@ -65,12 +79,18 @@ class WriteArticleFragment : Fragment() {
                         tagChipGroup.addView(chip)
                         tagsChip.put(chip, tag)
                     }
+
+                    //below code is for
                     val view = requireActivity().currentFocus
                     view?.let { v ->
                         val imm =
                             requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                        imm?.hideSoftInputFromWindow(v.windowToken, 0)
+                        imm.hideSoftInputFromWindow(v.windowToken, 0)
                     }
+
+                    //below code is for when user ckick on edit text , adjust pan call again
+                    setTagEdt.clearFocus()
+
                 }
 
             }

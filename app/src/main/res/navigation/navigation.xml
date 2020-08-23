@@ -50,12 +50,15 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.fragment.ProfileFragment"
-        android:label="ProfileFragment" >
+        android:label="ProfileFragment">
         <action
             android:id="@+id/action_profileFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_profileFragment_to_bottomSheetFragment"
+            app:destination="@id/bottomSheetFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -98,4 +101,15 @@
         android:id="@+id/commentDialogFragment"
         android:name="com.fragment.CommentDialogFragment"
         android:label="CommentDialogFragment" />
+    <fragment
+        android:id="@+id/bottomSheetFragment"
+        android:name="com.fragment.BottomSheetFragment"
+        android:label="BottomSheetFragment">
+        <argument
+            android:name="postItem"
+            app:argType="com.model.PostInProf" />
+        <argument
+            android:name="numberOfItem"
+            app:argType="integer" />
+    </fragment>
 </navigation>

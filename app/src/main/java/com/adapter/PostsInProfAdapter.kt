@@ -7,10 +7,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anull.R
+import com.icallback.ClickListener
 import com.model.PostInProf
 import kotlinx.android.synthetic.main.item_profile_post.view.*
 
-class PostsInProfAdapter(private val list: MutableList<PostInProf>) :
+class PostsInProfAdapter(
+    private val list: MutableList<PostInProf>,
+    val clickListener: ClickListener? = null
+) :
     RecyclerView.Adapter<PostsInProfAdapter.PostInProfViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostInProfViewHolder {
@@ -22,6 +26,7 @@ class PostsInProfAdapter(private val list: MutableList<PostInProf>) :
 
     override fun onBindViewHolder(holder: PostInProfViewHolder, position: Int) {
 
+        holder.image?.setImageResource(list[position].image)
 
         holder.name?.text = list[position].name
         holder.title?.text = list[position].title
@@ -38,7 +43,7 @@ class PostsInProfAdapter(private val list: MutableList<PostInProf>) :
 
 
     inner class PostInProfViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private var image: ImageView? = null
+        var image: ImageView? = null
 
         var title: TextView? = null
         var lastDate: TextView? = null
@@ -51,12 +56,20 @@ class PostsInProfAdapter(private val list: MutableList<PostInProf>) :
         init {
 
             image = itemView.item_image_post_prof
+            image as ImageView
             title = itemView.tv_title_post_prof
             lastDate = itemView.tv_date_of_post
             desc = itemView.tv_desc_post_prof
             like = itemView.tv_like_post_prof
             comment = itemView.tv_number_of_comments_post_prof
             name = itemView.item_tv_name_post_prof
+
+            itemView.item_icon_menu_tag_pot_prof.setOnClickListener {
+                clickListener?.onClick(list[layoutPosition], layoutPosition)
+            }
+            image!!.setOnClickListener {
+                clickListener?.onClick(list[layoutPosition], layoutPosition)
+            }
 
         }
 

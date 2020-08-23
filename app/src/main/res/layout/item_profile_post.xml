@@ -101,7 +101,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_title_post_prof" />
 
         <ImageView
-            android:id="@+id/item_icon_tag_pot_prof"
+            android:id="@+id/item_icon_menu_tag_pot_prof"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/menu_icon_post"
@@ -116,7 +116,7 @@
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/tag_icon_post"
 
-            app:layout_constraintEnd_toStartOf="@id/item_icon_tag_pot_prof"
+            app:layout_constraintEnd_toStartOf="@id/item_icon_menu_tag_pot_prof"
             app:layout_constraintTop_toTopOf="@id/item_image_post_prof"
 
             app:srcCompat="@drawable/ic_bookmark" />
