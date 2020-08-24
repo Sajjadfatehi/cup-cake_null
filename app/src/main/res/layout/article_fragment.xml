@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -10,54 +10,58 @@
         android:layoutDirection="rtl">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:id="@+id/title_bar"
+            style="@style/title_bar"
+            android:background="@color/Purple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/title_bar"
-                style="@style/title_bar"
-                android:background="@color/Purple"
+
+            <ImageView
+                android:id="@+id/bookmark"
+                style="@style/title_bar_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_bookmark" />
+
+            <TextView
+                android:id="@+id/text_title_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/article_single"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_11sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/bookmark"
-                    style="@style/title_bar_icon"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_is_bookmark_white" />
+            <ImageView
+                android:id="@+id/back"
+                style="@style/title_bar_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_back" />
 
-                <TextView
-                    android:id="@+id/text_title_bar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/article_single"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_11sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <ImageView
-                    android:id="@+id/back"
-                    style="@style/title_bar_icon"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_back" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_bar">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                app:cardCornerRadius="5dp"
-                app:layout_constraintTop_toBottomOf="@id/title_bar">
+                app:cardCornerRadius="5dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -151,33 +155,45 @@
                         app:layout_goneMarginEnd="10dp"
                         app:srcCompat="@drawable/ic_like" />
 
-                    <com.google.android.material.tabs.TabLayout
-                        android:id="@+id/tabLayout"
+                    <RadioGroup
+                        android:id="@+id/radioGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:background="@android:color/transparent"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/article_text"
-                        app:tabIndicator="@drawable/tab_color_selector"
-                        app:tabIndicatorColor="@color/white"
-                        app:tabIndicatorGravity="stretch"
-                        app:tabMode="scrollable"
-                        app:tabTextColor="@color/Purple">
+                        app:layout_constraintTop_toBottomOf="@id/article_text">
 
-                        <com.google.android.material.tabs.TabItem
+                        <RadioButton
+                            android:id="@+id/radio1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/tv_posts" />
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/rb_selector"
+                            android:button="@android:color/transparent"
+                            android:checked="true"
+                            android:paddingStart="24dp"
+                            android:paddingEnd="24dp"
+                            android:tag="posts"
+                            android:text="@string/tv_posts"
+                            android:textColor="@color/statusBar" />
 
-                        <com.google.android.material.tabs.TabItem
+                        <RadioButton
+                            android:id="@+id/radio2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/tv_favorite" />
-
-                    </com.google.android.material.tabs.TabLayout>
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/rb_selector"
+                            android:button="@android:color/transparent"
+                            android:paddingStart="24dp"
+                            android:paddingEnd="24dp"
+                            android:tag="favorite"
+                            android:text="@string/tv_favorite"
+                            android:textColor="@color/black" />
+                    </RadioGroup>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/button_comment"
@@ -186,17 +202,16 @@
                         android:background="@drawable/shape_button_comment"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tabLayout">
+                        app:layout_constraintTop_toBottomOf="@id/radioGroup">
 
                         <TextView
                             android:id="@+id/article_text_send_comment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_15sdp"
                             android:padding="10dp"
                             android:text="@string/text_send_comment"
                             android:textColor="@color/white"
-                            android:textSize="18sp"
+                            android:textSize="25dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -226,36 +241,21 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/button_comment" />
 
-                    <!--                <androidx.recyclerview.widget.RecyclerView-->
-                    <!--                    android:id="@+id/recycler_article_related"-->
-                    <!--                    android:layout_width="match_parent"-->
-                    <!--                    android:layout_height="wrap_content"-->
-                    <!--                    android:layout_marginStart="8dp"-->
-                    <!--                    android:layout_marginTop="10dp"-->
-                    <!--                    android:layout_marginEnd="8dp"-->
-                    <!--                    android:layout_marginBottom="10dp"-->
-                    <!--                    android:layoutDirection="rtl"-->
-                    <!--                    android:orientation="horizontal"-->
-                    <!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-                    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-                    <!--                    app:layout_constraintStart_toStartOf="parent"-->
-                    <!--                    app:layout_constraintTop_toBottomOf="@id/text_article_related"-->
-                    <!--                    app:reverseLayout="false"-->
-                    <!--                    tools:listitem="@layout/item_related_article" />-->
-
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_article_related"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:nestedScrollingEnabled="false"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="10dp"
+                        android:layoutDirection="rtl"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/text_article_related"
-                        app:layout_constraintVertical_bias="0.0"
+                        app:reverseLayout="false"
                         tools:listitem="@layout/item_related_article" />
 
                     <TextView
@@ -273,41 +273,31 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/recycler_article_related" />
 
-                    <!--                <androidx.recyclerview.widget.RecyclerView-->
-                    <!--                    android:id="@+id/recycler_comment"-->
-                    <!--                    android:layout_width="match_parent"-->
-                    <!--                    android:layout_height="wrap_content"-->
-                    <!--                    android:layout_marginStart="8dp"-->
-                    <!--                    android:layout_marginTop="10dp"-->
-                    <!--                    android:layout_marginEnd="8dp"-->
-                    <!--                    android:layout_marginBottom="10dp"-->
-                    <!--                    android:layoutDirection="rtl"-->
-                    <!--                    android:orientation="vertical"-->
-                    <!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-                    <!--                    app:layout_constraintTop_toBottomOf="@id/text_comment"-->
-                    <!--                    app:reverseLayout="false"-->
-                    <!--                    tools:listitem="@layout/comment_adapter" />-->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_comment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:nestedScrollingEnabled="false"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="10dp"
+                        android:layoutDirection="rtl"
                         android:orientation="vertical"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/text_comment"
-                        app:layout_constraintVertical_bias="0.0"
+                        app:reverseLayout="false"
                         tools:listitem="@layout/comment_adapter" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
 
+        </androidx.core.widget.NestedScrollView>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView>
 </layout>
