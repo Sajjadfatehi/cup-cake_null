@@ -7,26 +7,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.adapter.PostsInProfAdapter
 import com.example.anull.R
+import com.example.anull.databinding.FragmentLoginBinding
+import com.example.anull.databinding.FragmentProfileBinding
 import com.model.PostInProf
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
     private val postLists = mutableListOf<PostInProf>()
-    private val titleInProfList = mutableListOf<String>()
 
+    private lateinit var binding: FragmentProfileBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_profile, container, false)
-//        val view = inflater.inflate(R.layout.        val view = inflater.inflate(R.layout.testlayout, container, false)
-//            , container, false)
-        return view
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,54 +45,11 @@ class ProfileFragment : Fragment() {
                 )
             )
         }
-//
-//        follow_button.setOnClickListener {
-//
-//            // findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToHomeFragment())
-//            val bottomSheet = BottomSheetFragment()
-//            bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
-//
-//        }
-//        titleRadioBtn.setOnCheckedChangeListener { _, i ->
-//            val radio = requireActivity().findViewById<RadioButton>(i)
-//            // Toast.makeText(requireContext(),"${radio.text}",Toast.LENGTH_SHORT).show()
-//            if (radio.tag == "posts") {
-//                radio.setTextColor(Color.parseColor("#813ac1"))
-//                requireActivity().findViewById<RadioButton>(R.id.radio2)
-//                    .setTextColor(Color.parseColor("#363636"))
-//            } else {
-//                radio.setTextColor(Color.parseColor("#813ac1"))
-//                requireActivity().findViewById<RadioButton>(R.id.radio1)
-//                    .setTextColor(Color.parseColor("#363636"))
-//
-//            }
-//        }
-//        val params = recycler_posts_in_prof.layoutParams
-//        params.apply {
-//            width = requireContext().resources.displayMetrics.widthPixels
-//            height = requireContext().resources.displayMetrics.widthPixels
-//        }
-//
-//        recycler_posts_in_prof.layoutParams = params
-
         recycler_my_articles.apply {
             adapter = PostsInProfAdapter(postLists)
             setHasFixedSize(true)
         }
 
     }
-
-//    override fun onSupportNavigateUp(): Boolean {
-//        val navController = this.findNavController(R.id.fragment)
-//        return when(navController.currentDestination?.id) {
-//            R.id.redFragment -> {
-//                // custom behavior here
-//                true
-//            }
-//            else -> navController.navigateUp()
-//        }
-//    }
-
-
 }
 

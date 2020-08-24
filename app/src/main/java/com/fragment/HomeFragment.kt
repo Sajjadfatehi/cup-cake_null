@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.adapter.BestArticleAdapter
@@ -12,6 +13,8 @@ import com.example.anull.R
 import com.model.home.PersonArticleModel
 import com.model.home.TabModel
 import androidx.navigation.Navigation
+import com.example.anull.databinding.ArticleFragmentBinding
+import com.example.anull.databinding.FragmentHomeBinding
 import kotlinx.android.synthetic.main.fragment_home.*
 
 private const val ARG_PARAM1 = "param1"
@@ -21,6 +24,7 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var binding: FragmentHomeBinding
     private var list = mutableListOf<PersonArticleModel>()
     private var tab: Boolean = false
     private var tabs: ArrayList<TabModel> = ArrayList()
@@ -37,7 +41,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+        return binding.root
     }
 
 
@@ -53,20 +58,19 @@ class HomeFragment : Fragment() {
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //------------------------------------------------
         requireActivity().window.decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 
-            setTabs()
+        setTabs()
 
-        ic_profile.setOnClickListener {
+        binding.icProfile.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())
 
         }
-        add.setOnClickListener {
+        binding.add.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToTitleFragment())
         }
 
@@ -81,11 +85,6 @@ class HomeFragment : Fragment() {
             )
         }
 
-        ic_profile.setOnClickListener {
-            Navigation.findNavController(it)
-                .navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())
-
-        }
         recycler_person_article.apply {
             adapter = PersonArticleAdapter(list)
         }

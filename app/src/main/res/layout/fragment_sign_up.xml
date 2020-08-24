@@ -1,281 +1,284 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:layoutDirection="rtl">
+<layout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:layoutDirection="rtl">
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_25sdp"
-                android:contentDescription="@string/group_icon"
-                app:layout_constraintEnd_toStartOf="@id/guideline7"
-                app:layout_constraintStart_toEndOf="@id/guideline6"
-                app:layout_constraintTop_toBottomOf="@id/guideline5"
-                app:srcCompat="@drawable/ic_purple_logo" />
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_25sdp"
+            android:contentDescription="@string/group_icon"
+            app:layout_constraintEnd_toStartOf="@id/guideline7"
+            app:layout_constraintStart_toEndOf="@id/guideline6"
+            app:layout_constraintTop_toBottomOf="@id/guideline5"
+            app:srcCompat="@drawable/ic_purple_logo" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline5"
-                android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.30413625" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.703163" />
+
+        <TextView
+            android:id="@+id/tvMemberShip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/signUp"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/guideline10"
+            app:layout_constraintStart_toStartOf="@+id/guideline9"
+            app:layout_constraintTop_toTopOf="@+id/guideline11" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/userNameInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/userName"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toStartOf="@id/guideline13"
+            app:layout_constraintStart_toEndOf="@id/guideline12"
+            app:layout_constraintTop_toBottomOf="@id/guideline14"
+            app:startIconCheckable="true"
+            app:startIconDrawable="@drawable/ic_user">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/userNameEditText"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.1" />
+                android:maxLength="60"
+                android:maxLines="2"
+                android:padding="@dimen/_5sdp"
+                android:paddingVertical="14dp"
+                android:textAlignment="viewStart"
+                android:textSize="16sp" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline6"
-                android:layout_width="wrap_content"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/userEmail"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:endIconMode="custom"
+            app:layout_constraintEnd_toStartOf="@id/guideline13"
+            app:layout_constraintStart_toEndOf="@id/guideline12"
+            app:layout_constraintTop_toBottomOf="@id/userNameInputLayout"
+            app:startIconCheckable="true"
+            app:startIconDrawable="@drawable/ic_email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/emailEditText"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.30413625" />
+                android:maxLength="60"
+                android:maxLines="2"
+                android:padding="@dimen/_5sdp"
+                android:paddingVertical="14dp"
+                android:textAlignment="viewStart"
+                android:textSize="16sp" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline7"
-                android:layout_width="wrap_content"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passSignUpInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:hint="@string/password"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:endIconMode="password_toggle"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toStartOf="@id/guideline13"
+            app:layout_constraintStart_toEndOf="@id/guideline12"
+            app:layout_constraintTop_toBottomOf="@id/emailInputLayout"
+            app:startIconCheckable="true"
+            app:startIconDrawable="@drawable/ic_lock">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passSignUp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.703163" />
+                android:inputType="textPassword"
+                android:maxLength="30"
+                android:maxLines="2"
+                android:padding="@dimen/_5sdp"
+                android:paddingVertical="14dp"
+                android:textAlignment="viewStart"
+                android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/tvMemberShip"
-                android:layout_width="0dp"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/repetitionPassInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/repetition_password"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:endIconMode="password_toggle"
+            app:layout_constraintEnd_toStartOf="@id/guideline13"
+            app:layout_constraintStart_toEndOf="@id/guideline12"
+            app:layout_constraintTop_toBottomOf="@id/passSignUpInputLayout"
+            app:startIconCheckable="true"
+            app:startIconDrawable="@drawable/ic_lock">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/repetitionPass"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/signUp"
-                android:textAlignment="center"
-                android:textColor="#000000"
-                android:textSize="26sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/guideline10"
-                app:layout_constraintStart_toStartOf="@+id/guideline9"
-                app:layout_constraintTop_toTopOf="@+id/guideline11" />
+                android:inputType="textPassword"
+                android:maxLength="30"
+                android:maxLines="2"
+                android:padding="@dimen/_5sdp"
+                android:paddingVertical="14dp"
+                android:text=""
+                android:textAlignment="viewStart"
+                android:textSize="14sp" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/userNameInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="@string/userName"
-                app:boxCornerRadiusBottomEnd="10dp"
-                app:boxCornerRadiusBottomStart="10dp"
-                app:boxCornerRadiusTopEnd="10dp"
-                app:boxCornerRadiusTopStart="10dp"
-                app:errorEnabled="true"
-                app:layout_constraintEnd_toStartOf="@id/guideline13"
-                app:layout_constraintStart_toEndOf="@id/guideline12"
-                app:layout_constraintTop_toBottomOf="@id/guideline14"
-                app:startIconCheckable="true"
-                app:startIconDrawable="@drawable/ic_user">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/userNameEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLength="60"
-                    android:maxLines="2"
-                    android:padding="@dimen/_5sdp"
-                    android:paddingVertical="14dp"
-                    android:textAlignment="viewStart"
-                    android:textSize="16sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/emailInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="@string/userEmail"
-                app:boxCornerRadiusBottomEnd="10dp"
-                app:boxCornerRadiusBottomStart="10dp"
-                app:boxCornerRadiusTopEnd="10dp"
-                app:boxCornerRadiusTopStart="10dp"
-                app:endIconMode="custom"
-                app:layout_constraintEnd_toStartOf="@id/guideline13"
-                app:layout_constraintStart_toEndOf="@id/guideline12"
-                app:layout_constraintTop_toBottomOf="@id/userNameInputLayout"
-                app:startIconCheckable="true"
-                app:startIconDrawable="@drawable/ic_email">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/emailEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLength="60"
-                    android:maxLines="2"
-                    android:padding="@dimen/_5sdp"
-                    android:paddingVertical="14dp"
-                    android:textAlignment="viewStart"
-                    android:textSize="16sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/passSignUpInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:hint="@string/password"
-                app:boxCornerRadiusBottomEnd="10dp"
-                app:boxCornerRadiusBottomStart="10dp"
-                app:boxCornerRadiusTopEnd="10dp"
-                app:boxCornerRadiusTopStart="10dp"
-                app:endIconMode="password_toggle"
-                app:errorEnabled="true"
-                app:layout_constraintEnd_toStartOf="@id/guideline13"
-                app:layout_constraintStart_toEndOf="@id/guideline12"
-                app:layout_constraintTop_toBottomOf="@id/emailInputLayout"
-                app:startIconCheckable="true"
-                app:startIconDrawable="@drawable/ic_lock">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passSignUp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:maxLength="30"
-                    android:maxLines="2"
-                    android:padding="@dimen/_5sdp"
-                    android:paddingVertical="14dp"
-                    android:textAlignment="viewStart"
-                    android:textSize="14sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/repetitionPassInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="@string/repetition_password"
-                app:boxCornerRadiusBottomEnd="10dp"
-                app:boxCornerRadiusBottomStart="10dp"
-                app:boxCornerRadiusTopEnd="10dp"
-                app:boxCornerRadiusTopStart="10dp"
-                app:endIconMode="password_toggle"
-                app:layout_constraintEnd_toStartOf="@id/guideline13"
-                app:layout_constraintStart_toEndOf="@id/guideline12"
-                app:layout_constraintTop_toBottomOf="@id/passSignUpInputLayout"
-                app:startIconCheckable="true"
-                app:startIconDrawable="@drawable/ic_lock">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/repetitionPass"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:maxLength="30"
-                    android:maxLines="2"
-                    android:padding="@dimen/_5sdp"
-                    android:paddingVertical="14dp"
-                    android:text=""
-                    android:textAlignment="viewStart"
-                    android:textSize="14sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.38929442" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.38929442" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.6155718" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.6155718" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:textAlignment="center"
-                app:layout_constraintGuide_percent="0.21" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:textAlignment="center"
+            app:layout_constraintGuide_percent="0.21" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/singUpButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="@color/Purple"
-                android:padding="@dimen/_11sdp"
-                android:text="@string/signUp_tv_button"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                app:cornerRadius="10dp"
-                app:layout_constraintEnd_toStartOf="@id/guideline13"
-                app:layout_constraintStart_toEndOf="@id/guideline12"
-                app:layout_constraintTop_toBottomOf="@id/repetitionPassInputLayout" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/singUpButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/Purple"
+            android:padding="@dimen/_11sdp"
+            android:text="@string/signUp_tv_button"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:cornerRadius="10dp"
+            app:layout_constraintEnd_toStartOf="@id/guideline13"
+            app:layout_constraintStart_toEndOf="@id/guideline12"
+            app:layout_constraintTop_toBottomOf="@id/repetitionPassInputLayout" />
 
-            <TextView
-                android:id="@+id/ask_account"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:layout_marginBottom="15dp"
-                android:text="@string/tv_ask_account"
-                android:textAlignment="center"
-                android:textColor="#9e9e9e"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toStartOf="@id/tv_go_login_screen"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+        <TextView
+            android:id="@+id/ask_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginBottom="15dp"
+            android:text="@string/tv_ask_account"
+            android:textAlignment="center"
+            android:textColor="#9e9e9e"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_go_login_screen" />
 
-            <TextView
-                android:id="@+id/tv_go_login_screen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:text="@string/tv_signIn"
-                android:textAlignment="center"
-                android:textColor="#8c45cc"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toStartOf="@id/guideline17"
-                app:layout_constraintTop_toTopOf="@id/ask_account" />
-
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.097323604" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline13"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.9075426" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.3" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline16"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.93" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline17"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.7858881" />
+        <TextView
+            android:id="@+id/tv_go_login_screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:text="@string/tv_signIn"
+            android:textAlignment="center"
+            android:textColor="#8c45cc"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@id/guideline17"
+            app:layout_constraintTop_toTopOf="@id/ask_account" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.097323604" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.9075426" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.3" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.93" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.7858881" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
