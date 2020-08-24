@@ -26,7 +26,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private var list = mutableListOf<PersonArticleModel>()
-    private var tab: Boolean = false
     private var tabs: ArrayList<TabModel> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +63,7 @@ class HomeFragment : Fragment() {
         requireActivity().window.decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 
-        setTabs()
+//        setTabs()
 
         binding.icProfile.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())
@@ -93,16 +92,16 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setTabs() {
-        tabs.add(TabModel(getString(R.string.foryou)))
-        tabs.add(TabModel(getString(R.string.bors)))
-        tabs.add(TabModel(getString(R.string.saham)))
-        tabs.add(TabModel(getString(R.string.eqtsad)))
-        tabs.add(TabModel(getString(R.string.sarmaye)))
-
-        for (i in 0 until tabs.size) {
-            tabLayout.addTab(tabLayout.newTab().setText(tabs[i].name))
-        }
+//    private fun setTabs() {
+//        tabs.add(TabModel(getString(R.string.foryou)))
+//        tabs.add(TabModel(getString(R.string.bors)))
+//        tabs.add(TabModel(getString(R.string.saham)))
+//        tabs.add(TabModel(getString(R.string.eqtsad)))
+//        tabs.add(TabModel(getString(R.string.sarmaye)))
+//
+//        for (i in 0 until tabs.size) {
+//            tabLayout.addTab(tabLayout.newTab().setText(tabs[i].name))
+//        }
 
     }
-}
+//}
