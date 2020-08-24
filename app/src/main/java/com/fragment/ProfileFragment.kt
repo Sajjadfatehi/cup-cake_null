@@ -14,6 +14,7 @@ import com.example.anull.R
 import com.example.anull.databinding.FragmentLoginBinding
 import com.example.anull.databinding.FragmentProfileBinding
 import com.model.PostInProf
+import com.model.profile.ProfileModel
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
@@ -33,6 +34,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.user = ProfileModel("محمد عزیزی","برنامه نویس اندروید","214","5010")
         repeat(6) {
             postLists.add(
                 PostInProf(

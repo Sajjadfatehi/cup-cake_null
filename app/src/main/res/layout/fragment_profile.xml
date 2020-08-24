@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+<variable
+    name="user"
+    type="com.model.profile.ProfileModel" />
+    </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
 
         android:layout_height="match_parent"
@@ -97,7 +103,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            android:text="@string/tv_name"
+                            android:text="@{user.name}"
                             android:textAlignment="viewStart"
                             android:textColor="@color/black"
                             android:textSize="16sp"
@@ -111,7 +117,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:elevation="8dp"
-                            android:text="@string/tv_summary"
+                            android:text="@{user.dec}"
                             android:textColor="@color/back_dec_profile"
                             android:textSize="14sp"
                             app:layout_constraintBottom_toBottomOf="@+id/cardView3"
@@ -133,7 +139,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:elevation="4dp"
-                            android:lineHeight="38sp"
                             android:text="137"
                             android:textColor="@color/black"
                             android:textSize="24sp"
@@ -152,9 +157,8 @@
                             android:textColor="@color/black"
                             android:textSize="12sp"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@id/tv_post_count"
                             app:layout_constraintStart_toStartOf="@id/tv_post_count"
-                            app:layout_constraintTop_toBottomOf="@+id/tv_post_count" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_post_count"/>
 
                         <TextView
                             android:id="@+id/tv_follower_count"
@@ -166,8 +170,8 @@
                             android:text="2546"
                             android:textColor="@color/black"
                             android:textSize="24sp"
-                            app:layout_constraintStart_toEndOf="@id/barrier"
-                            app:layout_constraintTop_toTopOf="@+id/btn_follow" />
+                            app:layout_constraintStart_toEndOf="@id/tv_post_count"
+                            app:layout_constraintTop_toTopOf="@id/tv_post_count"/>
 
                         <TextView
                             android:id="@+id/tv_follower_title"
@@ -178,9 +182,8 @@
                             android:lineHeight="38sp"
                             android:text="@string/tv_follower"
                             android:textSize="12sp"
-                            app:layout_constraintEnd_toEndOf="@id/tv_follower_count"
-                            app:layout_constraintStart_toStartOf="@id/tv_follower_count"
-                            app:layout_constraintTop_toBottomOf="@+id/tv_follower_count" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_post_count"
+                            app:layout_constraintStart_toStartOf="@id/tv_follower_count"/>
 
                         <androidx.constraintlayout.widget.Barrier
                             android:id="@+id/barrier"
