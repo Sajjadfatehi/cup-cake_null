@@ -52,16 +52,16 @@ class HomeFragment : Fragment() {
             }
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //------------------------------------------------
         requireActivity().window.decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 
-        if (!tab) {
             setTabs()
-            tab = true
-        }
+
         ic_profile.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())
 

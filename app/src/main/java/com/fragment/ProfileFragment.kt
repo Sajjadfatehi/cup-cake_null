@@ -11,9 +11,7 @@ import androidx.fragment.app.Fragment
 import com.adapter.PostsInProfAdapter
 import com.example.anull.R
 import com.model.PostInProf
-import kotlinx.android.synthetic.main.fragment_profile.recycler_posts_in_prof
-import kotlinx.android.synthetic.main.fragment_profile.titleRadioBtn
-import kotlinx.android.synthetic.main.testlayout.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
     private val postLists = mutableListOf<PostInProf>()
@@ -33,8 +31,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        titleInProfList.add("نوشته ها")
-        titleInProfList.add("علاقه مندی")
+
         repeat(6) {
             postLists.add(
                 PostInProf(
@@ -48,37 +45,38 @@ class ProfileFragment : Fragment() {
             )
         }
 //
-        follow_button.setOnClickListener {
+//        follow_button.setOnClickListener {
+//
+//            // findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToHomeFragment())
+//            val bottomSheet = BottomSheetFragment()
+//            bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
+//
+//        }
+//        titleRadioBtn.setOnCheckedChangeListener { _, i ->
+//            val radio = requireActivity().findViewById<RadioButton>(i)
+//            // Toast.makeText(requireContext(),"${radio.text}",Toast.LENGTH_SHORT).show()
+//            if (radio.tag == "posts") {
+//                radio.setTextColor(Color.parseColor("#813ac1"))
+//                requireActivity().findViewById<RadioButton>(R.id.radio2)
+//                    .setTextColor(Color.parseColor("#363636"))
+//            } else {
+//                radio.setTextColor(Color.parseColor("#813ac1"))
+//                requireActivity().findViewById<RadioButton>(R.id.radio1)
+//                    .setTextColor(Color.parseColor("#363636"))
+//
+//            }
+//        }
+//        val params = recycler_posts_in_prof.layoutParams
+//        params.apply {
+//            width = requireContext().resources.displayMetrics.widthPixels
+//            height = requireContext().resources.displayMetrics.widthPixels
+//        }
+//
+//        recycler_posts_in_prof.layoutParams = params
 
-            // findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToHomeFragment())
-            val bottomSheet = BottomSheetFragment()
-            bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
-
-        }
-        titleRadioBtn.setOnCheckedChangeListener { _, i ->
-            val radio = requireActivity().findViewById<RadioButton>(i)
-            // Toast.makeText(requireContext(),"${radio.text}",Toast.LENGTH_SHORT).show()
-            if (radio.tag == "posts") {
-                radio.setTextColor(Color.parseColor("#813ac1"))
-                requireActivity().findViewById<RadioButton>(R.id.radio2)
-                    .setTextColor(Color.parseColor("#363636"))
-            } else {
-                radio.setTextColor(Color.parseColor("#813ac1"))
-                requireActivity().findViewById<RadioButton>(R.id.radio1)
-                    .setTextColor(Color.parseColor("#363636"))
-
-            }
-        }
-        val params = recycler_posts_in_prof.layoutParams
-        params.apply {
-            width = requireContext().resources.displayMetrics.widthPixels
-            height = requireContext().resources.displayMetrics.widthPixels
-        }
-
-        recycler_posts_in_prof.layoutParams = params
-
-        recycler_posts_in_prof.apply {
+        recycler_my_articles.apply {
             adapter = PostsInProfAdapter(postLists)
+            setHasFixedSize(true)
         }
 
     }

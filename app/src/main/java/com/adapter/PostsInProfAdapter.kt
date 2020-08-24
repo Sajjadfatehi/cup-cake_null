@@ -20,7 +20,6 @@ class PostsInProfAdapter(private val list: MutableList<PostInProf>) :
     }
 
     override fun onBindViewHolder(holder: PostInProfViewHolder, position: Int) {
-
         holder.bind(list[position])
     }
 
@@ -60,10 +59,7 @@ class PostsInProfAdapter(private val list: MutableList<PostInProf>) :
             like?.text = post.tvLike
             comment?.text = post.tvComment
 
-
         }
 
     }
-
-
 }
