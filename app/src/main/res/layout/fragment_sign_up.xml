@@ -6,13 +6,6 @@
     android:background="@color/white"
     android:layoutDirection="rtl">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
             <ImageView
                 android:layout_width="0dp"
@@ -73,21 +66,16 @@
                 app:layout_constraintStart_toEndOf="@id/guideline12"
                 app:layout_constraintTop_toBottomOf="@id/guideline14"
                 app:startIconCheckable="true"
-                app:startIconDrawable="@drawable/ic_user"
-
-
-                >
+                app:startIconDrawable="@drawable/ic_user">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/userNameEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="60"
-
                     android:maxLines="2"
                     android:padding="@dimen/_5sdp"
                     android:paddingVertical="14dp"
-                    android:text=""
                     android:textAlignment="viewStart"
                     android:textSize="16sp" />
 
@@ -98,7 +86,6 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
                 android:hint="@string/userEmail"
                 app:boxCornerRadiusBottomEnd="10dp"
                 app:boxCornerRadiusBottomStart="10dp"
@@ -108,11 +95,8 @@
                 app:layout_constraintEnd_toStartOf="@id/guideline13"
                 app:layout_constraintStart_toEndOf="@id/guideline12"
                 app:layout_constraintTop_toBottomOf="@id/userNameInputLayout"
-
                 app:startIconCheckable="true"
-                app:startIconDrawable="@drawable/ic_email"
-
-                >
+                app:startIconDrawable="@drawable/ic_email">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailEditText"
@@ -122,7 +106,6 @@
                     android:maxLines="2"
                     android:padding="@dimen/_5sdp"
                     android:paddingVertical="14dp"
-                    android:text=""
                     android:textAlignment="viewStart"
                     android:textSize="16sp" />
 
@@ -156,11 +139,8 @@
                     android:maxLines="2"
                     android:padding="@dimen/_5sdp"
                     android:paddingVertical="14dp"
-                    android:text=""
                     android:textAlignment="viewStart"
-                    android:textSize="14sp"
-
-                    />
+                    android:textSize="14sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -169,7 +149,6 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
                 android:hint="@string/repetition_password"
                 app:boxCornerRadiusBottomEnd="10dp"
                 app:boxCornerRadiusBottomStart="10dp"
@@ -180,9 +159,7 @@
                 app:layout_constraintStart_toEndOf="@id/guideline12"
                 app:layout_constraintTop_toBottomOf="@id/passSignUpInputLayout"
                 app:startIconCheckable="true"
-                app:startIconDrawable="@drawable/ic_lock"
-
-                >
+                app:startIconDrawable="@drawable/ic_lock">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/repetitionPass"
@@ -195,9 +172,7 @@
                     android:paddingVertical="14dp"
                     android:text=""
                     android:textAlignment="viewStart"
-                    android:textSize="14sp"
-
-                    />
+                    android:textSize="14sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -252,7 +227,7 @@
                 android:textColor="#9e9e9e"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@id/tv_go_login_screen"
-                app:layout_constraintTop_toBottomOf="@id/singUpButton" />
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
                 android:id="@+id/tv_go_login_screen"
@@ -286,7 +261,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.35841313" />
+                app:layout_constraintGuide_percent="0.3" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline16"
@@ -301,9 +276,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.7858881" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
