@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.anull.R
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_write_article.*
+import java.util.*
 
 
 class WriteArticleFragment : Fragment() {
@@ -34,23 +35,22 @@ class WriteArticleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arrow_back_WA.setOnClickListener {
-            val view = requireActivity().currentFocus
-            view?.let { v ->
-                val imm =
-                    requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(v.windowToken, 0)
-            }
+            hideKeyboard()
             findNavController().navigateUp()
 
         }
 
         setTagEdt.setOnFocusChangeListener { _, b ->
             if (b)
-                requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+                setAdjustPan()
 
         }
 
         addTagHandle(setTagEdt)
+    }
+
+    private fun setAdjustPan() {
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
     }
 
     private fun addTagHandle(editText: EditText) {
@@ -74,22 +74,15 @@ class WriteArticleFragment : Fragment() {
                     chip.isCheckable = false
                     chip.setOnCloseIconClickListener(this)
                     chip.text = s.trim()
-                    val tag = chip.text.toString().toUpperCase()
+                    val tag = chip.text.toString().toUpperCase(Locale.ROOT)
                     if (!tagsChip.containsValue(tag)) {
                         tagChipGroup.addView(chip)
                         tagsChip.put(chip, tag)
                     }
 
                     //below code is for
-                    val view = requireActivity().currentFocus
-                    view?.let { v ->
-                        val imm =
-                            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                        imm.hideSoftInputFromWindow(v.windowToken, 0)
-                    }
+                    hideKeyboard()
 
-                    //below code is for when user ckick on edit text , adjust pan call again
-                    setTagEdt.clearFocus()
 
                 }
 
@@ -103,6 +96,19 @@ class WriteArticleFragment : Fragment() {
             }
 
         })
+    }
+
+    private fun hideKeyboard() {
+        val view = requireActivity().currentFocus
+        view?.let { v ->
+            val imm =
+                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(v.windowToken, 0)
+
+            //below code is for when user ckick on edit text , adjust pan call again
+
+            setTagEdt.clearFocus()
+        }
     }
 
 }

@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.testlayout.*
 class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack {
     private val postLists = mutableListOf<PostInProf>()
     private val titleInProfList = mutableListOf<String>()
-    val shit = BottomSheetFragment()
+    private val bottomSheetFragment = BottomSheetFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,17 +52,9 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         back.setOnClickListener {
             findNavController().navigateUp()
         }
-//
-//         {
-//
-//            //
-//            val bottomSheet = BottomSheetFragment()
-//            bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
-//
-//        }
-//
 
-        titleRadioBtn.setOnCheckedChangeListener { radioGroup, i ->
+
+        titleRadioBtn.setOnCheckedChangeListener { _, i ->
             val radio = requireActivity().findViewById<RadioButton>(i)
             // Toast.makeText(requireContext(),"${radio.text}",Toast.LENGTH_SHORT).show()
             if (radio.tag == "posts") {
@@ -78,9 +70,10 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         }
 
 
-        recycler_posts_in_prof
+
         recycler_posts_in_prof.apply {
             adapter = PostsInProfAdapter(postLists, this@ProfileFragment)
+
 
         }
 
@@ -88,9 +81,9 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
     override fun onClick(postInProf: PostInProf, layoutPosition: Int) {
 
-        val bottomSheetFragment = BottomSheetFragment()
+
         val args = Bundle()
-        args.putParcelable("postItem", postInProf)
+
         args.putInt("layoutPosition", layoutPosition)
 
         bottomSheetFragment.arguments = args
@@ -104,23 +97,25 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
     }
 
 
+    //for bottom sheet
     override fun onCall(action: String, numberOfItem: Int?) {
-        if (action == ("delete"))
-            Toast.makeText(requireContext(), "delete", Toast.LENGTH_SHORT).show()
+        changeListByCallBack(action, numberOfItem)
 
     }
 
+    private fun changeListByCallBack(action: String, numberOfItem: Int?) {
 
-//    override fun onSupportNavigateUp(): Boolean {
-//        val navController = this.findNavController(R.id.fragment)
-//        return when(navController.currentDestination?.id) {
-//            R.id.redFragment -> {
-//                // custom behavior here
-//                true
-//            }
-//            else -> navController.navigateUp()
-//        }
-//    }
+        if (action == ("delete")) {
+            if (numberOfItem != null) {
+                postLists.removeAt(numberOfItem)
+                recycler_posts_in_prof.adapter?.notifyItemRemoved(numberOfItem)
+                bottomSheetFragment.dismiss()
+
+            }
+        } else if (action == ("edit")) {
+            Toast.makeText(requireContext(), "edit", Toast.LENGTH_SHORT).show()
+        }
+    }
 
 
 }

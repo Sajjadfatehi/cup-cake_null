@@ -67,9 +67,6 @@ class PostsInProfAdapter(
             itemView.item_icon_menu_tag_pot_prof.setOnClickListener {
                 clickListener.onClick(list[layoutPosition], layoutPosition)
             }
-            image!!.setOnClickListener {
-                clickListener.onClick(list[layoutPosition], layoutPosition)
-            }
 
         }
 
