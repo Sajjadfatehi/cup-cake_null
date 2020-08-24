@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.item_profile_post.view.*
 
 class PostsInProfAdapter(
     private val list: MutableList<PostInProf>,
-    val clickListener: ClickListener? = null
+    val clickListener: ClickListener
 ) :
     RecyclerView.Adapter<PostsInProfAdapter.PostInProfViewHolder>() {
 
@@ -65,10 +65,10 @@ class PostsInProfAdapter(
             name = itemView.item_tv_name_post_prof
 
             itemView.item_icon_menu_tag_pot_prof.setOnClickListener {
-                clickListener?.onClick(list[layoutPosition], layoutPosition)
+                clickListener.onClick(list[layoutPosition], layoutPosition)
             }
             image!!.setOnClickListener {
-                clickListener?.onClick(list[layoutPosition], layoutPosition)
+                clickListener.onClick(list[layoutPosition], layoutPosition)
             }
 
         }

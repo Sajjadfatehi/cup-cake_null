@@ -18,26 +18,25 @@ import kotlinx.android.synthetic.main.fragment_profile.recycler_posts_in_prof
 import kotlinx.android.synthetic.main.fragment_profile.titleRadioBtn
 import kotlinx.android.synthetic.main.testlayout.*
 
-class ProfileFragment : Fragment(), ClickListener {
+class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack {
     private val postLists = mutableListOf<PostInProf>()
     private val titleInProfList = mutableListOf<String>()
-
+    val shit = BottomSheetFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.testlayout, container, false)
-
         return inflater.inflate(R.layout.testlayout, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //  shit.initInterface(this)
         titleInProfList.add("نوشته ها")
         titleInProfList.add("علاقه مندی")
-        for (i in 0..20) {
+        for (i in 0..5) {
             postLists.add(
                 PostInProf(
                     R.drawable.prof_image,
@@ -79,20 +78,36 @@ class ProfileFragment : Fragment(), ClickListener {
         }
 
 
+        recycler_posts_in_prof
         recycler_posts_in_prof.apply {
-            adapter = PostsInProfAdapter(postLists)
+            adapter = PostsInProfAdapter(postLists, this@ProfileFragment)
+
         }
 
     }
 
     override fun onClick(postInProf: PostInProf, layoutPosition: Int) {
-        Toast.makeText(requireContext(), "fytgyhhhhhhhw", Toast.LENGTH_SHORT).show()
-        findNavController().navigate(
-            ProfileFragmentDirections.actionProfileFragmentToBottomSheetFragment(
-                postInProf,
-                layoutPosition
-            )
-        )
+
+        val bottomSheetFragment = BottomSheetFragment()
+        val args = Bundle()
+        args.putParcelable("postItem", postInProf)
+        args.putInt("layoutPosition", layoutPosition)
+
+        bottomSheetFragment.arguments = args
+        bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
+
+
+//        bottomSheetFragment.edit_article_btn.setOnClickListener {
+//            Toast.makeText(requireContext(),"edit",Toast.LENGTH_SHORT).show()
+//        }
+
+    }
+
+
+    override fun onCall(action: String, numberOfItem: Int?) {
+        if (action == ("delete"))
+            Toast.makeText(requireContext(), "delete", Toast.LENGTH_SHORT).show()
+
     }
 
 
