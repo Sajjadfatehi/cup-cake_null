@@ -4,14 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.adapter.ArticleAdapter
 import com.example.anull.R
+import com.example.anull.databinding.FragmentSplashBinding
+import com.example.anull.databinding.FragmentTitleBinding
 import com.model.home.PersonArticleModel
 import kotlinx.android.synthetic.main.fragment_title.*
 
 class TitleFragment : Fragment() {
     private var list = mutableListOf<PersonArticleModel>()
+    lateinit var binding: FragmentTitleBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,12 +27,16 @@ class TitleFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_title, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_title, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.back.setOnClickListener{
+            findNavController().navigateUp()
+        }
 
         repeat(20) {
             list.add(

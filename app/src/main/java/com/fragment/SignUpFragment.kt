@@ -47,9 +47,17 @@ class SignUpFragment : Fragment() {
         textChange(passSignUp, passSignUpInputLayout)
         textChange(repetitionPass, repetitionPassInputLayout)
         textChange(emailEditText, emailInputLayout)
+        tvMemberShip.setOnClickListener {
+            findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToLoginFragment())
+        }
 
         singUpButton.setOnClickListener {
 
+
+            //below line is for app bar layout that don,t go behind the status bar
+            requireActivity().window.decorView.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
             findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeFragment())
 
         }

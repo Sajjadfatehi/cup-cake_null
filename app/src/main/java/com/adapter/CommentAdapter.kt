@@ -3,6 +3,7 @@ package com.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anull.R
@@ -26,7 +27,7 @@ class CommentAdapter(private val list: MutableList<CommentArticleModel>) :
 
         }
 
-        private var image: CircleImageView? = null
+        private var image: ImageView? = null
         private var name: TextView? = null
         private var desc: TextView? = null
 
