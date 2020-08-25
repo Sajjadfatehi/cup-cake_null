@@ -13,8 +13,6 @@ import com.adapter.PostsInProfAdapter
 import com.example.anull.R
 import com.icallback.ClickListener
 import com.model.PostInProf
-import kotlinx.android.synthetic.main.fragment_profile.recycler_posts_in_prof
-import kotlinx.android.synthetic.main.fragment_profile.titleRadioBtn
 import kotlinx.android.synthetic.main.testlayout.*
 
 class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack {

@@ -5,8 +5,6 @@
         android:top="8dp"
         android:right="4dp"
         android:left="4dp">
-
-
         <shape>
             <corners android:radius="16dp" />
             <solid android:color="@android:color/white" />

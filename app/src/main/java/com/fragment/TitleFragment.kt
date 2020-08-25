@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.adapter.ArticleAdapter
 import com.example.anull.R
 import com.example.anull.databinding.FragmentTitleBinding
@@ -44,6 +45,9 @@ class TitleFragment : Fragment() {
         }
         recyclerTitle.apply {
             adapter = ArticleAdapter(list)
+        }
+        binding.back.setOnClickListener {
+            findNavController().navigateUp()
         }
 
     }

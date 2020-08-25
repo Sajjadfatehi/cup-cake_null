@@ -4,14 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.adapter.BestArticleAdapter
 import com.adapter.PersonArticleAdapter
 import com.example.anull.R
+import com.example.anull.databinding.FragmentHomeBinding
 import com.model.home.PersonArticleModel
 import com.model.home.TabModel
-import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_home.*
 
 private const val ARG_PARAM1 = "param1"
@@ -21,8 +22,8 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var binding: FragmentHomeBinding
     private var list = mutableListOf<PersonArticleModel>()
-    private var tab: Boolean = false
     private var tabs: ArrayList<TabModel> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +38,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+        return binding.root
     }
 
 
@@ -58,16 +60,13 @@ class HomeFragment : Fragment() {
         requireActivity().window.decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 
-        if (!tab) {
-            setTabs()
-            tab = true
-        }
-        ic_profile.setOnClickListener {
+//        setTabs()
+
+        binding.icProfile.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())
 
         }
-        add.setOnClickListener {
-            //  findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToTitleFragment())
+        binding.add.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToWriteArticleFragment())
         }
 
@@ -82,11 +81,6 @@ class HomeFragment : Fragment() {
             )
         }
 
-        ic_profile.setOnClickListener {
-            Navigation.findNavController(it)
-                .navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())
-
-        }
         recycler_person_article.apply {
             adapter = PersonArticleAdapter(list)
         }
@@ -95,16 +89,16 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setTabs() {
-        tabs.add(TabModel(getString(R.string.foryou)))
-        tabs.add(TabModel(getString(R.string.bors)))
-        tabs.add(TabModel(getString(R.string.saham)))
-        tabs.add(TabModel(getString(R.string.eqtsad)))
-        tabs.add(TabModel(getString(R.string.sarmaye)))
+//    private fun setTabs() {
+//        tabs.add(TabModel(getString(R.string.foryou)))
+//        tabs.add(TabModel(getString(R.string.bors)))
+//        tabs.add(TabModel(getString(R.string.saham)))
+//        tabs.add(TabModel(getString(R.string.eqtsad)))
+//        tabs.add(TabModel(getString(R.string.sarmaye)))
+//
+//        for (i in 0 until tabs.size) {
+//            tabLayout.addTab(tabLayout.newTab().setText(tabs[i].name))
+//        }
 
-        for (i in 0 until tabs.size) {
-            tabLayout.addTab(tabLayout.newTab().setText(tabs[i].name))
-        }
-
-    }
 }
+//}

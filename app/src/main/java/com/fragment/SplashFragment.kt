@@ -6,62 +6,49 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.config.FunctionHelper
 import com.example.anull.R
+import com.example.anull.databinding.FragmentSplashBinding
 
-/**
- * An example full-screen fragment that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
 class SplashFragment : Fragment() {
     private val splashTimeOut: Long = 3000
+    private var functionHelper = FunctionHelper()
+    private lateinit var binding: FragmentSplashBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_splash, container, false)
-
-
-
-//java code for example
-//        Window window = getWindow();
-//        window.getDecorView().setSystemUiVisibility(
-//            View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//        window.setStatusBarColor(Color.TRANSPARENT);
-
-        val signUpFragment = SignUpFragment()
-
-
-        Handler().postDelayed({
-
-
-            changeTopOfScreen()
-
-            findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToSignUpFragment())
-
-//            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.splashFrame, signUpFragment)
-//                .commit()
-        }, splashTimeOut)
-
-
-
-
-
-
-        return view
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_splash, container, false)
+        return binding.root
     }
 
-    fun changeTopOfScreen() {
+    private fun changeTopOfScreen() {
         val reqWin = requireActivity().window
         reqWin.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 
-        reqWin.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        reqWin.statusBarColor = Color.TRANSPARENT
-
+        requireActivity().window.decorView.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val window = requireActivity().window
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+
+
+        Handler().postDelayed({
+            if (functionHelper.getPublicSharedPreferences(context)?.getToken().equals("1"))
+                findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToSignUpFragment())
+            else
+                findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToHomeFragment())
+
+            changeTopOfScreen()
+
+        }, splashTimeOut)
+
+    }
 }

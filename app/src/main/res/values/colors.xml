@@ -8,6 +8,7 @@
 
     <color name="black_overlay">#66000000</color>
     <color name="black">#363636</color>
+    <color name="background_profile_fragment">#f3f3f3</color>
 
 
     <color name="Purple">#8c45cc</color>
@@ -17,5 +18,6 @@
     <color name="hint_search">#d5d5d5</color>
     <color name="border_comment_edit_text">#e2e2e2</color>
     <color name="btn_send_comment">#286de6</color>
+    <color name="back_dec_profile">#9e9e9e</color>
 
 </resources>
