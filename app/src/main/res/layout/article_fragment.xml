@@ -163,6 +163,7 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:orientation="horizontal"
+
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/article_text">
@@ -172,7 +173,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
-                            android:background="@drawable/rb_selector"
+                            android:background="@drawable/rb_selector_radio_article"
                             android:button="@android:color/transparent"
                             android:checked="true"
                             android:paddingStart="24dp"
@@ -186,7 +187,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
-                            android:background="@drawable/rb_selector"
+                            android:background="@drawable/rb_selector_radio_article"
                             android:button="@android:color/transparent"
                             android:paddingStart="24dp"
                             android:paddingEnd="24dp"
@@ -199,6 +200,7 @@
                         android:id="@+id/button_comment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
                         android:background="@drawable/shape_button_comment"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -210,6 +212,7 @@
                             android:layout_height="wrap_content"
                             android:padding="10dp"
                             android:text="@string/text_send_comment"
+
                             android:textColor="@color/white"
                             android:textSize="25dp"
                             app:layout_constraintBottom_toBottomOf="parent"

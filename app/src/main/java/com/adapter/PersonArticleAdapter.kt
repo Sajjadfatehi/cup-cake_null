@@ -5,12 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anull.R
+import com.fragment.HomeFragmentDirections
 import com.model.home.PersonArticleModel
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_person_article.view.*
-import kotlinx.android.synthetic.main.item_profile_post.view.*
 
 /**
 Created by Moha.Azizi on 16/08/2020 .
@@ -33,6 +34,11 @@ class PersonArticleAdapter(private val list: MutableList<PersonArticleModel>) :
             lastDate = itemView.date_item_person_article
             desc = itemView.tv_desc_person_article
             favorite = itemView.item_favorite_person_article
+
+            itemView.setOnClickListener {
+                itemView.findNavController()
+                    .navigate(HomeFragmentDirections.actionHomeFragmentToArticleFragment())
+            }
         }
 
         fun bind(personArticleModel: PersonArticleModel) {

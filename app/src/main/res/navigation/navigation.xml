@@ -80,6 +80,9 @@
         <action
             android:id="@+id/action_homeFragment_to_writeArticleFragment"
             app:destination="@id/writeArticleFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
     </fragment>
     <fragment
         android:id="@+id/titleFragment"
