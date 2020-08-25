@@ -16,15 +16,27 @@ import androidx.navigation.fragment.findNavController
 import com.example.anull.R
 import com.example.anull.databinding.FragmentWriteArticleBinding
 import com.google.android.material.chip.Chip
+import com.model.PostInProf
 import kotlinx.android.synthetic.main.fragment_write_article.*
 import java.util.*
 
 
 class WriteArticleFragment : Fragment() {
+    private var isFromEdit: Boolean = false
+    private var args: Bundle? = Bundle()
+
 
     private lateinit var binding: FragmentWriteArticleBinding
     val tagsChip = mutableMapOf<Chip, String>()
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        args = this.arguments
+        isFromEdit = args != null
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,11 +50,26 @@ class WriteArticleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (isFromEdit) {
+            title_in_top_of_page.text = getString(R.string.tv_edit_article)
+            write_draft.visibility = View.GONE
+            submit_article.text = getString(R.string.tv_edit_article)
+
+            val post = args?.getParcelable<PostInProf>("post")
+            edit_title.setText(post?.title)
+            edit_text.setText(post?.desc)
+
+
+        }
+
         binding.arrowBackWA.setOnClickListener {
             hideKeyboard()
             findNavController().navigateUp()
 
         }
+
+
 
         binding.setTagEdt.setOnFocusChangeListener { _, b ->
             if (b)

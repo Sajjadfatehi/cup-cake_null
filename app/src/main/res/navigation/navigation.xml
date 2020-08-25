@@ -22,7 +22,9 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_splashFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -30,7 +32,9 @@
         android:label="SignUpFragment">
         <action
             android:id="@+id/action_signUpFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/signUpFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_signUpFragment_to_homeFragment"
             app:destination="@id/homeFragment"
@@ -43,7 +47,9 @@
         android:label="LoginFragment">
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment" />
+            app:destination="@id/signUpFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment"
@@ -63,8 +69,8 @@
             android:id="@+id/action_profileFragment_to_bottomSheetFragment"
             app:destination="@id/bottomSheetFragment" />
         <action
-            android:id="@+id/action_profileFragment_to_editFragment"
-            app:destination="@id/editFragment" />
+            android:id="@+id/action_profileFragment_to_writeArticleFragment"
+            app:destination="@id/writeArticleFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -116,17 +122,6 @@
         android:label="BottomSheetFragment">
         <argument
             android:name="postItem"
-            app:argType="com.model.PostInProf" />
-        <argument
-            android:name="numberOfItem"
-            app:argType="integer" />
-    </fragment>
-    <fragment
-        android:id="@+id/editFragment"
-        android:name="com.fragment.EditFragment"
-        android:label="EditFragment">
-        <argument
-            android:name="post"
             app:argType="com.model.PostInProf" />
         <argument
             android:name="numberOfItem"

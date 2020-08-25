@@ -1,9 +1,12 @@
 package com.fragment
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -15,18 +18,49 @@ import com.model.home.PersonArticleModel
 import com.model.home.TabModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
+
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
+    var backAgain = false
 
     private lateinit var binding: FragmentHomeBinding
     private var list = mutableListOf<PersonArticleModel>()
     private var tabs: ArrayList<TabModel> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true /* enabled by default */) {
+                override fun handleOnBackPressed() {
+                    // Handle the back button event
+
+                    if (backAgain) {
+                        activity?.finish()
+                    } else {
+                        backAgain = true
+                        Toast.makeText(
+                            requireContext(),
+                            "برای بازگشت دوباره دکمه خروج را فشار دهید",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Handler().postDelayed({
+                            backAgain = false
+                        }, 2000)
+
+                    }
+
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
+
+
+
+
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -87,7 +121,10 @@ class HomeFragment : Fragment() {
         recycler_best_article.apply {
             adapter = BestArticleAdapter(list)
         }
+
+
     }
+
 
 //    private fun setTabs() {
 //        tabs.add(TabModel(getString(R.string.foryou)))

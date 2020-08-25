@@ -111,12 +111,21 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
             }
         } else if (action == ("edit")) {
-            findNavController().navigate(
-                ProfileFragmentDirections.actionProfileFragmentToEditFragment(
-                    postLists[numberOfItem!!],
-                    numberOfItem
-                )
-            )
+            val bundle = Bundle()
+            bundle.putParcelable("post", postLists[numberOfItem!!])
+            bundle.putInt("number", numberOfItem)
+            val writeArticleFragment = WriteArticleFragment()
+            writeArticleFragment.arguments = bundle
+
+            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToWriteArticleFragment())
+
+
+            // findNavController().navigate(
+//                ProfileFragmentDirections.actionProfileFragmentToEditFragment(
+//                    postLists[numberOfItem!!],
+//                    numberOfItem
+//                )
+            //          )
         }
     }
 
