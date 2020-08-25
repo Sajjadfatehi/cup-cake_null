@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.adapter.PostsInProfAdapter
@@ -28,6 +27,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         return inflater.inflate(R.layout.testlayout, container, false)
     }
 
@@ -113,7 +113,12 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
             }
         } else if (action == ("edit")) {
-            Toast.makeText(requireContext(), "edit", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(
+                ProfileFragmentDirections.actionProfileFragmentToEditFragment(
+                    postLists[numberOfItem!!],
+                    numberOfItem
+                )
+            )
         }
     }
 

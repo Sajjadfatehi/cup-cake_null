@@ -5,11 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import com.example.anull.R
+import com.example.anull.databinding.BottomSheetBindingImpl
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.bottom_sheet.*
 
 class BottomSheetFragment : BottomSheetDialogFragment() {
+    private lateinit var binding: BottomSheetBindingImpl
     interface CallBack {
         fun onCall(action: String, numberOfItem: Int?)
     }
@@ -20,7 +23,9 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.bottom_sheet, container, false)
+        //return inflater.inflate(R.layout.bottom_sheet, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

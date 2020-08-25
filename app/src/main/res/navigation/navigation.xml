@@ -59,6 +59,9 @@
         <action
             android:id="@+id/action_profileFragment_to_bottomSheetFragment"
             app:destination="@id/bottomSheetFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_editFragment"
+            app:destination="@id/editFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -107,6 +110,17 @@
         android:label="BottomSheetFragment">
         <argument
             android:name="postItem"
+            app:argType="com.model.PostInProf" />
+        <argument
+            android:name="numberOfItem"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.fragment.EditFragment"
+        android:label="EditFragment">
+        <argument
+            android:name="post"
             app:argType="com.model.PostInProf" />
         <argument
             android:name="numberOfItem"

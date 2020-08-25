@@ -6,11 +6,11 @@ import kotlinx.android.parcel.Parcelize
 // must be data class
 @Parcelize
 data class PostInProf(
-    val image: Int,
-    val name: String,
-    val lastDate: String,
-    val title: String,
-    val desc: String,
-    val tvLike: String,
-    val tvComment: String
+    var image: Int,
+    var name: String,
+    var lastDate: String,
+    var title: String,
+    var desc: String,
+    var tvLike: String,
+    var tvComment: String
 ) : Parcelable
