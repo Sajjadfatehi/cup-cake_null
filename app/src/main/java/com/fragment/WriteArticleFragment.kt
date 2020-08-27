@@ -57,8 +57,29 @@ class WriteArticleFragment : Fragment() {
             submit_article.text = getString(R.string.tv_edit_article)
 
             val post = args?.getParcelable<PostInProf>("post")
+            val itemSelectedForEdit = args?.getInt("number")
+
             edit_title.setText(post?.title)
             edit_text.setText(post?.desc)
+
+
+
+            submit_article.setOnClickListener {
+                val bundle = Bundle()
+                post?.title = edit_title.text.toString().trim()
+                post?.desc = edit_text.text.toString().trim()
+                //add keyword later
+
+                bundle.putParcelable("editPost", post)
+                if (itemSelectedForEdit != null) {
+                    bundle.putInt("numberOfEditPost", itemSelectedForEdit)
+                }
+                findNavController().navigate(
+                    R.id.action_writeArticleFragment_to_profileFragment,
+                    bundle
+                )
+
+            }
 
 
         }

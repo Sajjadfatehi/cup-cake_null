@@ -20,6 +20,17 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
     private val titleInProfList = mutableListOf<String>()
     private val bottomSheetFragment = BottomSheetFragment()
 
+    private var isFromEdit: Boolean = false
+    private var argsFromEdit: Bundle? = Bundle()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        argsFromEdit = this.arguments
+        isFromEdit = argsFromEdit != null
+
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,7 +61,20 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         back.setOnClickListener {
             findNavController().navigateUp()
         }
+        recycler_posts_in_prof.apply {
+            adapter = PostsInProfAdapter(postLists, this@ProfileFragment)
 
+
+        }
+        if (isFromEdit) {
+            val num = argsFromEdit?.getInt("numberOfEditPost")
+            val newPost = argsFromEdit?.getParcelable<PostInProf>("editPost")
+            postLists[num!!].title = newPost?.title.toString().trim()
+            postLists[num].desc = newPost?.desc.toString().trim()
+
+            recycler_posts_in_prof.adapter?.notifyItemChanged(num)
+
+        }
 
         titleRadioBtn.setOnCheckedChangeListener { _, i ->
             val radio = requireActivity().findViewById<RadioButton>(i)
@@ -69,11 +93,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
 
 
-        recycler_posts_in_prof.apply {
-            adapter = PostsInProfAdapter(postLists, this@ProfileFragment)
 
-
-        }
 
     }
 
@@ -114,11 +134,13 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             val bundle = Bundle()
             bundle.putParcelable("post", postLists[numberOfItem!!])
             bundle.putInt("number", numberOfItem)
-            val writeArticleFragment = WriteArticleFragment()
-            writeArticleFragment.arguments = bundle
 
-            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToWriteArticleFragment())
+            findNavController().navigate(
+                R.id.action_profileFragment_to_writeArticleFragment,
+                bundle
+            )
 
+            bottomSheetFragment.dismiss()
 
             // findNavController().navigate(
 //                ProfileFragmentDirections.actionProfileFragmentToEditFragment(

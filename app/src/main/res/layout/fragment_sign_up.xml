@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="SignUViewModel"
+            type="com.fragment.SignUpViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -36,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.703163" />
+            app:layout_constraintGuide_percent="0.3" />
 
         <TextView
             android:id="@+id/tvMemberShip"
@@ -78,7 +88,8 @@
                 android:padding="@dimen/_5sdp"
                 android:paddingVertical="14dp"
                 android:textAlignment="viewStart"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                bind:inputTextLayout="@{userNameInputLayout}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,7 +119,9 @@
                 android:padding="@dimen/_5sdp"
                 android:paddingVertical="14dp"
                 android:textAlignment="viewStart"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                bind:emailInputTextLayout="@{emailInputLayout}"
+                bind:inputTextLayout="@{emailInputLayout}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -129,9 +142,11 @@
             app:layout_constraintStart_toEndOf="@id/guideline12"
             app:layout_constraintTop_toBottomOf="@id/emailInputLayout"
             app:startIconCheckable="true"
+
             app:startIconDrawable="@drawable/ic_lock">
 
             <com.google.android.material.textfield.TextInputEditText
+
                 android:id="@+id/passSignUp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -141,7 +156,9 @@
                 android:padding="@dimen/_5sdp"
                 android:paddingVertical="14dp"
                 android:textAlignment="viewStart"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                bind:inputTextLayout="@{passSignUpInputLayout}"
+                bind:passInputTextLayout="@{passSignUpInputLayout}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -173,7 +190,10 @@
                 android:paddingVertical="14dp"
                 android:text=""
                 android:textAlignment="viewStart"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                bind:inputTextLayout="@{repetitionPassInputLayout}"
+                bind:passEditText="@{passSignUp}"
+                bind:repetitionPasswordInputTextLayout="@{repetitionPassInputLayout}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
