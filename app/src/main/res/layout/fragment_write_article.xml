@@ -2,6 +2,21 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="com.model.PostInProf" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="writeViewModel"
+            type="com.fragment.WriteArticleViewModel" />
+
+        <variable
+            name="writeArticle"
+            type="com.fragment.WriteArticleFragment" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/tv_write_article"
+                    android:text="@{writeViewModel.argsFromProf.isEmpty ? @string/tv_write_article : @string/tv_edit_article}"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -48,6 +63,7 @@
                     android:layout_marginEnd="16dp"
                     android:text="@string/tv_draft"
                     android:textColor="@color/white"
+                    android:visibility="@{writeViewModel.argsFromProf.isEmpty ? View.VISIBLE : View.GONE}"
 
 
                     android:textSize="16sp" />
@@ -73,6 +89,7 @@
             android:id="@+id/edit_title"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:text="@{writeViewModel.argsFromProf.isEmpty ? @string/emptyString : writeViewModel.postInProf.title}"
 
             style="@style/editTextTitleInWriteArticle"
             android:autofillHints="title"
@@ -105,6 +122,8 @@
             android:layout_height="0dp"
             android:autofillHints="text of article"
             android:background="@drawable/shape_empty"
+            android:text="@{writeViewModel.argsFromProf.isEmpty ? @string/emptyString : writeViewModel.postInProf.desc}"
+
             style="@style/editTextTextInWriteArticle"
             android:textColorHint="@color/hint_search"
             app:layout_constraintBottom_toTopOf="@id/guideline27"
@@ -175,7 +194,7 @@
 
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
-            android:text="@string/tv_submit_article"
+            android:text="@{writeViewModel.argsFromProf.isEmpty ? @string/tv_submit_article : @string/tv_edit_article}"
             android:textSize="18sp"
             android:textStyle="bold"
 

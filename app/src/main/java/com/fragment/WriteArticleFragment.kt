@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.anull.R
 import com.example.anull.databinding.FragmentWriteArticleBinding
@@ -22,8 +23,9 @@ import java.util.*
 
 
 class WriteArticleFragment : Fragment() {
-    private var isFromEdit: Boolean = false
-    private var args: Bundle? = Bundle()
+
+    var args: Bundle = Bundle()
+    private lateinit var writeViewModel: WriteArticleViewModel
 
 
     private lateinit var binding: FragmentWriteArticleBinding
@@ -33,8 +35,8 @@ class WriteArticleFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        args = this.arguments
-        isFromEdit = args != null
+        writeViewModel = ViewModelProvider(this).get(WriteArticleViewModel::class.java)
+        args = this.requireArguments()
 
     }
 
@@ -48,54 +50,51 @@ class WriteArticleFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (isFromEdit) {
-            title_in_top_of_page.text = getString(R.string.tv_edit_article)
-            write_draft.visibility = View.GONE
-            submit_article.text = getString(R.string.tv_edit_article)
 
-            val post = args?.getParcelable<PostInProf>("post")
-            val itemSelectedForEdit = args?.getInt("number")
+        writeViewModel.checkArgsIsNull(args)
 
-            edit_title.setText(post?.title)
-            edit_text.setText(post?.desc)
+        binding.writeViewModel = writeViewModel
 
+        writeViewModel.isFromEdit.observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer { isFromEdit ->
+                if (isFromEdit) {
 
+                    val post = args.getParcelable<PostInProf>("post")
+                    val itemSelectedForEdit = args.getInt("number")
 
-            submit_article.setOnClickListener {
-                val bundle = Bundle()
-                post?.title = edit_title.text.toString().trim()
-                post?.desc = edit_text.text.toString().trim()
-                //add keyword later
+                    submit_article.setOnClickListener {
+                        val bundle = Bundle()
+                        post?.title = edit_title.text.toString().trim()
+                        post?.desc = edit_text.text.toString().trim()
+                        //add keyword later
 
-                bundle.putParcelable("editPost", post)
-                if (itemSelectedForEdit != null) {
-                    bundle.putInt("numberOfEditPost", itemSelectedForEdit)
+                        bundle.putParcelable("editPost", post)
+                        if (itemSelectedForEdit != null) {
+                            bundle.putInt("numberOfEditPost", itemSelectedForEdit)
+                        }
+                        findNavController().navigate(
+                            R.id.action_writeArticleFragment_to_profileFragment,
+                            bundle
+                        )
+                    }
                 }
-                findNavController().navigate(
-                    R.id.action_writeArticleFragment_to_profileFragment,
-                    bundle
-                )
-
-            }
+            })
 
 
-        }
 
         binding.arrowBackWA.setOnClickListener {
             hideKeyboard()
             findNavController().navigateUp()
-
         }
-
-
 
         binding.setTagEdt.setOnFocusChangeListener { _, b ->
             if (b)
                 setAdjustPan()
-
         }
 
         addTagHandle(setTagEdt)
@@ -111,17 +110,17 @@ class WriteArticleFragment : Fragment() {
             override fun afterTextChanged(s: Editable) {
 //
             }
-
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
 
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+
                 if (s.trim().isNotEmpty() && s.length != s.trimEnd().length) {
                     //   val chip= Chip(tagChipGroup.context, null,R.style.chip_style)
                     editText.setText("")
                     val chip =
-
                         layoutInflater.inflate(R.layout.single_chip, tagChipGroup, false) as Chip
                     chip.isClickable = false
                     chip.isCheckable = false
@@ -157,9 +156,7 @@ class WriteArticleFragment : Fragment() {
             val imm =
                 requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(v.windowToken, 0)
-
             //below code is for when user click on edit text , adjust pan call again
-
             setTagEdt.clearFocus()
         }
     }

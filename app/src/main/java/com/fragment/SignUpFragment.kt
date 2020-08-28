@@ -48,6 +48,7 @@ class SignUpFragment : Fragment() {
 
             findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeFragment())
 
+
         }
 
 
