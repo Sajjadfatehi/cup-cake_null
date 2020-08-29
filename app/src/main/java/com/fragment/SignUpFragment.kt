@@ -37,6 +37,9 @@ class SignUpFragment : Fragment() {
             findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToLoginFragment())
         }
 
+        tvMemberShip.setOnClickListener {
+            findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToTitleFragment())
+        }
 
 
         singUpButton.setOnClickListener {

@@ -11,11 +11,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.adapter.PostsInProfAdapter
 import com.example.anull.R
+import com.example.anull.databinding.FragmentProfileBinding
 import com.icallback.ClickListener
 import com.model.PostInProf
 import kotlinx.android.synthetic.main.testlayout.*
 
 class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack {
+
+    private lateinit var bindingProf: FragmentProfileBinding
     private val postLists = mutableListOf<PostInProf>()
     private val titleInProfList = mutableListOf<String>()
     private val bottomSheetFragment = BottomSheetFragment()
@@ -37,6 +40,9 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         savedInstanceState: Bundle?
     ): View? {
 
+//         bindingProf= DataBindingUtil.inflate(inflater,R.layout.testlayout,container,false)
+//
+//        return bindingProf.root
         return inflater.inflate(R.layout.testlayout, container, false)
     }
 
@@ -45,6 +51,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         //  shit.initInterface(this)
         titleInProfList.add("نوشته ها")
         titleInProfList.add("علاقه مندی")
+
         for (i in 0..5) {
             postLists.add(
                 PostInProf(
@@ -58,14 +65,14 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
                 )
             )
         }
+        recycler_posts_in_prof.apply {
+            adapter = PostsInProfAdapter(postLists, this@ProfileFragment)
+        }
+
         back.setOnClickListener {
             findNavController().navigateUp()
         }
-        recycler_posts_in_prof.apply {
-            adapter = PostsInProfAdapter(postLists, this@ProfileFragment)
 
-
-        }
         if (isFromEdit) {
             val num = argsFromEdit?.getInt("numberOfEditPost")
             val newPost = argsFromEdit?.getParcelable<PostInProf>("editPost")

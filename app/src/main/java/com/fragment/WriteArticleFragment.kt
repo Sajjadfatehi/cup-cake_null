@@ -2,35 +2,26 @@ package com.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.anull.R
 import com.example.anull.databinding.FragmentWriteArticleBinding
-import com.google.android.material.chip.Chip
 import com.model.PostInProf
 import kotlinx.android.synthetic.main.fragment_write_article.*
-import java.util.*
 
 
 class WriteArticleFragment : Fragment() {
 
     var args: Bundle = Bundle()
     private lateinit var writeViewModel: WriteArticleViewModel
-
-
     private lateinit var binding: FragmentWriteArticleBinding
-    val tagsChip = mutableMapOf<Chip, String>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +46,9 @@ class WriteArticleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+
         writeViewModel.checkArgsIsNull(args)
+        writeViewModel.activity = requireActivity()
 
         binding.writeViewModel = writeViewModel
 
@@ -85,8 +78,6 @@ class WriteArticleFragment : Fragment() {
                 }
             })
 
-
-
         binding.arrowBackWA.setOnClickListener {
             hideKeyboard()
             findNavController().navigateUp()
@@ -97,57 +88,10 @@ class WriteArticleFragment : Fragment() {
                 setAdjustPan()
         }
 
-        addTagHandle(setTagEdt)
     }
 
     private fun setAdjustPan() {
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-    }
-
-    private fun addTagHandle(editText: EditText) {
-
-        editText.addTextChangedListener(object : TextWatcher, View.OnClickListener {
-            override fun afterTextChanged(s: Editable) {
-//
-            }
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
-
-                if (s.trim().isNotEmpty() && s.length != s.trimEnd().length) {
-                    //   val chip= Chip(tagChipGroup.context, null,R.style.chip_style)
-                    editText.setText("")
-                    val chip =
-                        layoutInflater.inflate(R.layout.single_chip, tagChipGroup, false) as Chip
-                    chip.isClickable = false
-                    chip.isCheckable = false
-                    chip.setOnCloseIconClickListener(this)
-                    chip.text = s.trim()
-                    val tag = chip.text.toString().toUpperCase(Locale.ROOT)
-                    if (!tagsChip.containsValue(tag)) {
-                        binding.tagChipGroup.addView(chip)
-                        tagsChip[chip] = tag
-                    }
-
-                    //below code is for
-                    hideKeyboard()
-
-
-                }
-
-            }
-
-            override fun onClick(v: View?) {
-                val chip = v as Chip
-                binding.tagChipGroup.removeView(chip)
-                tagsChip.remove(chip)
-
-            }
-
-        })
     }
 
     private fun hideKeyboard() {

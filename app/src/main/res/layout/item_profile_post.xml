@@ -1,208 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:background="#ffffff"
-    android:layoutDirection="rtl"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <variable
+            name="article"
+            type="com.model.PostInProf" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="#ffffff"
+        android:layoutDirection="rtl"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp">
 
-        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-        <ImageView
-            android:id="@+id/item_image_post_prof"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/image_of_profile_desc"
-            tools:src="@drawable/prof_image"
-            app:layout_constraintStart_toEndOf="@id/guidelineLeft"
-            app:layout_constraintTop_toBottomOf="@id/guidelineTop" />
+            >
 
-        <TextView
-            android:id="@+id/item_tv_name_post_prof"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="1dp"
-            tools:text="@string/tv_name"
-            android:textAlignment="viewEnd"
-            android:textColor="#363636"
-            android:textSize="14sp"
-            android:textStyle="bold"
+            <ImageView
+                android:id="@+id/item_image_post_prof"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/image_of_profile_desc"
+                tools:src="@drawable/prof_image"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/guidelineTop" />
 
-            app:layout_constraintStart_toEndOf="@id/item_image_post_prof"
-            app:layout_constraintTop_toTopOf="@id/item_image_post_prof"
+            <TextView
+                android:id="@+id/item_tv_name_post_prof"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="1dp"
+                android:text="@{article.name}"
+                android:textAlignment="viewEnd"
+                android:textColor="#363636"
+                android:textSize="14sp"
+                android:textStyle="bold"
 
-
-            />
-
-        <TextView
-            android:id="@+id/tv_date_of_post"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="1dp"
-            android:textAlignment="viewEnd"
-            android:textColor="#9e9e9e"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/item_image_post_prof"
-            app:layout_constraintStart_toEndOf="@id/item_image_post_prof"
-
-            app:layout_constraintTop_toBottomOf="@id/item_tv_name_post_prof"
-            tools:text="@string/date_of_post"
-
-            />
-
-        <TextView
-            android:id="@+id/tv_title_post_prof"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:fontFamily="@font/is_font"
+                app:layout_constraintStart_toEndOf="@id/item_image_post_prof"
+                app:layout_constraintTop_toTopOf="@id/item_image_post_prof"
 
 
-            android:lineSpacingExtra="10sp"
-            android:textAlignment="viewStart"
-            app:layout_constraintStart_toEndOf="@id/guidelineLeft"
-            android:textColor="#363636"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/guidelineRight"
-            tools:text="@string/tv_item_title"
+                />
 
-            app:layout_constraintTop_toBottomOf="@id/item_image_post_prof"
+            <TextView
+                android:id="@+id/tv_date_of_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="1dp"
+                android:textAlignment="viewEnd"
+                android:textColor="#9e9e9e"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@id/item_image_post_prof"
+                app:layout_constraintStart_toEndOf="@id/item_image_post_prof"
 
-            />
+                app:layout_constraintTop_toBottomOf="@id/item_tv_name_post_prof"
+                android:text="@{article.lastDate}"
 
-        <TextView
-            android:id="@+id/tv_desc_post_prof"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
+                />
 
-            android:fontFamily="@font/is_font"
-            android:lineSpacingExtra="10sp"
-            app:layout_constraintStart_toEndOf="@id/guidelineLeft"
-
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@id/guidelineBottom"
-            app:layout_constraintEnd_toStartOf="@id/guidelineRight"
-            tools:text="@string/tv_item_description"
-
-            app:layout_constraintTop_toBottomOf="@id/tv_title_post_prof" />
-
-        <ImageView
-            android:id="@+id/item_icon_menu_tag_pot_prof"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/menu_icon_post"
-            app:layout_constraintEnd_toStartOf="@id/guidelineRight"
-            app:layout_constraintTop_toTopOf="@id/item_image_post_prof"
-
-            app:srcCompat="@drawable/ic_icon_menu" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="@string/tag_icon_post"
-
-            app:layout_constraintEnd_toStartOf="@id/item_icon_menu_tag_pot_prof"
-            app:layout_constraintTop_toTopOf="@id/item_image_post_prof"
-
-            app:srcCompat="@drawable/ic_bookmark" />
-
-        <ImageView
-            android:id="@+id/like_post"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="17dp"
-            android:contentDescription="@string/like_icon_post"
-            app:layout_constraintStart_toEndOf="@id/guidelineLeft"
-            app:layout_constraintTop_toBottomOf="@id/guidelineBottom"
-
-            app:srcCompat="@drawable/ic_like" />
-
-        <TextView
-            android:id="@+id/tv_like_post_prof"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:gravity="end"
-            android:lineSpacingExtra="10sp"
-            tools:text="@string/numberOfFollowers"
-            android:textColor="#9e9e9e"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/like_post"
-            app:layout_constraintStart_toEndOf="@id/like_post"
-
-            app:layout_constraintTop_toTopOf="@id/like_post" />
-
-        <TextView
-
-            android:id="@+id/tv_number_of_comments_post_prof"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:lineSpacingExtra="10sp"
-            tools:text="@string/numberOfComments"
-            android:textColor="#9e9e9e"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/like_post"
-            app:layout_constraintEnd_toStartOf="@id/guidelineRight"
-            app:layout_constraintTop_toTopOf="@id/like_post"
-
-            />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="@string/comment_icon_post"
-            app:layout_constraintBottom_toBottomOf="@id/like_post"
-            app:layout_constraintEnd_toStartOf="@id/tv_number_of_comments_post_prof"
-            app:layout_constraintTop_toTopOf="@id/like_post"
+            <TextView
+                android:id="@+id/tv_title_post_prof"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:fontFamily="@font/is_font"
 
 
-            app:srcCompat="@drawable/ic_comment" />
+                android:lineSpacingExtra="10sp"
+                android:textAlignment="viewStart"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                android:textColor="#363636"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                android:text="@{article.title}"
+                app:layout_constraintTop_toBottomOf="@id/item_image_post_prof"
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineLeft"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.04" />
+                />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineRight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.96" />
+            <TextView
+                android:id="@+id/tv_desc_post_prof"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineTop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.061" />
+                android:fontFamily="@font/is_font"
+                android:lineSpacingExtra="10sp"
+                android:text="@{article.desc}"
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineBottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.8" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/guidelineBottom"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintHorizontal_bias="0.602"
+
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/tv_title_post_prof"
+                app:layout_constraintVertical_bias="0.0"
+                tools:text="@string/tv_item_description" />
+
+            <ImageView
+                android:id="@+id/item_icon_menu_tag_pot_prof"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/menu_icon_post"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintTop_toTopOf="@id/item_image_post_prof"
+
+                app:srcCompat="@drawable/ic_icon_menu" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/tag_icon_post"
+
+                app:layout_constraintEnd_toStartOf="@id/item_icon_menu_tag_pot_prof"
+                app:layout_constraintTop_toTopOf="@id/item_image_post_prof"
+
+                app:srcCompat="@drawable/ic_bookmark" />
+
+            <ImageView
+                android:id="@+id/like_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:contentDescription="@string/like_icon_post"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/guidelineBottom"
+
+                app:srcCompat="@drawable/ic_like" />
+
+            <TextView
+                android:id="@+id/tv_like_post_prof"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="end"
+                android:lineSpacingExtra="10sp"
+                tools:text="@string/numberOfFollowers"
+                android:text="@{article.tvLike}"
+                android:textColor="#9e9e9e"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/like_post"
+                app:layout_constraintStart_toEndOf="@id/like_post"
+
+                app:layout_constraintTop_toTopOf="@id/like_post" />
+
+            <TextView
+
+                android:id="@+id/tv_number_of_comments_post_prof"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:lineSpacingExtra="10sp"
+                tools:text="@string/numberOfComments"
+                android:text="@{article.tvComment}"
+                android:textColor="#9e9e9e"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/like_post"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintTop_toTopOf="@id/like_post"
+
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/comment_icon_post"
+                app:layout_constraintBottom_toBottomOf="@id/like_post"
+                app:layout_constraintEnd_toStartOf="@id/tv_number_of_comments_post_prof"
+                app:layout_constraintTop_toTopOf="@id/like_post"
 
 
-</com.google.android.material.card.MaterialCardView>
+                app:srcCompat="@drawable/ic_comment" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.04" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.96" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineTop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.061" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineBottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.8" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

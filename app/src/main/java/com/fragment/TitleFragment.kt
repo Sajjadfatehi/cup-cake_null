@@ -33,7 +33,7 @@ class TitleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        repeat(20) {
+        repeat(40) {
             list.add(
                 PersonArticleModel(
                     "محمد",
