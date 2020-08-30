@@ -6,16 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.adapter.ArticleAdapter
 import com.example.anull.R
 import com.example.anull.databinding.FragmentTitleBinding
-import com.model.home.PersonArticleModel
 import kotlinx.android.synthetic.main.fragment_title.*
 
 class TitleFragment : Fragment() {
-    private var list = mutableListOf<PersonArticleModel>()
     private lateinit var binding: FragmentTitleBinding
+    private lateinit var viewModel: TitleViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,19 +34,18 @@ class TitleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        repeat(40) {
-            list.add(
-                PersonArticleModel(
-                    "محمد",
-                    "دو روز قبل",
-                    true,
-                    " ین متن میتواند یک تست موقت باشد ین متن میتواند یک تست موقت باشد"
-                )
-            )
-        }
+        viewModel = ViewModelProvider(this).get(TitleViewModel::class.java)
         recyclerTitle.apply {
-            adapter = ArticleAdapter(list)
+            adapter = ArticleAdapter(viewModel.getArticle().value!!)
+            //   adapter=ArticleAdapter(list)
         }
+
+        viewModel.list.observe(viewLifecycleOwner, Observer { list ->
+            recyclerTitle.adapter?.notifyDataSetChanged()
+        })
+
+
+
         binding.back.setOnClickListener {
             findNavController().navigateUp()
         }

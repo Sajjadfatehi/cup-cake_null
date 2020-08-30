@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.adapter.PostsInProfAdapter
 import com.example.anull.R
@@ -19,9 +21,11 @@ import kotlinx.android.synthetic.main.testlayout.*
 class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack {
 
     private lateinit var bindingProf: FragmentProfileBinding
-    private val postLists = mutableListOf<PostInProf>()
+
+    //private val postLists = mutableListOf<PostInProf>()
     private val titleInProfList = mutableListOf<String>()
     private val bottomSheetFragment = BottomSheetFragment()
+    private lateinit var viewModel: ProfileViewModel
 
     private var isFromEdit: Boolean = false
     private var argsFromEdit: Bundle? = Bundle()
@@ -48,26 +52,21 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //  shit.initInterface(this)
+
         titleInProfList.add("نوشته ها")
         titleInProfList.add("علاقه مندی")
 
-        for (i in 0..5) {
-            postLists.add(
-                PostInProf(
-                    R.drawable.prof_image,
-                    "سجاد فاتحی",
-                    "3روز پیش",
-                    "کاهش درآمدهای گوگل در سهماهه دوم سال ۲۰۲۰ طی ۱۶ سال اخیر بیسابقه بوده است ",
-                    "اپل در طول اعلام نتایج درآمد سه ماهه سوم خود در روز پنج شنبه گفت که هیات مدیره شرکت یک تجزیه سهام چهار به یک را تصویب کرده است",
-                    "4.5k",
-                    "20کامنت"
-                )
-            )
-        }
+
+        //  shit.initInterface(this)
+        viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         recycler_posts_in_prof.apply {
-            adapter = PostsInProfAdapter(postLists, this@ProfileFragment)
+            adapter = PostsInProfAdapter(viewModel.getPosts().value!!, this@ProfileFragment)
         }
+
+        viewModel.postList.observe(viewLifecycleOwner, Observer {
+            recycler_posts_in_prof.adapter?.notifyDataSetChanged()
+
+        })
 
         back.setOnClickListener {
             findNavController().navigateUp()
@@ -76,8 +75,8 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         if (isFromEdit) {
             val num = argsFromEdit?.getInt("numberOfEditPost")
             val newPost = argsFromEdit?.getParcelable<PostInProf>("editPost")
-            postLists[num!!].title = newPost?.title.toString().trim()
-            postLists[num].desc = newPost?.desc.toString().trim()
+            viewModel.postList.value!![num!!].title = newPost?.title.toString().trim()
+            viewModel.postList.value!![num].desc = newPost?.desc.toString().trim()
 
             recycler_posts_in_prof.adapter?.notifyItemChanged(num)
 
@@ -132,14 +131,14 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         if (action == ("delete")) {
             if (numberOfItem != null) {
-                postLists.removeAt(numberOfItem)
+                viewModel.postList.value!!.removeAt(numberOfItem)
                 recycler_posts_in_prof.adapter?.notifyItemRemoved(numberOfItem)
                 bottomSheetFragment.dismiss()
 
             }
         } else if (action == ("edit")) {
             val bundle = Bundle()
-            bundle.putParcelable("post", postLists[numberOfItem!!])
+            bundle.putParcelable("post", viewModel.postList.value!![numberOfItem!!])
             bundle.putInt("number", numberOfItem)
 
             findNavController().navigate(
