@@ -5,26 +5,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.article.data.RelatedArticleModelEntity
 import com.example.anull.R
-import com.fragment.HomeFragmentDirections
-import com.fragment.SplashFragmentDirections
-import com.model.article.RelatedArticleModel
-import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_person_article.view.*
-import kotlinx.android.synthetic.main.item_profile_post.view.item_image_post_prof
+import kotlinx.android.synthetic.main.item_profile_post.view.*
 
 /**
 Created by Moha.Azizi on 16/08/2020 .
  */
 
-class RelatedArticleAdapter(private val list: MutableList<RelatedArticleModel>) :
+class RelatedArticleAdapter(private val list: MutableList<RelatedArticleModelEntity>) :
     RecyclerView.Adapter<RelatedArticleAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(relatedArticleModel: RelatedArticleModel) {
+        fun bind(relatedArticleModel: RelatedArticleModelEntity) {
             image?.setImageResource(R.drawable.prof_image)
             name?.text = relatedArticleModel.name
             lastDate?.text = relatedArticleModel.date

@@ -6,21 +6,20 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.article.data.CommentArticleModelEntity
 import com.example.anull.R
-import com.model.article.CommentArticleModel
-import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_person_article.view.*
-import kotlinx.android.synthetic.main.item_profile_post.view.item_image_post_prof
+import kotlinx.android.synthetic.main.item_profile_post.view.*
 
 /**
 Created by Moha.Azizi on 16/08/2020 .
  */
 
-class CommentAdapter(private val list: MutableList<CommentArticleModel>) :
+class CommentAdapter(private val list: MutableList<CommentArticleModelEntity>) :
     RecyclerView.Adapter<CommentAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(commentArticleModel: CommentArticleModel) {
+        fun bind(commentArticleModel: CommentArticleModelEntity) {
             image?.setImageResource(R.drawable.prof_image)
             name?.text = commentArticleModel.name
             desc?.text = commentArticleModel.description

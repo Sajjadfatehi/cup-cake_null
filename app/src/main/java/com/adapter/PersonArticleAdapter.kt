@@ -9,7 +9,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anull.R
 import com.fragment.HomeFragmentDirections
-import com.model.home.PersonArticleModel
+import com.home.data.PersonArticleModelEntity
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_person_article.view.*
 
@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.item_person_article.view.*
 Created by Moha.Azizi on 16/08/2020 .
  */
 
-class PersonArticleAdapter(private val list: MutableList<PersonArticleModel>) :
+class PersonArticleAdapter(private val list: MutableList<PersonArticleModelEntity>) :
     RecyclerView.Adapter<PersonArticleAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -41,7 +41,7 @@ class PersonArticleAdapter(private val list: MutableList<PersonArticleModel>) :
             }
         }
 
-        fun bind(personArticleModel: PersonArticleModel) {
+        fun bind(personArticleModel: PersonArticleModelEntity) {
             image?.setImageResource(R.drawable.prof_image)
             name?.text = personArticleModel.name
             lastDate?.text = personArticleModel.date

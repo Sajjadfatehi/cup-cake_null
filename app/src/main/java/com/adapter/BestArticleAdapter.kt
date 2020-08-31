@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anull.R
-import com.model.home.PersonArticleModel
+import com.home.data.PersonArticleModelEntity
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_person_article.view.*
 
@@ -15,11 +15,11 @@ import kotlinx.android.synthetic.main.item_person_article.view.*
 Created by Moha.Azizi on 16/08/2020 .
  */
 
-class BestArticleAdapter(private val list: MutableList<PersonArticleModel>) :
+class BestArticleAdapter(private val list: MutableList<PersonArticleModelEntity>) :
     RecyclerView.Adapter<BestArticleAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(personArticleModel: PersonArticleModel) {
+        fun bind(personArticleModel: PersonArticleModelEntity) {
             image?.setImageResource(R.drawable.prof_image)
             name?.text = personArticleModel.name
             lastDate?.text = personArticleModel.date

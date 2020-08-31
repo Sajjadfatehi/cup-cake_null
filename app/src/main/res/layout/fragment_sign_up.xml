@@ -9,7 +9,7 @@
 
         <variable
             name="SignUViewModel"
-            type="com.fragment.SignUpViewModel" />
+            type="com.user.ui.viewmodel.SignUpViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

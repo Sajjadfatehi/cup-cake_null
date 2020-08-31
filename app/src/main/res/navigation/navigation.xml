@@ -95,11 +95,11 @@
     </fragment>
     <fragment
         android:id="@+id/titleFragment"
-        android:name="com.fragment.TitleFragment"
+        android:name="com.article.ui.fragment.TitleFragment"
         android:label="TitleFragment" />
     <fragment
         android:id="@+id/writeArticleFragment"
-        android:name="com.fragment.WriteArticleFragment"
+        android:name="com.article.ui.fragment.WriteArticleFragment"
         android:label="WriteArticleFragment">
         <action
             android:id="@+id/action_writeArticleFragment_to_homeFragment"
@@ -112,7 +112,7 @@
     </fragment>
     <fragment
         android:id="@+id/articleFragment"
-        android:name="com.fragment.ArticleFragment"
+        android:name="com.article.ui.fragment.ArticleFragment"
         android:label="ArticleFragment">
         <action
             android:id="@+id/action_articleFragment_to_commentDialogFragment"
@@ -120,11 +120,11 @@
     </fragment>
     <fragment
         android:id="@+id/commentDialogFragment"
-        android:name="com.fragment.CommentDialogFragment"
+        android:name="com.article.ui.fragment.CommentDialogFragment"
         android:label="CommentDialogFragment" />
     <fragment
         android:id="@+id/bottomSheetFragment"
-        android:name="com.fragment.BottomSheetFragment"
+        android:name="com.user.ui.fragment.BottomSheetFragment"
         android:label="BottomSheetFragment">
         <argument
             android:name="postItem"

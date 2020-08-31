@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anull.databinding.ItemProfilePostBinding
-import com.icallback.ClickListener
-import com.model.PostInProf
+import com.user.ui.ClickListener
+import com.user.ui.PostInProfView
 
 class PostsInProfAdapter(
-    private val list: MutableList<PostInProf>,
+    private val list: MutableList<PostInProfView>,
     val clickListener: ClickListener
 ) :
     RecyclerView.Adapter<PostsInProfAdapter.PostInProfViewHolder>() {

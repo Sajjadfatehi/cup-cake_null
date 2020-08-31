@@ -5,17 +5,17 @@
 
     <data>
 
-        <import type="com.model.PostInProf" />
+        <import type="com.user.data.PostInProfEntity" />
 
         <import type="android.view.View" />
 
         <variable
             name="writeViewModel"
-            type="com.fragment.WriteArticleViewModel" />
+            type="com.article.ui.viewmodel.WriteArticleViewModel" />
 
         <variable
             name="writeArticle"
-            type="com.fragment.WriteArticleFragment" />
+            type="com.article.ui.fragment.WriteArticleFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

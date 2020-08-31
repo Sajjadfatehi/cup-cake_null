@@ -7,7 +7,7 @@
 
         <variable
             name="user"
-            type="com.model.profile.ProfileModel" />
+            type="com.user.data.ProfileModelEntity" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

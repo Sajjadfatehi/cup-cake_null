@@ -7,7 +7,7 @@
 
         <variable
             name="article"
-            type="com.model.PostInProf" />
+            type="com.user.ui.PostInProfView" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

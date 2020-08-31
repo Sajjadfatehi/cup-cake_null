@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anull.databinding.ItemTitleBinding
-import com.model.home.PersonArticleModel
+import com.home.data.PersonArticleModelEntity
 
-class ArticleAdapter(private val list: MutableList<PersonArticleModel>) :
+class ArticleAdapter(private val list: MutableList<PersonArticleModelEntity>) :
     RecyclerView.Adapter<ArticleAdapter.TitleViewHolder>() {
 
 
