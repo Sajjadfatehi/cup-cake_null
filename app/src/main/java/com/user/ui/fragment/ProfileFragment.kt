@@ -12,14 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.adapter.PostsInProfAdapter
-
 import com.example.anull.R
 import com.example.anull.databinding.TestlayoutBinding
-
 import com.user.ui.ClickListener
-
 import com.user.ui.PostInProfView
+import com.user.ui.adapter.PostsInProfAdapter
 import com.user.ui.fragment.BottomSheetFragment
 import com.user.ui.viewmodel.ProfileViewModel
 import kotlinx.android.synthetic.main.testlayout.*
@@ -66,7 +63,10 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
 //        bindingProf.lifecycleOwner=this
         recycler_posts_in_prof.apply {
-            adapter = PostsInProfAdapter(viewModel.getPosts().value!!, this@ProfileFragment)
+            adapter = PostsInProfAdapter(
+                viewModel.getPosts().value!!,
+                this@ProfileFragment
+            )
         }
 
         viewModel.postList.observe(viewLifecycleOwner, Observer {
@@ -88,8 +88,10 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         }
 
+
         titleRadioBtn.setOnCheckedChangeListener { _, i ->
             val radio = requireActivity().findViewById<RadioButton>(i)
+
             // Toast.makeText(requireContext(),"${radio.text}",Toast.LENGTH_SHORT).show()
             if (radio.tag == "posts") {
                 radio.setTextColor(Color.parseColor("#813ac1"))

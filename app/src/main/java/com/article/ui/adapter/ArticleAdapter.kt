@@ -1,4 +1,4 @@
-package com.adapter
+package com.article.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -19,7 +19,7 @@ class ArticleAdapter(private val list: MutableList<PersonArticleModelEntity>) :
     override fun getItemCount() = list.size
 
 
-    override fun onBindViewHolder(holder: ArticleAdapter.TitleViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TitleViewHolder, position: Int) {
         holder.binding.article = list[position]
 
         holder.binding.executePendingBindings()

@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.adapter.ArticleAdapter
+import com.article.ui.adapter.ArticleAdapter
 import com.article.ui.viewmodel.TitleViewModel
 import com.example.anull.R
 import com.example.anull.databinding.FragmentTitleBinding
@@ -37,7 +37,8 @@ class TitleFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(TitleViewModel::class.java)
         recyclerTitle.apply {
-            adapter = ArticleAdapter(viewModel.getArticle().value!!)
+            adapter =
+                ArticleAdapter(viewModel.getArticle().value!!)
             //   adapter=ArticleAdapter(list)
         }
 

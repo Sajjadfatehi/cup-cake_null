@@ -1,14 +1,12 @@
-package com.adapter
+package com.home.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anull.R
-import com.fragment.HomeFragmentDirections
 import com.home.data.PersonArticleModelEntity
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_person_article.view.*
@@ -17,10 +15,21 @@ import kotlinx.android.synthetic.main.item_person_article.view.*
 Created by Moha.Azizi on 16/08/2020 .
  */
 
-class PersonArticleAdapter(private val list: MutableList<PersonArticleModelEntity>) :
-    RecyclerView.Adapter<PersonArticleAdapter.ViewHolder>() {
+class BestArticleAdapter(private val list: MutableList<PersonArticleModelEntity>) :
+    RecyclerView.Adapter<BestArticleAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(personArticleModel: PersonArticleModelEntity) {
+            image?.setImageResource(R.drawable.prof_image)
+            name?.text = personArticleModel.name
+            lastDate?.text = personArticleModel.date
+            desc?.text = personArticleModel.description
+            if (personArticleModel.favorite) {
+                favorite?.setImageResource(R.drawable.ic_is_bookmark)
+            } else {
+                favorite?.setImageResource(R.drawable.ic_bookmark)
+            }
+        }
 
         private var image: CircleImageView? = null
         private var lastDate: TextView? = null
@@ -34,31 +43,12 @@ class PersonArticleAdapter(private val list: MutableList<PersonArticleModelEntit
             lastDate = itemView.date_item_person_article
             desc = itemView.tv_desc_person_article
             favorite = itemView.item_favorite_person_article
-
-            itemView.setOnClickListener {
-                itemView.findNavController()
-                    .navigate(HomeFragmentDirections.actionHomeFragmentToArticleFragment())
-            }
         }
-
-        fun bind(personArticleModel: PersonArticleModelEntity) {
-            image?.setImageResource(R.drawable.prof_image)
-            name?.text = personArticleModel.name
-            lastDate?.text = personArticleModel.date
-            desc?.text = personArticleModel.description
-            if (personArticleModel.favorite) {
-                favorite?.setImageResource(R.drawable.ic_is_bookmark)
-            } else {
-                favorite?.setImageResource(R.drawable.ic_bookmark)
-            }
-        }
-
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_person_article, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_best_article, parent, false)
         )
     }
 

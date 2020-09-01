@@ -9,10 +9,10 @@ import android.widget.RadioButton
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.adapter.CommentAdapter
-import com.adapter.RelatedArticleAdapter
 import com.article.data.CommentArticleModelEntity
 import com.article.data.RelatedArticleModelEntity
+import com.article.ui.adapter.CommentAdapter
+import com.article.ui.adapter.RelatedArticleAdapter
 import com.example.anull.R
 import com.example.anull.databinding.ArticleFragmentBinding
 import kotlinx.android.synthetic.main.article_fragment.*

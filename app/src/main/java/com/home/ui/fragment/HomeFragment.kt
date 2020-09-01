@@ -10,12 +10,12 @@ import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.adapter.BestArticleAdapter
-import com.adapter.PersonArticleAdapter
 import com.example.anull.R
 import com.example.anull.databinding.FragmentHomeBinding
 import com.home.data.PersonArticleModelEntity
 import com.home.data.TabModelEntity
+import com.home.ui.adapter.BestArticleAdapter
+import com.home.ui.adapter.PersonArticleAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
