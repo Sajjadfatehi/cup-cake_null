@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:background="@color/hint_search"
         android:layoutDirection="rtl"
-        tools:context="com.fragment.HomeFragment">
+        tools:context="com.home.ui.fragment.HomeFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

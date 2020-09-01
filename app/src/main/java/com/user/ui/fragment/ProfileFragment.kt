@@ -1,4 +1,4 @@
-package com.fragment
+package com.user.ui.fragment
 
 
 import android.graphics.Color
@@ -17,7 +17,6 @@ import com.example.anull.databinding.TestlayoutBinding
 import com.user.ui.ClickListener
 import com.user.ui.PostInProfView
 import com.user.ui.adapter.PostsInProfAdapter
-import com.user.ui.fragment.BottomSheetFragment
 import com.user.ui.viewmodel.ProfileViewModel
 import kotlinx.android.synthetic.main.testlayout.*
 

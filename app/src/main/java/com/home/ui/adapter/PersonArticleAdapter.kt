@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anull.R
-import com.fragment.HomeFragmentDirections
 import com.home.data.PersonArticleModelEntity
+import com.home.ui.fragment.HomeFragmentDirections
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_person_article.view.*
 
