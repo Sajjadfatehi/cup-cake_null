@@ -1,11 +1,17 @@
-package com.home.ui
+package com.core
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import androidx.databinding.BindingAdapter
+import com.example.anull.R
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import java.util.*
 
 
 @BindingAdapter(value = ["bind:inputTextLayout"], requireAll = true)
@@ -121,4 +127,55 @@ fun handleErrorForRepetitionPassword(
 
 
     }
+}
+
+
+@BindingAdapter(value = ["bind:chipGroup", "bind:ListOfChip"], requireAll = false)
+fun chipInWriteArticle(view: View, chipGroup: View, tagsChip: MutableMap<Chip, String>) {
+    chipGroup as ChipGroup
+    view as EditText
+
+    view.addTextChangedListener(object : TextWatcher, View.OnClickListener {
+        override fun afterTextChanged(s: Editable) {
+
+        }
+
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+
+            if (s.trim().isNotEmpty() && s.length != s.trimEnd().length) {
+                //   val chip= Chip(tagChipGroup.context, null,R.style.chip_style)
+                view.setText("")
+                val chip = LayoutInflater.from(view.context)
+                    .inflate(R.layout.single_chip, chipGroup, false) as Chip
+                chip.isClickable = false
+                chip.isCheckable = false
+                chip.setOnCloseIconClickListener(this)
+                chip.text = s.trim()
+                val tag = chip.text.toString().toUpperCase(Locale.ROOT)
+                if (!tagsChip.containsValue(tag)) {
+                    chipGroup.addView(chip)
+                    tagsChip[chip] = tag
+                }
+
+
+                //below code is for
+                // hideKeyboard()
+
+
+            }
+
+        }
+
+        override fun onClick(v: View?) {
+            val chip = v as Chip
+            chipGroup.removeView(chip)
+            tagsChip.remove(chip)
+
+        }
+
+    })
+
 }

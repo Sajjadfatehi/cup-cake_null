@@ -7,7 +7,7 @@
 
         <variable
             name="article"
-            type="com.home.data.PersonArticleModelEntity" />
+            type="com.home.ui.PersonArticleModelView" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

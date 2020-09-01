@@ -38,7 +38,7 @@ class TitleFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(TitleViewModel::class.java)
         recyclerTitle.apply {
             adapter =
-                ArticleAdapter(viewModel.getArticle().value!!)
+                viewModel.getArticle()?.let { ArticleAdapter(it) }
             //   adapter=ArticleAdapter(list)
         }
 

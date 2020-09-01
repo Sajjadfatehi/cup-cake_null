@@ -1,6 +1,7 @@
 package com.user.ui.fragment
 
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -67,6 +68,10 @@ class LoginFragment : Fragment(), View.OnClickListener {
                 functionHelper.getPublicSharedPreferences(context)
                     ?.setToken(passLogin.text.toString())
                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
+                requireActivity().window.decorView.systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
+
             }
 
         }

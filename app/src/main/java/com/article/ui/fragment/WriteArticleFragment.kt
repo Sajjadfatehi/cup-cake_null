@@ -14,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.article.ui.viewmodel.WriteArticleViewModel
 import com.example.anull.R
 import com.example.anull.databinding.FragmentWriteArticleBinding
-import com.user.data.PostInProfEntity
+import com.user.ui.PostInProfView
 import kotlinx.android.synthetic.main.fragment_write_article.*
 
 
@@ -59,7 +59,7 @@ class WriteArticleFragment : Fragment() {
             androidx.lifecycle.Observer { isFromEdit ->
                 if (isFromEdit) {
 
-                    val post = args.getParcelable<PostInProfEntity>("post")
+                    val post = args.getParcelable<PostInProfView>("post")
                     val itemSelectedForEdit = args.getInt("number")
 
                     submit_article.setOnClickListener {

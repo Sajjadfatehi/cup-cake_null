@@ -26,10 +26,17 @@ class SplashFragment : Fragment() {
         return binding.root
     }
 
-    private fun changeTopOfScreen() {
-        val reqWin = requireActivity().window
-        reqWin.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        reqWin.statusBarColor = Color.TRANSPARENT
+    private fun changeTopOfScreen(sw: Int) {
+        if (sw == 0) {
+            val reqWin = requireActivity().window
+            reqWin.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            reqWin.statusBarColor = Color.TRANSPARENT
+
+        } else if (sw == 1) {
+            requireActivity().window.decorView.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
+        }
 
 //        requireActivity().window.decorView.systemUiVisibility =
 //            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -42,12 +49,15 @@ class SplashFragment : Fragment() {
 
 
         Handler().postDelayed({
-            if (functionHelper.getPublicSharedPreferences(context)?.getToken().equals("1"))
+            if (functionHelper.getPublicSharedPreferences(context)?.getToken().equals("1")) {
                 findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToSignUpFragment())
-            else
+                changeTopOfScreen(0)
+            } else {
                 findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToHomeFragment())
+                changeTopOfScreen(1)
 
-            changeTopOfScreen()
+            }
+
 
         }, splashTimeOut)
 

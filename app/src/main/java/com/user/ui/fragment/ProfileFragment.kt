@@ -34,7 +34,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         argsFromEdit = this.arguments
-        isFromEdit = argsFromEdit != null
+        isFromEdit = !argsFromEdit?.isEmpty!!
 
 
     }
@@ -62,10 +62,12 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
 //        bindingProf.lifecycleOwner=this
         recycler_posts_in_prof.apply {
-            adapter = PostsInProfAdapter(
-                viewModel.getPosts().value!!,
-                this@ProfileFragment
-            )
+            adapter = viewModel.getPosts()?.let { list ->
+                PostsInProfAdapter(
+                    list,
+                    this@ProfileFragment
+                )
+            }
         }
 
         viewModel.postList.observe(viewLifecycleOwner, Observer {
@@ -84,6 +86,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             viewModel.postList.value!![num].desc = newPost?.desc.toString().trim()
 
             recycler_posts_in_prof.adapter?.notifyItemChanged(num)
+
 
         }
 
@@ -135,12 +138,6 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
             bottomSheetFragment.dismiss()
 
-            // findNavController().navigate(
-//                ProfileFragmentDirections.actionProfileFragmentToEditFragment(
-//                    postLists[numberOfItem!!],
-//                    numberOfItem
-//                )
-            //          )
         }
     }
 

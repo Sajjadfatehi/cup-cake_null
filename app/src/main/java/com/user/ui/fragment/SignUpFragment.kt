@@ -46,11 +46,11 @@ class SignUpFragment : Fragment() {
         singUpButton.setOnClickListener {
 
             //below line is for app bar layout that don,t go behind the status bar
+
+            findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeFragment())
             requireActivity().window.decorView.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
-
-            findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeFragment())
 
 
         }
