@@ -28,6 +28,7 @@ class TitleViewModel : ViewModel() {
 //        if (list == null) {
 //            list = MutableLiveData()
 //
+
 //        }
 //        return list
         return list.value
