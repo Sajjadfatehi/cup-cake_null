@@ -5,21 +5,17 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.user.data.ArticleEntity
 
-/**
-Created by Moha.Azizi on 16/08/2020 .
- */
 @Entity(
-    tableName = "comments", foreignKeys = [ForeignKey(
+    tableName = "tags", foreignKeys = [ForeignKey(
         onDelete = ForeignKey.CASCADE,
         onUpdate = ForeignKey.CASCADE,
         parentColumns = ["id"],
-        childColumns = ["commentId"],
+        childColumns = ["tagId"],
         entity = ArticleEntity::class
     )]
 )
-data class CommentArticleModelEntity(
+data class TagEntity(
     @PrimaryKey val id: Int,
-    val commentId: Int,
-    val name: String,
-    val description: String
+    var tagId: Long,
+    var text: String
 )

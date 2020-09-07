@@ -1,5 +1,5 @@
 package com.user.ui
 
 interface ClickListener {
-    fun onClick(postInProf: PostInProfView, layoutPosition: Int)
+    fun onClick(article: ArticleView, layoutPosition: Int)
 }

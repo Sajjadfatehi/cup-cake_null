@@ -14,8 +14,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.anull.R
 import com.example.anull.databinding.TestlayoutBinding
+import com.user.ui.ArticleView
 import com.user.ui.ClickListener
-import com.user.ui.PostInProfView
 import com.user.ui.adapter.PostsInProfAdapter
 import com.user.ui.viewmodel.ProfileViewModel
 import kotlinx.android.synthetic.main.testlayout.*
@@ -35,7 +35,6 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         super.onCreate(savedInstanceState)
         argsFromEdit = this.arguments
         isFromEdit = !argsFromEdit?.isEmpty!!
-
 
     }
 
@@ -81,7 +80,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         if (isFromEdit) {
             val num = argsFromEdit?.getInt("numberOfEditPost")
-            val newPost = argsFromEdit?.getParcelable<PostInProfView>("editPost")
+            val newPost = argsFromEdit?.getParcelable<ArticleView>("editPost")
             viewModel.postList.value!![num!!].title = newPost?.title.toString().trim()
             viewModel.postList.value!![num].desc = newPost?.desc.toString().trim()
 
@@ -142,7 +141,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
     }
 
 
-    override fun onClick(postInProf: PostInProfView, layoutPosition: Int) {
+    override fun onClick(article: ArticleView, layoutPosition: Int) {
         val args = Bundle()
 
         args.putInt("layoutPosition", layoutPosition)

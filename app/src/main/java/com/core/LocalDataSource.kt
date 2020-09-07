@@ -2,21 +2,21 @@ package com.core
 
 import com.example.anull.R
 import com.home.ui.PersonArticleModelView
-import com.user.ui.PostInProfView
+import com.user.ui.ArticleView
 
 class LocalDataSource {
-    var postList: MutableList<PostInProfView> = mutableListOf<PostInProfView>()
+    var postList: MutableList<ArticleView> = mutableListOf<ArticleView>()
     var tagTitleList = mutableListOf<PersonArticleModelView>()
 
     init {
 
     }
 
-    fun getPostInProf(): MutableList<PostInProfView> {
+    fun getPostInProf(): MutableList<ArticleView> {
 
         repeat(10) {
             postList.add(
-                PostInProfView(
+                ArticleView(
                     R.drawable.prof_image,
                     "سجاد فاتحی",
                     "3روز پیش",

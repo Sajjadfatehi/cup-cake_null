@@ -11,16 +11,7 @@ class TitleViewModel : ViewModel() {
 
     init {
         list.value = articleRepository.getTagTitleList()
-//        repeat(40) {
-//            list.value?.add(
-//                PersonArticleModelView(
-//                    "سجاد فاتحی",
-//                    "دو روز قبل",
-//                    true,
-//                    " ین متن میتواند یک تست موقت باشد ین متن میتواند یک تست موقت باشد"
-//                )
-//            )
-//        }
+
 
     }
 

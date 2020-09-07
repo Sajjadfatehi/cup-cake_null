@@ -57,10 +57,7 @@ class ArticleFragment : Fragment() {
 
         repeat(20) {
             list.add(
-                CommentArticleModelEntity(
-                    "محمد",
-                    " ین متن میتواند یک تست موقت باشد ین متن میتواند یک تست موقت باشد ین متن میتواند یک تست موقت باشد ین متن میتواند یک تست موقت باشد"
-                )
+                CommentArticleModelEntity(1, 2, "shit", "Crap")
             )
         }
         recycler_article_related.apply {
@@ -79,6 +76,9 @@ class ArticleFragment : Fragment() {
         }
         button_comment.setOnClickListener {
             findNavController().navigate(ArticleFragmentDirections.actionArticleFragmentToCommentDialogFragment())
+        }
+        back.setOnClickListener {
+            findNavController().navigateUp()
         }
 
     }

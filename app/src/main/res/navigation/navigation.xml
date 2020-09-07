@@ -159,7 +159,7 @@
         android:label="BottomSheetFragment">
         <argument
             android:name="postItem"
-            app:argType="com.user.ui.PostInProfView" />
+            app:argType="com.user.ui.ArticleView" />
         <argument
             android:name="numberOfItem"
             app:argType="integer" />

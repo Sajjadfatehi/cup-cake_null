@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.material.chip.Chip
-import com.user.ui.PostInProfView
+import com.user.ui.ArticleView
 
 
 class WriteArticleViewModel : ViewModel() {
@@ -15,7 +15,7 @@ class WriteArticleViewModel : ViewModel() {
     val tagsChip = mutableMapOf<Chip, String>()
     var argsFromProf: Bundle = Bundle()
     var isFromEdit = MutableLiveData<Boolean>()
-    lateinit var postInProf: PostInProfView
+    lateinit var article: ArticleView
 
 
     fun checkArgsIsNull(bundle: Bundle?) {
@@ -24,7 +24,7 @@ class WriteArticleViewModel : ViewModel() {
             argsFromProf = bundle
         }
         if (!argsFromProf.isEmpty) {
-            postInProf = argsFromProf.getParcelable<PostInProfView>("post")!!
+            article = argsFromProf.getParcelable<ArticleView>("post")!!
         }
         isFromEdit.value = bundle != null
 

@@ -5,7 +5,8 @@ import kotlinx.android.parcel.Parcelize
 
 // must be data class
 @Parcelize
-data class PostInProfView(
+data class ArticleView(
+
     var image: Int,
     var name: String,
     var lastDate: String,

@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="com.user.ui.PostInProfView" />
+        <import type="com.user.ui.ArticleView" />
 
         <import type="android.view.View" />
 
@@ -90,7 +90,7 @@
             android:id="@+id/edit_title"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="@{writeViewModel.argsFromProf.isEmpty ? @string/emptyString : writeViewModel.postInProf.title}"
+            android:text="@{writeViewModel.argsFromProf.isEmpty ? @string/emptyString : writeViewModel.article.title}"
 
             style="@style/editTextTitleInWriteArticle"
             android:autofillHints="title"
@@ -123,7 +123,7 @@
             android:layout_height="0dp"
             android:autofillHints="text of article"
             android:background="@drawable/shape_empty"
-            android:text="@{writeViewModel.argsFromProf.isEmpty ? @string/emptyString : writeViewModel.postInProf.desc}"
+            android:text="@{writeViewModel.argsFromProf.isEmpty ? @string/emptyString : writeViewModel.article.desc}"
 
             style="@style/editTextTextInWriteArticle"
             android:textColorHint="@color/hint_search"
