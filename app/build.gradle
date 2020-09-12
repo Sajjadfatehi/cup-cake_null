@@ -31,6 +31,11 @@ android {
     buildFeatures {
         dataBinding true
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
@@ -69,4 +74,21 @@ dependencies {
 
     // optional - Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
+
+
+    debugImplementation 'com.facebook.flipper:flipper:0.55.0'
+    debugImplementation 'com.facebook.soloader:soloader:0.9.0'
+
+    releaseImplementation 'com.facebook.flipper:flipper-noop:0.55.0'
+//    Open SSL https://slproweb.com/download/Win64OpenSSL_Light-1_1_1g.exe
+//    WatchMan https://github-production-release-asset-2e65be.s3.amazonaws.com/6930489/39da8980-e06a-11ea-8971-6993f527bdce?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20200907%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20200907T120420Z&X-Amz-Expires=300&X-Amz-Signature=00acd5ab1ac688b1b3c565a1cdf17cfa9ceb33a370900484bfe62ab465bf6a99&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=6930489&response-content-disposition=attachment%3B%20filename%3Dwatchman-v2020.08.17.00-windows.zip&response-content-type=application%2Foctet-stream
+//    POSTMAN https://dl.pstmn.io/download/latest/win64
+//    Flipper https://github-production-release-asset-2e65be.s3.amazonaws.com/129283183/847f0880-ec09-11ea-839b-3ceb89131cec?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20200907%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20200907T112938Z&X-Amz-Expires=300&X-Amz-Signature=aba1e637a503f3938d4a95c7e22bbdf1d594a9b399bf4ea82463f8f2d70e72f9&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=129283183&response-content-disposition=attachment%3B%20filename%3DFlipper-win.zip&response-content-type=application%2Foctet-stream
+
+    implementation 'com.squareup.retrofit2:retrofit:2.8.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.7.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.55.0'
+
 }

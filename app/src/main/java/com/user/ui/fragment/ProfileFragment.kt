@@ -12,15 +12,26 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.core.db.AppDataBase
 import com.example.anull.R
 import com.example.anull.databinding.TestlayoutBinding
+import com.user.data.UserRepository
 import com.user.ui.ArticleView
 import com.user.ui.ClickListener
 import com.user.ui.adapter.PostsInProfAdapter
 import com.user.ui.viewmodel.ProfileViewModel
+import com.user.ui.viewmodel.providerfactory.ProfileViewModelProviderFactory
 import kotlinx.android.synthetic.main.testlayout.*
 
 class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack {
+
+    private val MIGRATION_1_2 = object : Migration(1, 2) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE articles ADD COLUMN test TEXT")
+        }
+    }
 
     private lateinit var bindingProf: TestlayoutBinding
 
@@ -57,8 +68,11 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         titleInProfList.add("علاقه مندی")
 
 
-        //  shit.initInterface(this)
-        viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
+        val userRepository=UserRepository(AppDataBase.invoke(requireContext(),MIGRATION_1_2))
+        val profileViewModelProviderFactory=ProfileViewModelProviderFactory(userRepository)
+        viewModel = ViewModelProvider(this,profileViewModelProviderFactory).get(ProfileViewModel::class.java)
+
+
 //        bindingProf.lifecycleOwner=this
         recycler_posts_in_prof.apply {
             adapter = viewModel.getPosts()?.let { list ->

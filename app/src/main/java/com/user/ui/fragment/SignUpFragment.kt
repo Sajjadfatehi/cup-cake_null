@@ -162,28 +162,28 @@ class SignUpFragment : Fragment() {
     private fun getSizeOfComments(db: AppDataBase) {
         val tempComment = db.userDao().getAllComments()
         tempComment.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            Log.d("sfatehi", " count of comments ${it.size}")
+            Log.d("sfatehi", " count of comments ${it.size} \n")
         })
     }
 
     private fun getSizaOfTags(db: AppDataBase) {
         val tempTag = db.userDao().getAllTags()
         tempTag.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            Log.d("sfatehi", "count of tags ${it.size}")
+            Log.d("sfatehi", "count of tags ${it.size} \n")
         })
     }
 
     private fun getSizeOfArticles(db: AppDataBase) {
         val tempList = db.articleDao().getAllArticles()
         tempList.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            Log.d("sfatehi", "count of articles ${it.size}")
+            Log.d("sfatehi", "count of articles ${it.size} \n")
         })
     }
 
     private fun getUserAndCountOfArticle(db: AppDataBase) {
         val tempUserAndCountOfArticle = db.userDao().getUserAndCountOfArticle()
         tempUserAndCountOfArticle.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            Log.d("sfatehi", "user and count of his article : ${it}")
+            Log.d("sfatehi", "user and count of his article : ${it}\n")
         })
     }
 
