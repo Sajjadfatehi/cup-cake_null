@@ -12,4 +12,6 @@ class Setting {
         val Home = 3
     }
 
+
+
 }

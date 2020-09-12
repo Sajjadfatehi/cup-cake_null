@@ -3,7 +3,6 @@ package com.config
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import com.config.sharedPreference.SharedPreference
 import com.config.sharedPreference.PublicSharedPreferences
 
 /**
@@ -24,9 +23,9 @@ class FunctionHelper {
         return isConnected
     }
     //------------------------------------------------------------
-    fun getPublicSharedPreferences(context: Context?): PublicSharedPreferences? {
-        val preference = SharedPreference(context)
-        return preference.PublicSharedPreferences()
-    }
+//    fun getPublicSharedPreferences(context: Context?): PublicSharedPreferences? {
+//        val preference = SharedPreference(context)
+//        return preference.PublicSharedPreferences()
+//    }
 
 }

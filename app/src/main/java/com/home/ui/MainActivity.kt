@@ -20,6 +20,10 @@ class MainActivity : AppCompatActivity() {
         val window = window
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
 
+        val x = getSharedPreferences("asa", MODE_PRIVATE)
+        x.let {
+
+        }
         runBlocking {
             delay(1000L)
             GlobalScope.launch {

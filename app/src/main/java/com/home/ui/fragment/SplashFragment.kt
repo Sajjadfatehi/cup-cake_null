@@ -49,16 +49,8 @@ class SplashFragment : Fragment() {
 
 
         Handler().postDelayed({
-            if (functionHelper.getPublicSharedPreferences(context)?.getToken().equals("1")) {
                 findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToSignUpFragment())
                 changeTopOfScreen(0)
-            } else {
-                findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToHomeFragment())
-                changeTopOfScreen(1)
-
-            }
-
-
         }, splashTimeOut)
 
     }

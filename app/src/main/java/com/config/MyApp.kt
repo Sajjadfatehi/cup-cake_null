@@ -13,6 +13,7 @@ import com.facebook.soloader.SoLoader
 class MyApp : Application() {
     companion object {
         val networkFlipperPlugin = NetworkFlipperPlugin()
+        const val NAME_PREF = "shared"
     }
 
     override fun onCreate() {
