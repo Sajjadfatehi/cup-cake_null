@@ -28,7 +28,7 @@ interface ArticleDataBaseDao {
 //    @Query(
 //        "select DISTINCT a.* " +
 //                "from articles as a " +
-//                "join keywords_and_articles as ka on ka.article_id = a.article_id " +
+//   l             "join keywords_and_articles as ka on ka.article_id = a.article_id " +
 //                "join keywords as k on k.keyword_id = ka.keyword_id " +
 //                "join comments as c on c.article_id = a.article_id " +
 //                "where c.content like :word or k.title like :word or a.content like :word or a.title like :word "

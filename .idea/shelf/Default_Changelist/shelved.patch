@@ -1,0 +1,32 @@
+Index: app/src/main/java/com/auth/LoginViewModelFactory.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/auth/LoginViewModelFactory.kt	(date 1599639227145)
++++ app/src/main/java/com/auth/LoginViewModelFactory.kt	(date 1599639227145)
+@@ -0,0 +1,23 @@
++package com.auth
++
++import android.app.Application
++import androidx.lifecycle.ViewModel
++import androidx.lifecycle.ViewModelProvider
++import com.article.data.article.ArticleViewModel
++import com.database.article.ArticleDataBaseDao
++
++/**
++ * Created by moha on 9/5/2020.
++ */
++@Suppress("UNCHECKED_CAST")
++class LoginViewModelFactory(
++    application: Application
++) : ViewModelProvider.Factory {
++    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
++        if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
++            return LoginViewModel( application = Application()) as T
++        }
++        throw IllegalArgumentException("Unknown ViewModel class")
++    }
++
++}
+\ No newline at end of file

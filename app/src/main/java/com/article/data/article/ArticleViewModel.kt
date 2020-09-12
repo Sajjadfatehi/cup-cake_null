@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.database.ArticleUserModel
 import com.database.article.ArticleDataBase
 import com.database.article.ArticleDataBaseDao
 import com.part.myapplication.models.AuthRequest
@@ -25,25 +26,25 @@ data class ArticleViewModel(
     //region vars
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-    var article2: LiveData<List<ArticleDataBase>> = MutableLiveData()
+    var article2: LiveData<List<ArticleUserModel>> = MutableLiveData()
     //endregion
 
     init {
-        article2 = dataBaseDao.getAllArticle()
+        article2 = dataBaseDao.getAllArticleTAgAndComment()
         initialize()
     }
 
-    fun getItemsObservable(): LiveData<List<ArticleDataBase>> {
+    fun getItemsObservable(): LiveData<List<ArticleUserModel>> {
         if (article2 == null) {
-            article2 = MutableLiveData<List<ArticleDataBase>>()
+            article2 = MutableLiveData<List<ArticleUserModel>>()
         }
         return article2
     }
 
-    private fun searchArticle(s: CharSequence?) {
-        article2 = dataBaseDao.searchArticle(s.toString())
-//        article2 = dataBaseDao.getAllArticle()
-    }
+//    private fun searchArticle(s: CharSequence?) {
+//        article2 = dataBaseDao.searchArticle(s.toString())
+////        article2 = dataBaseDao.getAllArticle()
+//    }
 
     private fun initialize() {
         uiScope.launch {
@@ -74,7 +75,6 @@ data class ArticleViewModel(
     private suspend fun insertArticle(article: ArticleDataBase) {
         withContext(Dispatchers.IO) {
             dataBaseDao.insertArticle(article)
-
         }
     }
 

@@ -15,7 +15,7 @@ data class ArticleUserModel(
     @Relation(
         parentColumn = "article_id",
         entityColumn = "to_article"
-    ) val user: List<UserDataBase>,
+    ) val tag: List<TagDataBase>,
     @Relation(
         parentColumn = "article_id",
         entityColumn = "to_article"

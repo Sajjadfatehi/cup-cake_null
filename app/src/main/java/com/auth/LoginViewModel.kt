@@ -2,9 +2,14 @@ package com.auth
 
 import android.app.Application
 import android.widget.Toast
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.anull.R
 import com.part.myapplication.models.AuthRequest
+import com.part.myapplication.models.AuthResponse
 import com.part.myapplication.models.User
+import com.remote.APIClient.retrofit
 import com.remote.AuthApi
 import kotlinx.coroutines.*
 
@@ -19,9 +24,10 @@ data class LoginViewModel(val application: Application) : ViewModel() {
     //region Vars
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    val authApi = retrofit.create(AuthApi::class.java)
     //endregion
 
-         fun login(authApi: AuthApi) {
+         fun login(){
         uiScope.launch {
             val result = safeApiCall {
                 authApi.login(
@@ -49,7 +55,6 @@ data class LoginViewModel(val application: Application) : ViewModel() {
         }
 
     }
-
 
     suspend inline fun <T> safeApiCall(responseFunction: suspend () -> T): T? {
         return try {
