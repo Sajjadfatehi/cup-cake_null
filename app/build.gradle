@@ -91,4 +91,9 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.55.0'
 
+
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
 }
