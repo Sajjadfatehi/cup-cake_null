@@ -1,8 +1,14 @@
 package com.user.data
 
+import android.text.Editable
+import androidx.databinding.Bindable
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.ResultCallBack
+import com.example.anull.databinding.FragmentLoginBinding
+import com.storage.data.Settings
+import com.storage.data.stringPreference
 import kotlinx.coroutines.launch
 import javax.security.auth.callback.Callback
 
@@ -10,15 +16,31 @@ import javax.security.auth.callback.Callback
  * Created by moha on 9/12/2020.
  */
 class LoginViewModel(val repo: UserRepo) : ViewModel() {
-    fun login(loginReq: LoginReq, callback: (Boolean, String?) -> Unit) {
+
+    val result = MutableLiveData<Boolean>()
+    var password = MutableLiveData<String>()
+    var username = MutableLiveData<String>()
+    var isLogin = MutableLiveData<Boolean>()
+    lateinit var message: String
+
+    var loginReq = LoginReq(email = username.value.orEmpty(), password = password.value.orEmpty())
+
+    fun login() {
+        result.postValue(true)
+
         viewModelScope.launch {
+
             val response = repo.login(loginReq)
+
             if (response is ResultCallBack.Error) {
-                callback.invoke(false, response.exception.message.toString())
+                message = response.exception.message.toString()
+                isLogin.value = false
             } else if (response is ResultCallBack.Success) {
-                callback.invoke(true, null)
-                repo.setTokenInShared(response.data.user.token)
+                isLogin.value = true
+//                repo.setTokenInShared(response.data.user.token)
             }
+            result.postValue(false)
         }
     }
+
 }

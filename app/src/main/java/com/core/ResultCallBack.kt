@@ -3,6 +3,7 @@ package com.core
 sealed class ResultCallBack<out T> {
 
     data class Success<out T>(val data: T) : ResultCallBack<T>()
+    data class Loading<out T>(val data: T?) : ResultCallBack<T>()
 
     data class Error<out T>(val exception: Throwable, val data: T? = null) : ResultCallBack<T>()
 
@@ -10,6 +11,7 @@ sealed class ResultCallBack<out T> {
         return when (this) {
             is Success<*> -> "Success[data=$data]"
             is Error<*> -> "Error[exception=$exception, data=$data]"
+            is Loading<*> -> "Loading [loading = $data]"
         }
     }
 }

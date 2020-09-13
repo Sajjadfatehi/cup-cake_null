@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:bind="http://schemas.android.com/tools">
-<data>
-    <variable
-        name="vm"
-        type="com.user.data.LoginViewModel" />
-</data>
+
+    <data>
+
+        <import type="com.user.data.LoginViewModel.FormErrors" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.user.data.LoginViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -34,6 +41,16 @@
             app:layout_constraintStart_toStartOf="@+id/guideline9b"
             app:layout_constraintTop_toTopOf="@+id/guideline11b" />
 
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:visibility="@{vm.result.booleanValue() ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewEnter" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/edt_user_inputLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -44,7 +61,7 @@
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
-            app:endIconMode="custom"
+            app:endIconMode="cuastom"
             app:layout_constraintEnd_toStartOf="@id/guideline13b"
             app:layout_constraintStart_toEndOf="@id/guideline12b"
             app:layout_constraintTop_toBottomOf="@id/guideline14b"
@@ -57,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_5sdp"
                 android:paddingVertical="14dp"
+                android:text="@={vm.username}"
                 android:textAlignment="viewStart"
                 android:textSize="16sp"
                 bind:inputTextLayout="@{edtUserInputLayout}" />
@@ -87,7 +105,7 @@
                 android:inputType="textPassword"
                 android:padding="@dimen/_5sdp"
                 android:paddingVertical="14dp"
-                android:text=""
+                android:text="@={vm.password}"
                 android:textAlignment="viewStart"
                 android:textSize="16sp"
                 bind:inputTextLayout="@{passLoginInputLayout}" />
@@ -95,11 +113,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_login"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/Purple"
+            android:onClick="@{()-> vm.login()}"
             android:padding="@dimen/_11sdp"
             android:text="@string/tv_login"
             android:textColor="@color/white"
@@ -107,9 +125,7 @@
             app:cornerRadius="10dp"
             app:layout_constraintEnd_toStartOf="@id/guideline13b"
             app:layout_constraintStart_toEndOf="@id/guideline12b"
-            app:layout_constraintTop_toBottomOf="@id/passLoginInputLayout"
-
-            />
+            app:layout_constraintTop_toBottomOf="@id/passLoginInputLayout" />
 
         <TextView
             android:id="@+id/ask_account"

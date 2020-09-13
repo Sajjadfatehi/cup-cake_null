@@ -21,8 +21,8 @@ class UserRepo(
     private fun checkNet(): Boolean {
         return true
     }
-    fun setTokenInShared(token : String){
-        userLocalDataSource.setToken(token)
-    }
+//    fun setTokenInShared(token : String){
+//        userLocalDataSource.setToken(token)
+//    }
 
 }
