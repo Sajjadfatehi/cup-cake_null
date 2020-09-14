@@ -23,9 +23,15 @@ class LoginViewModel(val repo: UserRepo) : ViewModel() {
     var isLogin = MutableLiveData<Boolean>()
     lateinit var message: String
 
-    var loginReq = LoginReq(email = username.value.orEmpty(), password = password.value.orEmpty())
 
     fun login() {
+        var loginReq = LoginReq(
+            LoginUserModel(
+                email = username.value.orEmpty(),
+                password = password.value.orEmpty()
+            )
+        )
+
         result.postValue(true)
 
         viewModelScope.launch {
@@ -37,7 +43,7 @@ class LoginViewModel(val repo: UserRepo) : ViewModel() {
                 isLogin.value = false
             } else if (response is ResultCallBack.Success) {
                 isLogin.value = true
-//                repo.setTokenInShared(response.data.user.token)
+                repo.setTokenInShared(response.data.user.token)
             }
             result.postValue(false)
         }

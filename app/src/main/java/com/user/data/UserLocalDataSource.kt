@@ -11,7 +11,7 @@ import com.storage.data.Settings
 class UserLocalDataSource(val sherPref: SharedPreferences, val userDao: UserDao) {
 
     private val settings = Settings(MyApp.app.applicationContext.getPreferences())
-    fun saveToken(token: String) {
+    fun saveToken(token: String?) {
         settings.token = token
     }
 

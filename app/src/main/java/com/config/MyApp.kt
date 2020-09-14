@@ -22,7 +22,6 @@ class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
         app = this
-
         SoLoader.init(this, false)
         if (BuildConfig.DEBUG && FlipperUtils.shouldEnableFlipper(this)) {
             val client = AndroidFlipperClient.getInstance(this)

@@ -3,8 +3,6 @@
 
     <data>
 
-        <import type="com.user.data.LoginViewModel.FormErrors" />
-
         <import type="android.view.View" />
 
         <variable
@@ -41,15 +39,19 @@
             app:layout_constraintStart_toStartOf="@+id/guideline9b"
             app:layout_constraintTop_toTopOf="@+id/guideline11b" />
 
-        <ProgressBar
-            android:id="@+id/progress"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="20dp"
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:indeterminate="true"
+            android:theme="@style/progressbar"
             android:visibility="@{vm.result.booleanValue() ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewEnter" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:mpb_progressStyle="horizontal" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/edt_user_inputLayout"
@@ -61,7 +63,7 @@
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
-            app:endIconMode="cuastom"
+            app:endIconMode="custom"
             app:layout_constraintEnd_toStartOf="@id/guideline13b"
             app:layout_constraintStart_toEndOf="@id/guideline12b"
             app:layout_constraintTop_toBottomOf="@id/guideline14b"

@@ -2,6 +2,7 @@ package com.user.ui.fragment
 
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -79,19 +80,15 @@ class LoginFragment : Fragment(), View.OnClickListener {
 
         loginViewModel.isLogin.observe(viewLifecycleOwner, Observer {
             if (it) {
-                Toast.makeText(requireContext(), "", Toast.LENGTH_LONG).show()
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
+                        requireActivity().window.decorView.systemUiVisibility =
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
             } else if (!it) {
                 Toast.makeText(requireContext(), loginViewModel.message, Toast.LENGTH_LONG).show()
             }
         })
 
-        loginViewModel.result.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                binding.progress.visibility
-            } else {
-                binding.progress.isInvisible
-            }
-        })
     }
 
 
