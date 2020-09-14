@@ -247,7 +247,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             val shouldPaginate = isNotLoadingAndNotLastPage && isLastItem && isNotAtBeginning
                     && isTotalMoreThanVisible && isScrolling
             if (shouldPaginate) {
-                viewModel.getAllArticleOfPerson("ali1748")
+                viewModel.getAllArticleOfPerson("johnjacob")
                 isScrolling = false
             }
 

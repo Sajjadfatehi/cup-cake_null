@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.anull.databinding.ItemTitleBinding
 
 import com.home.ui.PersonArticleModelView
@@ -50,9 +52,16 @@ class ArticleAdapterDiff :
 
 
     override fun onBindViewHolder(holder: TitleViewHolder, position: Int) {
-//        val article=differ.currentList[position]
-        holder.binding.article = differ.currentList[position]
 
+        var article=differ.currentList[position]
+        holder.binding.article = article
+        if (article.author.image!=null){
+            holder.binding.apply {
+                Glide.with(itemImageTitle.context).load(article.author.image).transform(
+                    CircleCrop()
+                ).into(itemImageTitle)
+            }
+        }
         holder.binding.executePendingBindings()
 
     }

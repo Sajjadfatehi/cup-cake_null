@@ -21,7 +21,7 @@ class PostsInProfAdapter(
     }
 
     override fun onBindViewHolder(holder: PostInProfViewHolder, position: Int) {
-        holder.binding.article = list[position]
+        //holder.binding.article = list[position]
 
         holder.binding.executePendingBindings()
     }

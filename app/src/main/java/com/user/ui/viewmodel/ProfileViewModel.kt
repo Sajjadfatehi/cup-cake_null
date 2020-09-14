@@ -56,7 +56,7 @@ class ProfileViewModel(val userRepository: UserRepository) : ViewModel() {
 
         postList.value = userRepository.getPostInProf()
 
-        getAllArticleOfPerson("ali1748")
+        getAllArticleOfPerson("johnjacob")
     }
 
     fun getPosts(): MutableList<ArticleView>? {
