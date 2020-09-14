@@ -240,10 +240,21 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
 
+
                 app:layout_constraintTop_toBottomOf="@id/titleRadioBtn"
                 app:reverseLayout="false"
-                tools:listitem="@layout/item_profile_post" />
+                tools:listitem="@layout/item_profile_post"
+                 />
 
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

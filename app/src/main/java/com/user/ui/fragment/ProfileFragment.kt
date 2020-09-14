@@ -3,18 +3,25 @@ package com.user.ui.fragment
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.RadioButton
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.core.db.AppDataBase
+import com.core.util.Constants.Companion.QUERY_PAGE_SIZE
+import com.core.util.Resource
+import com.core.util.TestAdapterClass
 import com.example.anull.R
 import com.example.anull.databinding.TestlayoutBinding
 import com.user.data.UserRepository
@@ -27,6 +34,7 @@ import kotlinx.android.synthetic.main.testlayout.*
 
 class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack {
 
+    lateinit var testAdapter: TestAdapterClass
     private val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
             database.execSQL("ALTER TABLE articles ADD COLUMN test TEXT")
@@ -68,20 +76,23 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         titleInProfList.add("علاقه مندی")
 
 
-        val userRepository=UserRepository(AppDataBase.invoke(requireContext(),MIGRATION_1_2))
-        val profileViewModelProviderFactory=ProfileViewModelProviderFactory(userRepository)
-        viewModel = ViewModelProvider(this,profileViewModelProviderFactory).get(ProfileViewModel::class.java)
+        val userRepository = UserRepository(AppDataBase.invoke(requireContext(), MIGRATION_1_2))
+        val profileViewModelProviderFactory = ProfileViewModelProviderFactory(userRepository)
+        viewModel = ViewModelProvider(
+            this,
+            profileViewModelProviderFactory
+        ).get(ProfileViewModel::class.java)
 
 
 //        bindingProf.lifecycleOwner=this
-        recycler_posts_in_prof.apply {
-            adapter = viewModel.getPosts()?.let { list ->
-                PostsInProfAdapter(
-                    list,
-                    this@ProfileFragment
-                )
-            }
-        }
+//        recycler_posts_in_prof.apply {
+//            adapter = viewModel.getPosts()?.let { list ->
+//                PostsInProfAdapter(
+//                    list,
+//                    this@ProfileFragment
+//                )
+//            }
+//        }
 
         viewModel.postList.observe(viewLifecycleOwner, Observer {
             recycler_posts_in_prof.adapter?.notifyDataSetChanged()
@@ -119,6 +130,41 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
             }
         }
+        //tow below line is just for test
+//        viewModel.allArticleOfPerson.observe(viewLifecycleOwner, Observer {
+//            Log.d("lashii", "gooz ")
+//        })
+
+        setUpRecyclerView()
+        viewModel.allArticleOfPerson.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is Resource.Success -> {
+                    hideProgressBar()
+                    response.data?.let { allArticleOfPerson ->
+                        testAdapter.differ.submitList(allArticleOfPerson.articles.toList())
+                        val totalPages = allArticleOfPerson.articlesCount / QUERY_PAGE_SIZE + 2
+                        isLastPage = totalPages == viewModel.allArticleOfPersonPage
+
+                        if (isLastPage){
+                            recycler_posts_in_prof.setPadding(0,0,0,0)
+                        }
+
+                    }
+                }
+                is Resource.Error -> {
+                    hideProgressBar()
+                    response.message?.let { message ->
+                        Log.e("ProfileFragment ", "an error happened: $message ")
+                    }
+                }
+                is Resource.Loading -> {
+                    showProgressBar()
+                }
+
+
+            }
+
+        })
 
 
     }
@@ -170,5 +216,58 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
     }
 
 
+    private fun hideProgressBar() {
+        progressBar.visibility = View.INVISIBLE
+        isLoading = false
+    }
+
+    private fun showProgressBar() {
+        progressBar.visibility = View.VISIBLE
+        isLoading = true
+    }
+
+    var isLoading = false
+    var isLastPage = false
+    var isScrolling = false
+
+    val scrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            val layoutManager = recycler_posts_in_prof.layoutManager as LinearLayoutManager
+            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+            val visibleItemCount = layoutManager.childCount
+            val totalItemCount = layoutManager.itemCount
+
+            val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
+            val isLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
+            //momkene badan be moshkel bokhore chon bad az yekam scroll recycler tamame sfhe ro miigre
+            val isNotAtBeginning = firstVisibleItemPosition >= 0
+            val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
+            val shouldPaginate = isNotLoadingAndNotLastPage && isLastItem && isNotAtBeginning
+                    && isTotalMoreThanVisible && isScrolling
+            if (shouldPaginate) {
+                viewModel.getAllArticleOfPerson("ali1748")
+                isScrolling = false
+            }
+
+        }
+
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                isScrolling = true
+            }
+        }
+    }
+
+    private fun setUpRecyclerView() {
+        testAdapter = TestAdapterClass()
+        recycler_posts_in_prof.apply {
+            adapter = testAdapter
+            layoutManager = LinearLayoutManager(activity)
+            addOnScrollListener(this@ProfileFragment.scrollListener)
+        }
+    }
 }
 

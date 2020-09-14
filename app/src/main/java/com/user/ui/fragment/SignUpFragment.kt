@@ -19,7 +19,11 @@ import com.example.anull.R
 import com.example.anull.databinding.FragmentSignUpBinding
 import com.user.data.ArticleEntity
 import com.user.data.UserEntity
+import com.user.data.UserRepository
+import com.user.data.modelfromservice.RegisterRequest
+import com.user.data.modelfromservice.User
 import com.user.ui.viewmodel.SignUpViewModel
+import com.user.ui.viewmodel.providerfactory.SiguUpViewModelProviderFactory
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -47,6 +51,7 @@ class SignUpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         val db = AppDataBase.buildDatabase(requireContext(), MIGRATION_1_2)
         db.userDao()
@@ -131,7 +136,9 @@ class SignUpFragment : Fragment() {
         // getSizeOfComments(db)
 
 
-        viewModel = ViewModelProvider(this).get(SignUpViewModel::class.java)
+        val userRepository=UserRepository(AppDataBase.invoke(requireContext(), MIGRATION_1_2))
+        val singUpViewModelProvider=SiguUpViewModelProviderFactory(userRepository)
+        viewModel = ViewModelProvider(this,singUpViewModelProvider).get(SignUpViewModel::class.java)
         binding.lifecycleOwner = this
         binding.signUViewModel = viewModel
 
@@ -143,12 +150,24 @@ class SignUpFragment : Fragment() {
             findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToTitleFragment())
         }
 
+        viewModel.isRegisterSuccess.observe(viewLifecycleOwner, androidx.lifecycle.Observer { isRegisterSuccess->
+            if (isRegisterSuccess){
+                hideProgressBar()
+                findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeFragment())
+
+            }
+
+        })
 
         singUpButton.setOnClickListener {
 
-            //below line is for app bar layout that don,t go behind the status bar
+            showProgressBar()
+            viewModel.register(RegisterRequest(User(email = emailEditText.text.toString(),
+                username = userNameEditText.text.toString(),password = passSignUp.text.toString())))
+//            //below line is for app bar layout that don,t go behind the status bar
 
-            findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeFragment())
+           // hideProgressBar()
+
             requireActivity().window.decorView.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
@@ -220,5 +239,13 @@ class SignUpFragment : Fragment() {
         })
     }
 
+
+    private fun hideProgressBar(){
+        registerProgressBar.visibility=View.INVISIBLE
+    }
+    private fun showProgressBar(){
+        registerProgressBar.visibility=View.VISIBLE
+
+    }
 
 }

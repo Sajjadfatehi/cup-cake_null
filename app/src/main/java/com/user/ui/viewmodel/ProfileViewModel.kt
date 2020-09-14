@@ -1,5 +1,6 @@
 package com.user.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,19 +20,30 @@ class ProfileViewModel(val userRepository: UserRepository) : ViewModel() {
     var postList: MutableLiveData<MutableList<ArticleView>> = MutableLiveData()
     val allArticleOfPerson: MutableLiveData<com.core.util.Resource<AllArticleOfPerson>> =
         MutableLiveData()
-    val allArticleOfPersonPage = 1
+    var allArticleOfPersonPage = 1
+    var allArticleOfPersonResponse: AllArticleOfPerson? = null
 
     fun getAllArticleOfPerson(author: String) = viewModelScope.launch {
-        allArticleOfPerson.postValue(com.core.util.Resource.Loading())
-        val response= userRepository.getAllArticleOfPerson(author,allArticleOfPersonPage)
+        allArticleOfPerson.postValue(Resource.Loading())
+        val response = userRepository.getAllArticleOfPerson(author, allArticleOfPersonPage)
         allArticleOfPerson.postValue(handleAllArticleOfPersonResponse(response))
 
     }
 
-    fun handleAllArticleOfPersonResponse(response: Response<AllArticleOfPerson>):Resource<AllArticleOfPerson>{
-        if (response.isSuccessful){
-            response.body()?.let {resultResponse->
-                return Resource.Success(resultResponse)
+    fun handleAllArticleOfPersonResponse(response: Response<AllArticleOfPerson>): Resource<AllArticleOfPerson> {
+        if (response.isSuccessful) {
+//            Log.d("lashii", "${response.body()?.articles?.get(0)?.slug} ")
+            response.body()?.let { resultResponse ->
+                allArticleOfPersonPage++
+                if (allArticleOfPersonResponse == null) {
+                    allArticleOfPersonResponse = resultResponse
+                } else {
+                    val oldArticles = allArticleOfPersonResponse?.articles
+                    val newArticles = resultResponse.articles
+                    oldArticles?.addAll(newArticles)
+                }
+
+                return Resource.Success(allArticleOfPersonResponse ?: resultResponse)
 
             }
         }
@@ -44,7 +56,7 @@ class ProfileViewModel(val userRepository: UserRepository) : ViewModel() {
 
         postList.value = userRepository.getPostInProf()
 
-       // getAllArticleOfPerson("ali1748")
+        getAllArticleOfPerson("ali1748")
     }
 
     fun getPosts(): MutableList<ArticleView>? {
