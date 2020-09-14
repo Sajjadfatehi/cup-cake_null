@@ -15,6 +15,6 @@ class StringPreference(
 
     override fun setValue(thisRef: Any, property: KProperty<*>, value: String?) =
         sharedPreferences.edit()
-            .putString(key, defaultValue)
+            .putString(key, value)
             .apply()
 }
