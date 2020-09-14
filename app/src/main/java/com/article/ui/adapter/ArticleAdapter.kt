@@ -21,7 +21,7 @@ class ArticleAdapter(private val list: MutableList<PersonArticleModelView>) :
 
 
     override fun onBindViewHolder(holder: TitleViewHolder, position: Int) {
-        holder.binding.article = list[position]
+        //holder.binding.article = list[position]
 
         holder.binding.executePendingBindings()
 

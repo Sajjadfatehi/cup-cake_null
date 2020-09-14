@@ -1,7 +1,8 @@
 package com.core.services
 
 import androidx.lifecycle.MutableLiveData
-import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
+import com.core.util.Constants.Companion.BASE_URL
+
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -32,8 +33,8 @@ object RetrofitService {
         .build()
 
     val retrofit = Retrofit.Builder()
-//        .baseUrl("http://192.168.5.69:3000/api/")
-        .baseUrl("http://192.168.5.69:3000/api/")
+
+        .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)
         .build()

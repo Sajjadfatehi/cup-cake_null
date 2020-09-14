@@ -10,11 +10,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.config.FunctionHelper
+import com.core.util.Constants.Companion.SPLASH_TIME_OUT
 import com.example.anull.R
 import com.example.anull.databinding.FragmentSplashBinding
 
 class SplashFragment : Fragment() {
-    private val splashTimeOut: Long = 3000
+
     private var functionHelper = FunctionHelper()
     private lateinit var binding: FragmentSplashBinding
     override fun onCreateView(
@@ -59,7 +60,7 @@ class SplashFragment : Fragment() {
             }
 
 
-        }, splashTimeOut)
+        }, SPLASH_TIME_OUT)
 
     }
 }

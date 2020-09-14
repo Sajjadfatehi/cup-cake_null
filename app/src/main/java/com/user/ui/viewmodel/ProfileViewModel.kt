@@ -18,7 +18,7 @@ class ProfileViewModel(val userRepository: UserRepository) : ViewModel() {
 
     //private val userRepository = UserRepository()
     var postList: MutableLiveData<MutableList<ArticleView>> = MutableLiveData()
-    val allArticleOfPerson: MutableLiveData<com.core.util.Resource<AllArticleOfPerson>> =
+    val allArticleOfPerson: MutableLiveData<Resource<AllArticleOfPerson>> =
         MutableLiveData()
     var allArticleOfPersonPage = 1
     var allArticleOfPersonResponse: AllArticleOfPerson? = null
