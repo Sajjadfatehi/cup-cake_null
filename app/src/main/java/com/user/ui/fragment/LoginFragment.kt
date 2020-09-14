@@ -74,6 +74,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         binding.tvGoToBeMember.setOnClickListener(this)
+        binding.btnLogin.setOnClickListener(this)
 
         binding.vm = loginViewModel
         binding.lifecycleOwner = this
@@ -81,9 +82,9 @@ class LoginFragment : Fragment(), View.OnClickListener {
         loginViewModel.isLogin.observe(viewLifecycleOwner, Observer {
             if (it) {
                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
-                        requireActivity().window.decorView.systemUiVisibility =
-                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
+                requireActivity().window.decorView.systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
             } else if (!it) {
                 Toast.makeText(requireContext(), loginViewModel.message, Toast.LENGTH_LONG).show()
             }
@@ -94,18 +95,11 @@ class LoginFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-//            R.id.btn_login -> {
-//                if (checkData()) {
-////                    loginViewModel.loginIsPossible(username, password) -> {
-////                        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
-////                        requireActivity().window.decorView.systemUiVisibility =
-////                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-////                        requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
-////
-////                    }
-//
-//                }
-//            }
+            R.id.btn_login -> {
+                if (checkData()) {
+                    loginViewModel.login()
+                }
+            }
             R.id.tv_go_to_be_member -> {
                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignUpFragment())
             }

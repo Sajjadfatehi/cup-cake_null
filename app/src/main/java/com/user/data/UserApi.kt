@@ -13,4 +13,7 @@ interface UserApi {
     @POST("users/login")
     suspend fun login(@Body loginReq: LoginReq): Response<LoginRes>
 
+    @GET("user")
+    suspend fun validUser(): Response<LoginRes>
+
 }

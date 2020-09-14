@@ -13,6 +13,7 @@ class UserLocalDataSource(val sherPref: SharedPreferences, val userDao: UserDao?
     private val settings = Settings(MyApp.app.applicationContext.getPreferences())
     fun saveToken(token: String?) {
         settings.token = token
+        val token = settings.token
     }
 
     fun getToken() = settings.token

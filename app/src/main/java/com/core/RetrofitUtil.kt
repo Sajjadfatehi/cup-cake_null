@@ -18,7 +18,10 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 object RetrofitUtil {
     val responseStatus = MutableLiveData<Response>()
-    val loginLocalDataSource = UserLocalDataSource(sherPref = MyApp.app.applicationContext.getPreferences(),userDao = null)
+    val loginLocalDataSource = UserLocalDataSource(
+        sherPref = MyApp.app.applicationContext.getPreferences(),
+        userDao = null
+    )
 
     private var retrofit: Retrofit? = null
     private const val baseURL = "http://192.168.5.69:3000/api/"
@@ -43,15 +46,14 @@ object RetrofitUtil {
             responseStatus.postValue(proceed)
             return proceed
         }
-    })
-        .addInterceptor { chain ->
-            var newBuilder = chain.request().newBuilder()
-            loginLocalDataSource.getToken()?.let { token ->
-                newBuilder = newBuilder.addHeader("token", "Token $token")
-            }
-            val request = newBuilder.build()
-            chain.proceed(request)
+    }).addInterceptor { chain ->
+        var newBuilder = chain.request().newBuilder()
+        loginLocalDataSource.getToken()?.let { token ->
+            newBuilder = newBuilder.addHeader("Authorization", "Token $token")
         }
+        val request = newBuilder.build()
+        chain.proceed(request)
+    }
         .addNetworkInterceptor(FlipperOkhttpInterceptor(MyApp.networkFlipperPlugin))
         .build()
 

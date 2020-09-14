@@ -1,5 +1,6 @@
 package com.user.data
 
+import android.util.Log
 import com.core.ResultCallBack
 import com.core.RetrofitUtil
 
@@ -24,5 +25,22 @@ class UserRemoteDataSource() {
         }
     }
 
+    suspend fun validUser(): ResultCallBack<LoginRes> {
+        try {
+            val result = userApi.validUser()
+
+            if (result.isSuccessful) {
+                result.body()?.let {
+                    return ResultCallBack.Success(it)
+                }
+
+                return ResultCallBack.Error(Exception("server data failed"))
+            }
+            return ResultCallBack.Error(Exception(result.code().toString()))
+        } catch (e: Exception) {
+            Log.i("Exception", "Exception user remote data source")
+            return ResultCallBack.Error(Exception("bad request"))
+        }
+    }
 
 }

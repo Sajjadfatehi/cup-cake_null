@@ -1,6 +1,7 @@
 package com.core.bindingadapters
 
 import android.view.View
+import android.widget.EditText
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.core.ResultCallBack
