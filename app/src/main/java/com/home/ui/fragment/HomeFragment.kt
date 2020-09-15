@@ -16,6 +16,7 @@ import com.home.data.PersonArticleModelEntity
 import com.home.data.TabModelEntity
 import com.home.ui.adapter.BestArticleAdapter
 import com.home.ui.adapter.PersonArticleAdapter
+import com.user.data.modelfromservice.Author
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -97,7 +98,16 @@ class HomeFragment : Fragment() {
 //        setTabs()
 
         binding.icProfile.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())
+
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToProfileFragment(
+                    Author(
+                        false,
+                        null,
+                        "johnjacob"
+                    )
+                )
+            )
 
         }
         binding.add.setOnClickListener {

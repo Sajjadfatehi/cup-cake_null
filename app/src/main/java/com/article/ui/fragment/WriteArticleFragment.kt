@@ -94,6 +94,7 @@ class WriteArticleFragment : Fragment() {
                             R.id.action_writeArticleFragment_to_profileFragment,
                             bundle
                         )
+
                     }
                 } else {
 

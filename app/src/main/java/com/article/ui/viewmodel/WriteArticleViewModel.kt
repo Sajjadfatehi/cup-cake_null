@@ -41,7 +41,6 @@ class WriteArticleViewModel(val articleRepository: ArticleRepository) : ViewMode
 
     fun handleCreateArticle(response: Response<Article>): Resource<Article> {
         if (response.isSuccessful) {
-            Log.d("reqCj", "sjnfjkw ")
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)
             }

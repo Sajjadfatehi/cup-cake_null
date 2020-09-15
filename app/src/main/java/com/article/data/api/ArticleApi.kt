@@ -26,4 +26,6 @@ interface ArticleApi {
 
         createArticleModel: CreateArticleModel
     ): Response<Article>
+
+
 }

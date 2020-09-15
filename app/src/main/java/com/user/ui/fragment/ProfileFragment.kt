@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.RadioButton
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -25,9 +26,10 @@ import com.core.util.TestAdapterClass
 import com.example.anull.R
 import com.example.anull.databinding.TestlayoutBinding
 import com.user.data.UserRepository
+import com.user.data.modelfromservice.Article
+import com.user.data.modelfromservice.Author
 import com.user.ui.ArticleView
 import com.user.ui.ClickListener
-import com.user.ui.adapter.PostsInProfAdapter
 import com.user.ui.viewmodel.ProfileViewModel
 import com.user.ui.viewmodel.providerfactory.ProfileViewModelProviderFactory
 import kotlinx.android.synthetic.main.testlayout.*
@@ -41,6 +43,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         }
     }
 
+    var userName: String = ""
     private lateinit var bindingProf: TestlayoutBinding
 
     private val titleInProfList = mutableListOf<String>()
@@ -54,6 +57,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         super.onCreate(savedInstanceState)
         argsFromEdit = this.arguments
         isFromEdit = !argsFromEdit?.isEmpty!!
+
 
     }
 
@@ -72,12 +76,18 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var authorArgs = arguments?.let { ProfileFragmentArgs.fromBundle(it) }
+        userName = authorArgs?.author?.username.toString()
+
+
         titleInProfList.add("نوشته ها")
         titleInProfList.add("علاقه مندی")
 
 
         val userRepository = UserRepository(AppDataBase.invoke(requireContext(), MIGRATION_1_2))
-        val profileViewModelProviderFactory = ProfileViewModelProviderFactory(userRepository)
+        val profileViewModelProviderFactory =
+            ProfileViewModelProviderFactory(userRepository, userName)
+
         viewModel = ViewModelProvider(
             this,
             profileViewModelProviderFactory
@@ -109,7 +119,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             viewModel.postList.value!![num!!].title = newPost?.title.toString().trim()
             viewModel.postList.value!![num].desc = newPost?.desc.toString().trim()
 
-            recycler_posts_in_prof.adapter?.notifyItemChanged(num)
+            //recycler_posts_in_prof.adapter?.notifyItemChanged(num)
 
 
         }
@@ -180,7 +190,8 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         if (action == ("delete")) {
             if (numberOfItem != null) {
-                viewModel.postList.value!!.removeAt(numberOfItem)
+                viewModel.allArticleOfPerson.value?.data?.articles?.removeAt(numberOfItem)
+                //viewModel.postList.value!!.removeAt(numberOfItem)
                 recycler_posts_in_prof.adapter?.notifyItemRemoved(numberOfItem)
                 bottomSheetFragment.dismiss()
 
@@ -188,11 +199,13 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         } else if (action == ("edit")) {
             val bundle = Bundle()
             bundle.putParcelable("post", viewModel.postList.value!![numberOfItem!!])
+
             bundle.putInt("number", numberOfItem)
 
             findNavController().navigate(
                 R.id.action_profileFragment_to_writeArticleFragment,
                 bundle
+
             )
 
             bottomSheetFragment.dismiss()
@@ -201,7 +214,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
     }
 
 
-    override fun onClick(article: ArticleView, layoutPosition: Int) {
+    override fun onClick(article: Article, layoutPosition: Int) {
         val args = Bundle()
 
         args.putInt("layoutPosition", layoutPosition)
@@ -213,6 +226,23 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 //        bottomSheetFragment.edit_article_btn.setOnClickListener {
 //            Toast.makeText(requireContext(),"edit",Toast.LENGTH_SHORT).show()
 //        }
+    }
+
+    override fun onCardClick(article: Article, layoutPosition: Int) {
+        Toast.makeText(requireContext(), "card clicked", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onImageClick(author: Author) {
+        if (bindingProf.titleRadioBtn.checkedRadioButtonId == bindingProf.radio2.id) {
+
+            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentSelf(author))
+
+        }
+
+    }
+
+    override fun onLikeClick(slug: String) {
+        viewModel.favoriteArticle(slug)
     }
 
 
@@ -247,7 +277,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             val shouldPaginate = isNotLoadingAndNotLastPage && isLastItem && isNotAtBeginning
                     && isTotalMoreThanVisible && isScrolling
             if (shouldPaginate) {
-                viewModel.getAllArticleOfPerson("johnjacob")
+                viewModel.getAllArticleOfPerson(userName)
                 isScrolling = false
             }
 
@@ -262,7 +292,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
     }
 
     private fun setUpRecyclerView() {
-        testAdapter = TestAdapterClass()
+        testAdapter = TestAdapterClass(this@ProfileFragment)
         recycler_posts_in_prof.apply {
             adapter = testAdapter
             layoutManager = LinearLayoutManager(activity)

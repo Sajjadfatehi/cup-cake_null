@@ -5,9 +5,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.user.data.UserRepository
 import com.user.ui.viewmodel.ProfileViewModel
 
-class ProfileViewModelProviderFactory( val userRepository: UserRepository) : ViewModelProvider.Factory {
+class ProfileViewModelProviderFactory(val userRepository: UserRepository, val userName: String) :
+    ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return ProfileViewModel(userRepository) as T
+        return ProfileViewModel(userRepository, userName) as T
     }
 }

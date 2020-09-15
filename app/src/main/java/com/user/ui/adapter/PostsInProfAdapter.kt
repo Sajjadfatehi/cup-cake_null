@@ -31,11 +31,11 @@ class PostsInProfAdapter(
     inner class PostInProfViewHolder(var binding: ItemProfilePostBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            binding.itemIconMenuTagPotProf.setOnClickListener {
-                clickListener.onClick(list[layoutPosition], layoutPosition)
-            }
-        }
+//        init {
+//            binding.itemIconMenuTagPotProf.setOnClickListener {
+//                clickListener.onClick(list[layoutPosition], layoutPosition)
+//            }
+//        }
 
     }
 
