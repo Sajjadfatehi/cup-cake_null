@@ -6,11 +6,17 @@ import com.core.util.Constants.Companion.BASE_URL
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitService {
     val responseStatus = MutableLiveData<Response>()
+    private val token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNjA5YjY2NWQwZDdjNWIwZWYwZTYyZSIsInVzZXJuYW1lIjoiNDQ0NDQ0NDQiLCJleHAiOjE2MDUzNTQ2ODYsImlhdCI6MTYwMDE2NzA4Nn0.ukhqTEphsRjuZNGGoc42TbHlh_hiiE9kgqfxSv5HmYA"
+
+    private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+
 
     val client = OkHttpClient.Builder()
         .addNetworkInterceptor(object : Interceptor {
@@ -20,15 +26,16 @@ object RetrofitService {
                 return proceed
             }
         })
+        .addNetworkInterceptor(logging)
 
-//        .addInterceptor { chain ->
-//            var newBuilder = chain.request().newBuilder()
-//            loginLocalDataSource.getToken()?.let { token ->
-//                newBuilder = newBuilder.addHeader("token", "Token $token")
-//            }
-//            val request = newBuilder.build()
-//            chain.proceed(request)
-//        }
+        .addInterceptor { chain ->
+            var newBuilder = chain.request().newBuilder()
+            token.let { token ->
+                newBuilder = newBuilder.addHeader("Authorization", "Token $token")
+            }
+            val request = newBuilder.build()
+            chain.proceed(request)
+        }
         //.addNetworkInterceptor(FlipperOkhttpInterceptor(MyApp.networkFlipperPlugin))
         .build()
 

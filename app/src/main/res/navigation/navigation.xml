@@ -50,7 +50,6 @@
         <action
             android:id="@+id/action_signUpFragment_to_titleFragment"
             app:destination="@id/titleFragment"
-            app:enterAnim="@anim/slide_right"
             app:exitAnim="@anim/slide_left" />
     </fragment>
     <fragment

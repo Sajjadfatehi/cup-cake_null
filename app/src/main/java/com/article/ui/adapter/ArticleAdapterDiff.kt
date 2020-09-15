@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.anull.databinding.ItemTitleBinding
 
-import com.home.ui.PersonArticleModelView
 import com.user.data.modelfromservice.Article
 
 class ArticleAdapterDiff :

@@ -2,6 +2,7 @@ package com.article.ui.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.article.data.ArticleRepository
+import com.article.data.modelfromservice.ArticleInCreateArticleModel
+import com.article.data.modelfromservice.CreateArticleModel
 import com.article.ui.viewmodel.WriteArticleViewModel
+import com.article.ui.viewmodel.providerfactory.WriteViewModelProviderFactory
+import com.core.db.AppDataBase
 import com.example.anull.R
 import com.example.anull.databinding.FragmentWriteArticleBinding
 import com.user.ui.ArticleView
@@ -20,6 +28,11 @@ import kotlinx.android.synthetic.main.fragment_write_article.*
 
 class WriteArticleFragment : Fragment() {
 
+    private val MIGRATION_1_2 = object : Migration(1, 2) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE articles ADD COLUMN test TEXT")
+        }
+    }
     var args: Bundle = Bundle()
     private lateinit var writeViewModel: WriteArticleViewModel
     private lateinit var binding: FragmentWriteArticleBinding
@@ -27,7 +40,6 @@ class WriteArticleFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        writeViewModel = ViewModelProvider(this).get(WriteArticleViewModel::class.java)
         args = this.requireArguments()
 
     }
@@ -46,6 +58,12 @@ class WriteArticleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val articleRepository =
+            ArticleRepository(AppDataBase.invoke(requireContext(), MIGRATION_1_2))
+        val writeViewModelProvider = WriteViewModelProviderFactory(articleRepository)
+        writeViewModel =
+            ViewModelProvider(this, writeViewModelProvider).get(WriteArticleViewModel::class.java)
+
 
 
         writeViewModel.checkArgsIsNull(args)
@@ -57,7 +75,7 @@ class WriteArticleFragment : Fragment() {
         writeViewModel.isFromEdit.observe(
             viewLifecycleOwner,
             androidx.lifecycle.Observer { isFromEdit ->
-                if (isFromEdit) {
+                if (!isFromEdit) {
 
                     val post = args.getParcelable<ArticleView>("post")
                     val itemSelectedForEdit = args.getInt("number")
@@ -77,8 +95,24 @@ class WriteArticleFragment : Fragment() {
                             bundle
                         )
                     }
+                } else {
+
+                    Log.d("reqCj", "babay : ")
+                    binding.submitArticle.setOnClickListener {
+                        var tags = writeViewModel.tagsChip.values.toList<String>()
+                        val createArticleModel = CreateArticleModel(
+                            ArticleInCreateArticleModel(
+                                body = "mamad is good",
+                                description = edit_text.text.toString(),
+                                title = edit_title.text.toString(),
+                                tagList = tags
+                            )
+                        )
+                        writeViewModel.createArticle(createArticleModel)
+                    }
                 }
             })
+
 
         binding.arrowBackWA.setOnClickListener {
             hideKeyboard()
@@ -89,6 +123,7 @@ class WriteArticleFragment : Fragment() {
             if (b)
                 setAdjustPan()
         }
+
 
     }
 
