@@ -51,11 +51,40 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
         return Resource.Error(response.message())
     }
 
+    fun getFavoritedArticleByUserName(favoritedUserName: String) =
+        viewModelScope.launch(Dispatchers.IO) {
+            allArticleOfPerson.postValue(Resource.Loading())
+            val response = userRepository.favoritedArticleByUserName(favoritedUserName)
+            allArticleOfPerson.postValue(handleFavoritedArticleByUserName(response))
+        }
+
+
     fun favoriteArticle(slug: String) = viewModelScope.launch(Dispatchers.IO) {
         favoriteArticleResponse.postValue(Resource.Loading())
         val response = userRepository.favoriteArticle(slug)
         favoriteArticleResponse.postValue(handleFavoriteArticle(response))
 
+    }
+
+    fun handleFavoritedArticleByUserName(response: Response<AllArticleOfPerson>): Resource<AllArticleOfPerson> {
+        if (response.isSuccessful) {
+
+            response.body()?.let { resultResponse ->
+                allArticleOfPersonPage++
+                if (allArticleOfPersonResponse == null) {
+                    allArticleOfPersonResponse = resultResponse
+                } else {
+                    val oldArticles = allArticleOfPersonResponse?.articles
+                    val newArticles = resultResponse.articles
+                    oldArticles?.addAll(newArticles)
+                }
+
+                return Resource.Success(allArticleOfPersonResponse ?: resultResponse)
+
+            }
+        }
+
+        return Resource.Error(response.message())
     }
 
     fun handleFavoriteArticle(response: Response<Article>): Resource<Article> {

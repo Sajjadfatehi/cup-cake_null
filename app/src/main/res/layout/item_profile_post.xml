@@ -124,6 +124,7 @@
                 app:srcCompat="@drawable/ic_icon_menu" />
 
             <ImageView
+                android:id="@+id/favorite_ic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"

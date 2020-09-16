@@ -30,4 +30,11 @@ interface UserApi {
         slug: String
 
     ): Response<Article>
+
+    @GET("articles")
+    suspend fun favoriteArticleByUserName(
+        @Query("favorited")
+        favorited: String
+
+    ): Response<AllArticleOfPerson>
 }

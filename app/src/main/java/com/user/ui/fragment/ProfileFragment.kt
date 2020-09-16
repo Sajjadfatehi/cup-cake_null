@@ -134,6 +134,8 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
                 requireActivity().findViewById<RadioButton>(R.id.radio2)
                     .setTextColor(Color.parseColor("#363636"))
             } else {
+                viewModel.getFavoritedArticleByUserName(userName)
+
                 radio.setTextColor(Color.parseColor("#813ac1"))
                 requireActivity().findViewById<RadioButton>(R.id.radio1)
                     .setTextColor(Color.parseColor("#363636"))
@@ -146,7 +148,9 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 //        })
 
         setUpRecyclerView()
+
         viewModel.allArticleOfPerson.observe(viewLifecycleOwner, Observer { response ->
+            Toast.makeText(requireContext(), "list cahnged", Toast.LENGTH_SHORT).show()
             when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
@@ -192,7 +196,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             if (numberOfItem != null) {
                 viewModel.allArticleOfPerson.value?.data?.articles?.removeAt(numberOfItem)
                 //viewModel.postList.value!!.removeAt(numberOfItem)
-                recycler_posts_in_prof.adapter?.notifyItemRemoved(numberOfItem)
+                //  recycler_posts_in_prof.adapter?.notifyItemRemoved(numberOfItem)
                 bottomSheetFragment.dismiss()
 
             }
@@ -241,10 +245,13 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
     }
 
-    override fun onLikeClick(slug: String) {
+    override fun onBookMarkClick(slug: String) {
         viewModel.favoriteArticle(slug)
     }
 
+    override fun onLikeClick() {
+        Toast.makeText(requireContext(), "liked", Toast.LENGTH_SHORT).show()
+    }
 
     private fun hideProgressBar() {
         progressBar.visibility = View.INVISIBLE

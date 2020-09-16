@@ -30,7 +30,10 @@ class TestAdapterClass(val clickListener: ClickListener) :
                 clickListener.onImageClick(differ.currentList[layoutPosition].author)
             }
             binding.likePost.setOnClickListener {
-                clickListener.onLikeClick(differ.currentList[layoutPosition].slug)
+                clickListener.onLikeClick()
+            }
+            binding.favoriteIc.setOnClickListener {
+                clickListener.onBookMarkClick(differ.currentList[layoutPosition].slug)
             }
         }
     }

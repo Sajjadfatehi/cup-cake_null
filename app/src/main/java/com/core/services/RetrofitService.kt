@@ -13,8 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitService {
     val responseStatus = MutableLiveData<Response>()
     private val token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNjA5YjY2NWQwZDdjNWIwZWYwZTYyZSIsInVzZXJuYW1lIjoiNDQ0NDQ0NDQiLCJleHAiOjE2MDUzNTQ2ODYsImlhdCI6MTYwMDE2NzA4Nn0.ukhqTEphsRjuZNGGoc42TbHlh_hiiE9kgqfxSv5HmYA"
-
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNjA5YjY2NWQwZDdjNWIwZWYwZTYyZSIsInVzZXJuYW1lIjoiNDQ0NDQ0NDQiLCJleHAiOjE2MDU0Mzk4OTIsImlhdCI6MTYwMDI1MjI5Mn0.ZpuOr9BmOHj8TMI0WdNgi1KgbI7-n_QlQCq7vXFtN3A"
     private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
 
