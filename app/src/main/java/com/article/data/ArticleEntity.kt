@@ -1,9 +1,8 @@
-package com.user.data
+package com.article.data
 
 import android.os.Parcelable
 import androidx.room.*
-import com.article.data.CommentArticleModelEntity
-import com.article.data.TagEntity
+import com.user.data.UserEntity
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
@@ -40,11 +39,11 @@ data class ArticleAndCommentAndTag(
         entityColumn = "commentId"
 
     )
-    val commentArticleModelEntity: List<CommentArticleModelEntity>,
+    val commentArticleModelEntity: List<CommentArticleModelEntity>
 
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "tagId"
-    )
-    val tagEntity: List<TagEntity>
+//    @Relation(
+//        parentColumn = "id",
+//        entityColumn = "tagId"
+//    )
+//    val tagModel: List<TagModel>
 )

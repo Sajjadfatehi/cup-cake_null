@@ -3,7 +3,7 @@ package com.user.data
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.article.data.CommentArticleModelEntity
-import com.article.data.TagEntity
+import com.article.data.TagModel
 
 @Dao
 interface UserDao {
@@ -17,7 +17,7 @@ interface UserDao {
     fun insertComment(commentArticleModelEntity: CommentArticleModelEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTag(tagEntity: TagEntity)
+    fun insertTag(tagModel: TagModel)
 
     @Query("delete from users")
     fun clear()
@@ -33,7 +33,7 @@ interface UserDao {
     fun updateComments(vararg commentArticleModelEntity: CommentArticleModelEntity)
 
     @Update
-    fun updateTags(vararg tagEntity: TagEntity)
+    fun updateTags(vararg tagModel: TagModel)
 
     @Delete
     fun deleteUsers(vararg userEntity: UserEntity)
@@ -42,10 +42,10 @@ interface UserDao {
     fun deleteComments(vararg commentArticleModelEntity: CommentArticleModelEntity)
 
     @Delete
-    fun deleteTags(vararg tagEntity: TagEntity)
+    fun deleteTags(vararg tagModel: TagModel)
 
     @Query("select * from tags")
-    fun getAllTags(): LiveData<List<TagEntity>>
+    fun getAllTags(): LiveData<List<TagModel>>
 
     @Query("select * from comments")
     fun getAllComments(): LiveData<List<CommentArticleModelEntity>>

@@ -10,7 +10,7 @@ class TitleViewModel : ViewModel() {
     var list = MutableLiveData<MutableList<PersonArticleModelView>>()
 
     init {
-        list.value = articleRepository.getTagTitleList()
+//        list.value = articleRepository.getTagTitleList()
 
 
     }

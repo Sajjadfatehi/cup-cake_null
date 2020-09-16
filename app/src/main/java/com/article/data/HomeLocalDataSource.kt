@@ -1,12 +1,18 @@
-package com.core
+package com.article.data
 
+import com.article.data.TagModel
+import com.core.RoomDataBase
 import com.example.anull.R
 import com.home.ui.PersonArticleModelView
 import com.user.ui.ArticleView
 
-class LocalDataSource {
+class HomeLocalDataSource() {
     var postList: MutableList<ArticleView> = mutableListOf<ArticleView>()
     var tagTitleList = mutableListOf<PersonArticleModelView>()
+    lateinit var tags: List<TagModel>
+    private val dataBase = RoomDataBase.getDB()
+    private val dao = dataBase.tagDao()
+
 
     init {
 
@@ -30,20 +36,13 @@ class LocalDataSource {
         return postList
     }
 
-    fun getTagList(): MutableList<PersonArticleModelView> {
+    fun getTagList(): List<TagModel> {
+        tags = dao.getAllTag()
+        return tags
+    }
 
-
-        repeat(40) {
-            tagTitleList.add(
-                PersonArticleModelView(
-                    "سجاد فاتحی",
-                    "دو روز قبل",
-                    true,
-                    " ین متن میتواند یک تست موقت باشد ین متن میتواند یک تست موقت باشد"
-                )
-            )
-        }
-        return tagTitleList
+    fun addAllTags(tags: List<TagModel>) {
+            dao.addTAg(tags)
     }
 
 

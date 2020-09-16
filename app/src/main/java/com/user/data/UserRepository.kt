@@ -1,10 +1,10 @@
 package com.user.data
 
-import com.core.LocalDataSource
+import com.article.data.HomeLocalDataSource
 import com.user.ui.ArticleView
 
 class UserRepository {
-    val localDataSource = LocalDataSource()
+    val localDataSource = HomeLocalDataSource()
 
     init {
 
@@ -13,5 +13,6 @@ class UserRepository {
     fun getPostInProf(): MutableList<ArticleView> {
         return localDataSource.getPostInProf()
     }
+
 
 }

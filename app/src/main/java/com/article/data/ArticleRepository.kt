@@ -1,17 +1,20 @@
 package com.article.data
 
-import com.core.LocalDataSource
-import com.home.ui.PersonArticleModelView
+import com.core.ResultCallBack
 
-class ArticleRepository {
-    val localDataSource = LocalDataSource()
+class ArticleRepository(
+) {
 
-    init {
+    val localDataSource = HomeLocalDataSource()
+    val remoteDataSource = HomeRemoteDataSource()
+    suspend fun getTagTitleList(): List<TagModel> {
+        val result = remoteDataSource.getAllTags()
+        if (result is ResultCallBack.Success) {
+            localDataSource.addAllTags(result.data.tags.map { TagModel(it) })
+        }
 
-    }
 
-    fun getTagTitleList(): MutableList<PersonArticleModelView> {
-
+        localDataSource.getTagList()
         return localDataSource.getTagList()
     }
 

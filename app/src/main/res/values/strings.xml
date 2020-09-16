@@ -73,5 +73,6 @@
     <string name="tv_upload_file">بارگذاری فایل</string>
     <string name="tv_back">back to previous page</string>
     <string name="emptyString" />
+    <string name="back_message">برای بازگشت دوباره دکمه خروج را فشار دهید</string>
 
 </resources>

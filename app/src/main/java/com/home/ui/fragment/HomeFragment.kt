@@ -9,9 +9,14 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.article.data.ArticleRepository
+import com.article.data.TagModel
 import com.example.anull.R
 import com.example.anull.databinding.FragmentHomeBinding
+import com.home.data.HomeRepasitory
+import com.home.data.HomeViewModel
 import com.home.data.PersonArticleModelEntity
 import com.home.data.TabModelEntity
 import com.home.ui.adapter.BestArticleAdapter
@@ -26,6 +31,7 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     var backAgain = false
+
 
     private lateinit var binding: FragmentHomeBinding
     private var list = mutableListOf<PersonArticleModelEntity>()
@@ -44,7 +50,7 @@ class HomeFragment : Fragment() {
                         backAgain = true
                         Toast.makeText(
                             requireContext(),
-                            "برای بازگشت دوباره دکمه خروج را فشار دهید",
+                            context?.resources?.getString(R.string.back_message),
                             Toast.LENGTH_SHORT
                         ).show()
                         Handler().postDelayed({
@@ -57,36 +63,21 @@ class HomeFragment : Fragment() {
             }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
 
-
-
-
-
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         return binding.root
     }
 
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -94,7 +85,11 @@ class HomeFragment : Fragment() {
         requireActivity().window.decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 
-//        setTabs()
+        val homeViewModel = HomeViewModel(repo = ArticleRepository())
+        homeViewModel.getAllTags()
+        homeViewModel.tags.observe(viewLifecycleOwner, Observer {
+            setTabs(it)
+        })
 
         binding.icProfile.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())
@@ -125,17 +120,13 @@ class HomeFragment : Fragment() {
 
     }
 
+    private fun setTabs(it: List<TagModel>?) {
 
-//    private fun setTabs() {
-//        tabs.add(TabModel(getString(R.string.foryou)))
-//        tabs.add(TabModel(getString(R.string.bors)))
-//        tabs.add(TabModel(getString(R.string.saham)))
-//        tabs.add(TabModel(getString(R.string.eqtsad)))
-//        tabs.add(TabModel(getString(R.string.sarmaye)))
-//
-//        for (i in 0 until tabs.size) {
-//            tabLayout.addTab(tabLayout.newTab().setText(tabs[i].name))
-//        }
+        for (element in it!!) {
+            tabLayout.addTab(tabLayout.newTab().setText(element.title))
+        }
+
+    }
+
 
 }
-//}

@@ -10,7 +10,7 @@
 
         <variable
             name="post"
-            type="com.user.data.ArticleEntity" />
+            type="com.article.data.ArticleEntity" />
 
 
     </data>

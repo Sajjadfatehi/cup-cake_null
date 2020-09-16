@@ -13,11 +13,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.article.data.CommentArticleModelEntity
-import com.article.data.TagEntity
+import com.article.data.TagModel
 import com.core.db.AppDataBase
 import com.example.anull.R
 import com.example.anull.databinding.FragmentSignUpBinding
-import com.user.data.ArticleEntity
+import com.article.data.ArticleEntity
 import com.user.data.UserEntity
 import com.user.ui.viewmodel.SignUpViewModel
 import kotlinx.android.synthetic.main.fragment_sign_up.*
@@ -76,12 +76,6 @@ class SignUpFragment : Fragment() {
         db.userDao().insertComment(CommentArticleModelEntity(3, 6, "cj", "chert"))
         db.userDao().insertComment(CommentArticleModelEntity(4, 6, "cj2", "chert2"))
 
-
-        db.userDao().insertTag(TagEntity(43, 5, "nothing"))
-        db.userDao().insertTag(TagEntity(44, 5, "nothing"))
-
-        db.userDao().insertTag(TagEntity(45, 6, "nothing"))
-        db.userDao().insertTag(TagEntity(46, 6, "nothing"))
 
         runBlocking {
             delay(2000L)
@@ -197,10 +191,6 @@ class SignUpFragment : Fragment() {
 
     private fun updateComment(db: AppDataBase) {
         db.userDao().updateComments(CommentArticleModelEntity(3, 6, "cj", "update comment"))
-    }
-
-    private fun insertTag(db: AppDataBase) {
-        db.userDao().insertTag(TagEntity(6, 71, "new tag"))
     }
 
     private fun getUserWithArticleAndCommentAndTag(db: AppDataBase) {

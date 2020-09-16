@@ -2,8 +2,6 @@ package com.article.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.user.data.ArticleAndCommentAndTag
-import com.user.data.ArticleEntity
 
 @Dao
 interface ArticleDao {
@@ -33,6 +31,7 @@ interface ArticleDao {
 
     @Query("select * from articles where id= :articleId")
     fun searchArticleWithCommentAndTag(articleId: Int): ArticleAndCommentAndTag
+
 
 
     /*@Query("select * from articles")

@@ -1,6 +1,7 @@
 package com.config
 
 import android.app.Application
+import com.core.RoomDataBase
 import com.facebook.flipper.android.AndroidFlipperClient
 import com.facebook.flipper.android.utils.FlipperUtils
 import com.facebook.flipper.plugins.databases.DatabasesFlipperPlugin
@@ -22,6 +23,8 @@ class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
         app = this
+        RoomDataBase.init(this)
+
         SoLoader.init(this, false)
         if (BuildConfig.DEBUG && FlipperUtils.shouldEnableFlipper(this)) {
             val client = AndroidFlipperClient.getInstance(this)

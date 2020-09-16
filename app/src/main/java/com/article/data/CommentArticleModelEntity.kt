@@ -3,7 +3,6 @@ package com.article.data
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.user.data.ArticleEntity
 
 /**
 Created by Moha.Azizi on 16/08/2020 .

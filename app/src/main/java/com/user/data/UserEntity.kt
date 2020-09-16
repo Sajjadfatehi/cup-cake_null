@@ -4,6 +4,8 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
+import com.article.data.ArticleAndCommentAndTag
+import com.article.data.ArticleEntity
 
 @Entity(tableName = "users")
 data class UserEntity(
