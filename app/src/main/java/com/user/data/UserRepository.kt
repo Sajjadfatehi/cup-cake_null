@@ -32,4 +32,7 @@ class UserRepository(val db:AppDataBase) {
 
     suspend fun favoritedArticleByUserName(favoritedUserName: String) =
         retrofit.favoriteArticleByUserName(favorited = favoritedUserName)
+
+    suspend fun deleteArticle(slug: String) =
+        retrofit.deleteArticle(slug)
 }

@@ -130,12 +130,14 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
             // Toast.makeText(requireContext(),"${radio.text}",Toast.LENGTH_SHORT).show()
             if (radio.tag == "posts") {
+                viewModel.getAllArticleOfPerson(userName)
                 radio.setTextColor(Color.parseColor("#813ac1"))
                 requireActivity().findViewById<RadioButton>(R.id.radio2)
                     .setTextColor(Color.parseColor("#363636"))
             } else {
-                viewModel.getFavoritedArticleByUserName(userName)
 
+                viewModel.getFavoritedArticleByUserName(userName)
+                recycler_posts_in_prof.adapter?.notifyDataSetChanged()
                 radio.setTextColor(Color.parseColor("#813ac1"))
                 requireActivity().findViewById<RadioButton>(R.id.radio1)
                     .setTextColor(Color.parseColor("#363636"))
@@ -150,7 +152,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         setUpRecyclerView()
 
         viewModel.allArticleOfPerson.observe(viewLifecycleOwner, Observer { response ->
-            Toast.makeText(requireContext(), "list cahnged", Toast.LENGTH_SHORT).show()
+            Log.d("asghar", "bbbbbb: ")
             when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
@@ -180,6 +182,17 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         })
 
+        viewModel.isDeleteSuccess.observe(viewLifecycleOwner, Observer { isDeletedSuccess ->
+            if (isDeletedSuccess) {
+                val itemNumberOfDeletedArticle = viewModel.itemNumberOfDeletedArticle
+                if (itemNumberOfDeletedArticle > 0) {
+                    viewModel.deleteArticleFromList(itemNumberOfDeletedArticle)
+                }
+                viewModel.itemNumberOfDeletedArticle = -1
+                viewModel.isDeleteSuccess.value = false
+            }
+
+        })
 
     }
 
@@ -194,8 +207,11 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         if (action == ("delete")) {
             if (numberOfItem != null) {
-                viewModel.allArticleOfPerson.value?.data?.articles?.removeAt(numberOfItem)
-                //viewModel.postList.value!!.removeAt(numberOfItem)
+                viewModel.deleteArticleTest(
+                    viewModel.allArticleOfPerson.value?.data?.articles!![numberOfItem].slug,
+                    numberOfItem
+                )
+                viewModel.deleteArticleFromList(numberOfItem)
                 //  recycler_posts_in_prof.adapter?.notifyItemRemoved(numberOfItem)
                 bottomSheetFragment.dismiss()
 

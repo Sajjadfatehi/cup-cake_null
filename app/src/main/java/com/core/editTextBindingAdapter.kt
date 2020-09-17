@@ -153,6 +153,8 @@ fun chipInWriteArticle(view: View, chipGroup: View, tagsChip: MutableMap<Chip, S
                 chip.isClickable = false
                 chip.isCheckable = false
                 chip.setOnCloseIconClickListener(this)
+
+
                 chip.text = s.trim()
                 val tag = chip.text.toString().toUpperCase(Locale.ROOT)
                 if (!tagsChip.containsValue(tag)) {

@@ -24,9 +24,8 @@ import com.user.data.modelfromservice.RegisterRequest
 import com.user.data.modelfromservice.User
 import com.user.ui.viewmodel.SignUpViewModel
 import com.user.ui.viewmodel.providerfactory.SiguUpViewModelProviderFactory
+import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_sign_up.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import java.util.*
 
 class SignUpFragment : Fragment() {
@@ -88,9 +87,6 @@ class SignUpFragment : Fragment() {
         db.userDao().insertTag(TagEntity(45, 6, "nothing"))
         db.userDao().insertTag(TagEntity(46, 6, "nothing"))
 
-        runBlocking {
-            delay(2000L)
-        }
 
 
 
@@ -136,9 +132,10 @@ class SignUpFragment : Fragment() {
         // getSizeOfComments(db)
 
 
-        val userRepository=UserRepository(AppDataBase.invoke(requireContext(), MIGRATION_1_2))
-        val singUpViewModelProvider=SiguUpViewModelProviderFactory(userRepository)
-        viewModel = ViewModelProvider(this,singUpViewModelProvider).get(SignUpViewModel::class.java)
+        val userRepository = UserRepository(AppDataBase.invoke(requireContext(), MIGRATION_1_2))
+        val singUpViewModelProvider = SiguUpViewModelProviderFactory(userRepository)
+        viewModel =
+            ViewModelProvider(this, singUpViewModelProvider).get(SignUpViewModel::class.java)
         binding.lifecycleOwner = this
         binding.signUViewModel = viewModel
 
@@ -150,27 +147,40 @@ class SignUpFragment : Fragment() {
             findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToTitleFragment())
         }
 
-        viewModel.isRegisterSuccess.observe(viewLifecycleOwner, androidx.lifecycle.Observer { isRegisterSuccess->
-            if (isRegisterSuccess){
-                hideProgressBar()
-                findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeFragment())
+        viewModel.isRegisterSuccess.observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer { isRegisterSuccess ->
+                if (isRegisterSuccess) {
+                    hideProgressBar()
+                    findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeFragment())
 
-            }
+                }
 
-        })
+            })
 
         singUpButton.setOnClickListener {
+            if (!checkEditTextIsEmpty()) {
 
-            showProgressBar()
-            viewModel.register(RegisterRequest(User(email = emailEditText.text.toString(),
-                username = userNameEditText.text.toString(),password = passSignUp.text.toString())))
+                showProgressBar()
+                viewModel.register(
+                    RegisterRequest(
+                        User(
+                            email = emailEditText.text.toString(),
+                            username = userNameEditText.text.toString(),
+                            password = passSignUp.text.toString()
+                        )
+                    )
+                )
 //            //below line is for app bar layout that don,t go behind the status bar
 
-           // hideProgressBar()
+                // hideProgressBar()
 
-            requireActivity().window.decorView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
+                requireActivity().window.decorView.systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
+
+
+            }
 
 
         }
@@ -240,11 +250,40 @@ class SignUpFragment : Fragment() {
     }
 
 
-    private fun hideProgressBar(){
-        registerProgressBar.visibility=View.INVISIBLE
+    private fun hideProgressBar() {
+        registerProgressBar.visibility = View.INVISIBLE
     }
-    private fun showProgressBar(){
-        registerProgressBar.visibility=View.VISIBLE
+
+    private fun showProgressBar() {
+        registerProgressBar.visibility = View.VISIBLE
+
+    }
+
+    private fun checkEditTextIsEmpty(): Boolean {
+
+        val userName = userNameEditText.text.toString().trim()
+        val email = emailEditText.text.toString().trim()
+        val pass = passSignUp.text.toString().trim()
+        val repetitionPass = repetitionPass.text.toString().trim()
+        when {
+            userName.isEmpty() -> {
+                userNameInputLayout.error = "خطا! این کادر نباید خالی باشد "
+                return true
+            }
+            email.isEmpty() -> {
+                emailInputLayout.error = "خطا! این کادر نباید خالی باشد "
+                return true
+            }
+            pass.isEmpty() -> {
+                passLoginInputLayout.error = "خطا! این کادر نباید خالی باشد "
+                return true
+            }
+            repetitionPass.isEmpty() -> {
+                repetitionPassInputLayout.error = "خطا! این کادر نباید خالی باشد "
+                return true
+            }
+            else -> return false
+        }
 
     }
 

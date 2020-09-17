@@ -37,4 +37,11 @@ interface UserApi {
         favorited: String
 
     ): Response<AllArticleOfPerson>
+
+    @DELETE("articles/{slug}")
+    suspend fun deleteArticle(
+        @Path("slug")
+        slug: String
+
+    ): Response<Unit>
 }
