@@ -6,6 +6,7 @@ import com.core.LocalDataSource
 import com.core.db.AppDataBase
 import com.core.services.RetrofitService
 import com.home.ui.PersonArticleModelView
+import com.user.data.modelfromservice.EditArticleRequest
 
 class ArticleRepository(val db:AppDataBase) {
     val localDataSource = LocalDataSource()
@@ -20,6 +21,10 @@ class ArticleRepository(val db:AppDataBase) {
 
     suspend fun createArticle(createArticleModel: CreateArticleModel) =
         retrofit.createArticle(createArticleModel = createArticleModel)
+
+
+    suspend fun updateArticle(slug: String, editArticleRequest: EditArticleRequest) =
+        retrofit.updateArticle(slug, editArticleRequest)
 
 
     fun getTagTitleList(): MutableList<PersonArticleModelView> {

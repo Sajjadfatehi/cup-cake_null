@@ -3,11 +3,9 @@ package com.article.data.api
 import com.article.data.modelfromservice.CreateArticleModel
 import com.user.data.modelfromservice.AllArticleOfPerson
 import com.user.data.modelfromservice.Article
+import com.user.data.modelfromservice.EditArticleRequest
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ArticleApi {
 
@@ -28,4 +26,11 @@ interface ArticleApi {
     ): Response<Article>
 
 
+    @PUT("articles/{slug}")
+    suspend fun updateArticle(
+        @Path("slug")
+        slug: String,
+        @Body
+        editArticleRequest: EditArticleRequest
+    ): Response<Article>
 }

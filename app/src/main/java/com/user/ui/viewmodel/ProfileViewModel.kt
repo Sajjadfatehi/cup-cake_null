@@ -27,16 +27,15 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
     var itemNumberOfDeletedArticle = -1
 
 
-    fun getAllArticleOfPerson(author: String) = viewModelScope.launch {
 
-        allArticleOfPerson.postValue(Resource.Loading())
+     fun getAllArticleOfPerson(author: String) = viewModelScope.launch {
+         allArticleOfPerson.postValue(Resource.Loading())
 
-        val response = userRepository.getAllArticleOfPerson(author, allArticleOfPersonPage)
-        allArticleOfPerson.postValue(handleAllArticleOfPersonResponse(response))
+         val response = userRepository.getAllArticleOfPerson(author, allArticleOfPersonPage)
+         allArticleOfPerson.postValue(handleAllArticleOfPersonResponse(response))
+     }
 
-    }
-
-    fun handleAllArticleOfPersonResponse(response: Response<AllArticleOfPerson>): Resource<AllArticleOfPerson> {
+    private fun handleAllArticleOfPersonResponse(response: Response<AllArticleOfPerson>): Resource<AllArticleOfPerson> {
         if (response.isSuccessful) {
 
             response.body()?.let { resultResponse ->
@@ -73,7 +72,7 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
             allArticleOfPerson.postValue(handleFavoritedArticleByUserName(response))
         }
 
-    fun handleFavoritedArticleByUserName(response: Response<AllArticleOfPerson>): Resource<AllArticleOfPerson> {
+    private fun handleFavoritedArticleByUserName(response: Response<AllArticleOfPerson>): Resource<AllArticleOfPerson> {
 
         if (response.isSuccessful) {
             Log.d("tokhmi", "bb: ${response.body()?.articlesCount} ")
@@ -113,7 +112,7 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
 
     }
 
-    fun handleFavoriteArticle(response: Response<Article>): Resource<Article> {
+    private fun handleFavoriteArticle(response: Response<Article>): Resource<Article> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)
@@ -126,10 +125,10 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
     fun deleteArticleTest(slug: String, itemNumber: Int) = viewModelScope.launch {
         allArticleOfPerson.postValue(Resource.Loading())
         val response = userRepository.deleteArticle(slug)
+        handleDeleteArticleTest(response, itemNumber)
         if (response.isSuccessful) {
             itemNumberOfDeletedArticle = itemNumber
             isDeleteSuccess.postValue(true)
-            handleDeleteArticleTest(response, itemNumber)
 
         }
     }
@@ -148,6 +147,8 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
         postList.value = userRepository.getPostInProf()
 
         getAllArticleOfPerson(userName)
+
+
     }
 
     fun getPosts(): MutableList<ArticleView>? {
@@ -165,6 +166,5 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
         val artciNew = AllArticleOfPerson(re.toMutableList(), re.size)
         allArticleOfPerson.postValue(Resource.Success(artciNew))
     }
-
 
 }

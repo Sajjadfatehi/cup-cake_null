@@ -44,4 +44,5 @@ interface UserApi {
         slug: String
 
     ): Response<Unit>
+
 }

@@ -10,6 +10,7 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.room.migration.Migration
@@ -22,7 +23,8 @@ import com.article.ui.viewmodel.providerfactory.WriteViewModelProviderFactory
 import com.core.db.AppDataBase
 import com.example.anull.R
 import com.example.anull.databinding.FragmentWriteArticleBinding
-import com.user.ui.ArticleView
+import com.user.data.modelfromservice.BodyOfEditedArticle
+import com.user.data.modelfromservice.EditArticleRequest
 import kotlinx.android.synthetic.main.fragment_write_article.*
 
 
@@ -63,39 +65,49 @@ class WriteArticleFragment : Fragment() {
         val writeViewModelProvider = WriteViewModelProviderFactory(articleRepository)
         writeViewModel =
             ViewModelProvider(this, writeViewModelProvider).get(WriteArticleViewModel::class.java)
+        writeViewModel.argsFromProf = args
+        writeViewModel.checkArgsIsEmpty(args)
 
 
-
-        writeViewModel.checkArgsIsNull(args)
+        // writeViewModel.checkArgsIsNull(args)
         writeViewModel.activity = requireActivity()
 
         binding.writeViewModel = writeViewModel
         binding.lifecycleOwner = this
 
-        writeViewModel.isFromEdit.observe(
-            viewLifecycleOwner,
-            androidx.lifecycle.Observer { isFromEdit ->
-                if (!isFromEdit) {
+        writeViewModel.isFromEdit.observe(viewLifecycleOwner, Observer { isFromEdit ->
+            if (isFromEdit) {
+                Log.d("ahtof", "${isFromEdit} and \n ${args} ")
 
-                    val post = args.getParcelable<ArticleView>("post")
-                    val itemSelectedForEdit = args.getInt("number")
+                // val article = writeViewModel.article
 
-                    submit_article.setOnClickListener {
-                        val bundle = Bundle()
-                        post?.title = edit_title.text.toString().trim()
-                        post?.desc = edit_text.text.toString().trim()
-                        //add keyword later
 
-                        bundle.putParcelable("editPost", post)
-                        if (itemSelectedForEdit != null) {
-                            bundle.putInt("numberOfEditPost", itemSelectedForEdit)
-                        }
-                        findNavController().navigate(
-                            R.id.action_writeArticleFragment_to_profileFragment,
-                            bundle
-                        )
+                submit_article.setOnClickListener {
+//
+                    //show progress bar
+                    showProgressBar()
+//
+                    val body = edit_text.text.toString().trim()
+                    val slug = writeViewModel.article.slug
+                    writeViewModel.updateArticle(
+                        slug,
+                        EditArticleRequest(BodyOfEditedArticle(body))
+                    )
+//                        bundle.putString("body",body)
+//
+//                        if (itemSelectedForEdit >0) {
+//                            bundle.putInt("numberOfEditPost", itemSelectedForEdit)
+//                        }
+//                        bundle.putString("userName",writeViewModel.userName)
+//                        findNavController().navigate(
+//                            R.id.action_writeArticleFragment_to_profileFragment,
+//                            bundle
+//                        )
 
-                    }
+                    writeViewModel.editedArticle
+
+
+                }
                 } else {
 
                     Log.d("reqCj", "babay : ")
@@ -111,9 +123,21 @@ class WriteArticleFragment : Fragment() {
                         )
                         writeViewModel.createArticle(createArticleModel)
                     }
-                }
-            })
+            }
+        })
+        writeViewModel.isUpdated.observe(viewLifecycleOwner, Observer { isUpdatedSuccess ->
+            if (isUpdatedSuccess) {
+                hideProgress()
+                val bundle = Bundle()
+                bundle.putString("userName", writeViewModel.userName)
+                findNavController().navigate(
+                    R.id.action_writeArticleFragment_to_profileFragment,
+                    bundle
+                )
+                writeViewModel.isUpdated.value = false
+            }
 
+        })
 
         binding.arrowBackWA.setOnClickListener {
             hideKeyboard()
@@ -141,6 +165,14 @@ class WriteArticleFragment : Fragment() {
             //below code is for when user click on edit text , adjust pan call again
             setTagEdt.clearFocus()
         }
+    }
+
+    private fun showProgressBar() {
+        writeProgress.visibility = View.VISIBLE
+    }
+
+    private fun hideProgress() {
+        writeProgress.visibility = View.INVISIBLE
     }
 
 }

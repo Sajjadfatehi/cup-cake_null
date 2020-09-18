@@ -11,7 +11,7 @@ import com.article.data.modelfromservice.CreateArticleModel
 import com.core.util.Resource
 import com.google.android.material.chip.Chip
 import com.user.data.modelfromservice.Article
-import com.user.ui.ArticleView
+import com.user.data.modelfromservice.EditArticleRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -24,7 +24,11 @@ class WriteArticleViewModel(val articleRepository: ArticleRepository) : ViewMode
     val tagsChip = mutableMapOf<Chip, String>()
     var argsFromProf: Bundle = Bundle()
     var isFromEdit = MutableLiveData<Boolean>()
-    lateinit var article: ArticleView
+    lateinit var article: Article
+
+    var userName = ""
+    var isUpdated = MutableLiveData<Boolean>()
+    var editedArticle: MutableLiveData<Resource<Article>> = MutableLiveData()
 
 
     init {
@@ -49,18 +53,46 @@ class WriteArticleViewModel(val articleRepository: ArticleRepository) : ViewMode
     }
 
 
-    fun checkArgsIsNull(bundle: Bundle?) {
+    fun updateArticle(slug: String, editArticleRequest: EditArticleRequest) =
+        viewModelScope.launch(Dispatchers.IO) {
+            editedArticle.postValue(Resource.Loading())
+            val response = articleRepository.updateArticle(slug, editArticleRequest)
+            editedArticle.postValue(handleUpdateArticle(response))
+        }
 
+    private fun handleUpdateArticle(response: Response<Article>): Resource<Article> {
+        if (response.isSuccessful) {
+
+            isUpdated.postValue(true)
+            response.body()?.let { result ->
+                return Resource.Success(result)
+            }
+
+        }
+        return Resource.Error(response.message())
+    }
+
+
+    fun checkArgsIsEmpty(bundle: Bundle?) {
+
+        Log.d("ahtof", "is:  ${isFromEdit}")
         if (bundle != null) {
-            argsFromProf = bundle
+            if (!bundle.isEmpty) {
+
+                bundle.getParcelable<Article>("post")?.let {
+                    article = it
+                    isFromEdit.value = true
+
+                }
+                bundle.getString("userName")?.let {
+                    userName = it
+                }
+
+            } else {
+                isFromEdit.value = false
+            }
         }
-        if (!argsFromProf.isEmpty) {
-            article = argsFromProf.getParcelable<ArticleView>("post")!!
-            isFromEdit.value = true
-        } else {
-            isFromEdit.value = false
-        }
-        isFromEdit.value = bundle != null
+
 
     }
 

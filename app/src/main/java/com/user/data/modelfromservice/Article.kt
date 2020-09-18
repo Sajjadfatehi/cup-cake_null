@@ -1,5 +1,9 @@
 package com.user.data.modelfromservice
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Article(
     val author: Author,
     val body: String,
@@ -11,4 +15,4 @@ data class Article(
     val tagList: List<String>,
     val title: String,
     val updatedAt: String
-)
+) : Parcelable

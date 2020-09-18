@@ -28,7 +28,6 @@ import com.example.anull.databinding.TestlayoutBinding
 import com.user.data.UserRepository
 import com.user.data.modelfromservice.Article
 import com.user.data.modelfromservice.Author
-import com.user.ui.ArticleView
 import com.user.ui.ClickListener
 import com.user.ui.viewmodel.ProfileViewModel
 import com.user.ui.viewmodel.providerfactory.ProfileViewModelProviderFactory
@@ -56,7 +55,9 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         argsFromEdit = this.arguments
-        isFromEdit = !argsFromEdit?.isEmpty!!
+        argsFromEdit?.let { args ->
+            isFromEdit = (args.getString("userName") != null)
+        }
 
 
     }
@@ -76,8 +77,13 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var authorArgs = arguments?.let { ProfileFragmentArgs.fromBundle(it) }
-        userName = authorArgs?.author?.username.toString()
+        userName = if (isFromEdit) {
+            argsFromEdit?.getString("userName").toString()
+        } else {
+            val authorArgs = arguments?.let { ProfileFragmentArgs.fromBundle(it) }
+            authorArgs?.author?.username.toString()
+        }
+
 
 
         titleInProfList.add("نوشته ها")
@@ -113,16 +119,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             findNavController().navigateUp()
         }
 
-        if (isFromEdit) {
-            val num = argsFromEdit?.getInt("numberOfEditPost")
-            val newPost = argsFromEdit?.getParcelable<ArticleView>("editPost")
-            viewModel.postList.value!![num!!].title = newPost?.title.toString().trim()
-            viewModel.postList.value!![num].desc = newPost?.desc.toString().trim()
 
-            //recycler_posts_in_prof.adapter?.notifyItemChanged(num)
-
-
-        }
 
 
         titleRadioBtn.setOnCheckedChangeListener { _, i ->
@@ -130,7 +127,14 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
             // Toast.makeText(requireContext(),"${radio.text}",Toast.LENGTH_SHORT).show()
             if (radio.tag == "posts") {
+
+
                 viewModel.getAllArticleOfPerson(userName)
+
+
+
+
+
                 radio.setTextColor(Color.parseColor("#813ac1"))
                 requireActivity().findViewById<RadioButton>(R.id.radio2)
                     .setTextColor(Color.parseColor("#363636"))
@@ -144,10 +148,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
             }
         }
-        //tow below line is just for test
-//        viewModel.allArticleOfPerson.observe(viewLifecycleOwner, Observer {
-//            Log.d("lashii", "gooz ")
-//        })
+
 
         setUpRecyclerView()
 
@@ -161,8 +162,8 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
                         val totalPages = allArticleOfPerson.articlesCount / QUERY_PAGE_SIZE + 2
                         isLastPage = totalPages == viewModel.allArticleOfPersonPage
 
-                        if (isLastPage){
-                            recycler_posts_in_prof.setPadding(0,0,0,0)
+                        if (isLastPage) {
+                            recycler_posts_in_prof.setPadding(0, 0, 0, 0)
                         }
 
                     }
@@ -218,18 +219,21 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             }
         } else if (action == ("edit")) {
             val bundle = Bundle()
-            bundle.putParcelable("post", viewModel.postList.value!![numberOfItem!!])
 
-            bundle.putInt("number", numberOfItem)
+            numberOfItem?.let { number ->
+                viewModel.allArticleOfPerson.value?.data?.articles?.get(number)?.let { article ->
+                    bundle.putParcelable("post", article)
+                    bundle.putString("userName", userName)
+                }
+            }
+
+
 
             findNavController().navigate(
                 R.id.action_profileFragment_to_writeArticleFragment,
                 bundle
-
             )
-
             bottomSheetFragment.dismiss()
-
         }
     }
 
@@ -300,7 +304,13 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             val shouldPaginate = isNotLoadingAndNotLastPage && isLastItem && isNotAtBeginning
                     && isTotalMoreThanVisible && isScrolling
             if (shouldPaginate) {
+
+
                 viewModel.getAllArticleOfPerson(userName)
+
+
+
+
                 isScrolling = false
             }
 
