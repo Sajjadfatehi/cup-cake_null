@@ -1,9 +1,6 @@
 package com.user.data.api
 
-import com.user.data.modelfromservice.AllArticleOfPerson
-import com.user.data.modelfromservice.Article
-import com.user.data.modelfromservice.RegisterRequest
-import com.user.data.modelfromservice.RegisterResponse
+import com.user.data.modelfromservice.*
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -45,4 +42,9 @@ interface UserApi {
 
     ): Response<Unit>
 
+    @GET("profiles/{USERNAME}")
+    suspend fun profile(
+        @Path("USERNAME")
+        userName: String
+    ): Response<Profile>
 }

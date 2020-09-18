@@ -80,14 +80,10 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         userName = if (isFromEdit) {
             argsFromEdit?.getString("userName").toString()
         } else {
+
             val authorArgs = arguments?.let { ProfileFragmentArgs.fromBundle(it) }
             authorArgs?.author?.username.toString()
         }
-
-
-
-        titleInProfList.add("نوشته ها")
-        titleInProfList.add("علاقه مندی")
 
 
         val userRepository = UserRepository(AppDataBase.invoke(requireContext(), MIGRATION_1_2))
@@ -99,6 +95,36 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             profileViewModelProviderFactory
         ).get(ProfileViewModel::class.java)
 
+
+
+        titleInProfList.add("نوشته ها")
+        titleInProfList.add("علاقه مندی")
+
+        //set profile
+        viewModel.profile.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is Resource.Success -> {
+                    hideProgressBar()
+                    response.data?.let { profile ->
+
+                        bindingProf.author = profile.profile
+
+                    }
+
+                }
+                is Resource.Error -> {
+                    hideProgressBar()
+                    response.message?.let { message ->
+                    }
+                }
+                is Resource.Loading -> {
+
+                    showProgressBar()
+                }
+
+
+            }
+        })
 
 //        bindingProf.lifecycleOwner=this
 //        recycler_posts_in_prof.apply {
@@ -158,6 +184,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let { allArticleOfPerson ->
+                        bindingProf.countOfArticles = allArticleOfPerson.articlesCount.toString()
                         testAdapter.differ.submitList(allArticleOfPerson.articles.toList())
                         val totalPages = allArticleOfPerson.articlesCount / QUERY_PAGE_SIZE + 2
                         isLastPage = totalPages == viewModel.allArticleOfPersonPage
@@ -185,8 +212,12 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         viewModel.isDeleteSuccess.observe(viewLifecycleOwner, Observer { isDeletedSuccess ->
             if (isDeletedSuccess) {
+
+                Log.d("zendegi", "detele observe: ")
                 val itemNumberOfDeletedArticle = viewModel.itemNumberOfDeletedArticle
-                if (itemNumberOfDeletedArticle > 0) {
+
+                Log.d("zendegi", "delte item :${itemNumberOfDeletedArticle} ")
+                if (itemNumberOfDeletedArticle >= 0) {
                     viewModel.deleteArticleFromList(itemNumberOfDeletedArticle)
                 }
                 viewModel.itemNumberOfDeletedArticle = -1
@@ -208,11 +239,12 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         if (action == ("delete")) {
             if (numberOfItem != null) {
+                Log.d("zendegi", "step 1 number= ${numberOfItem} ")
                 viewModel.deleteArticleTest(
                     viewModel.allArticleOfPerson.value?.data?.articles!![numberOfItem].slug,
                     numberOfItem
                 )
-                viewModel.deleteArticleFromList(numberOfItem)
+//                viewModel.deleteArticleFromList(numberOfItem)
                 //  recycler_posts_in_prof.adapter?.notifyItemRemoved(numberOfItem)
                 bottomSheetFragment.dismiss()
 
@@ -305,11 +337,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
                     && isTotalMoreThanVisible && isScrolling
             if (shouldPaginate) {
 
-
                 viewModel.getAllArticleOfPerson(userName)
-
-
-
 
                 isScrolling = false
             }
@@ -331,6 +359,14 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             layoutManager = LinearLayoutManager(activity)
             addOnScrollListener(this@ProfileFragment.scrollListener)
         }
+    }
+
+    private fun showProfProgressBar() {
+        profProgressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProfProgressBar() {
+        profProgressBar.visibility = View.INVISIBLE
     }
 }
 

@@ -36,4 +36,6 @@ class UserRepository(val db:AppDataBase) {
     suspend fun deleteArticle(slug: String) =
         retrofit.deleteArticle(slug)
 
+    suspend fun profile(userName: String) =
+        retrofit.profile(userName)
 }

@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="author"
+            type="com.user.data.modelfromservice.Author" />
+
+        <variable
+            name="countOfArticles"
+            type="String" />
+    </data>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="false"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:background="#f3f3f3"
-        android:layoutDirection="rtl">
+        android:fillViewport="false"
+        android:layoutDirection="rtl"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -49,6 +61,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/prof_cardView"
                 android:layout_width="match_parent"
@@ -68,16 +81,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <ProgressBar
+                        android:id="@+id/profProgressBar"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:visibility="invisible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/image_profile"
                         android:layout_width="52dp"
                         android:layout_height="52dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:contentDescription="@string/image_of_profile_desc"
-                        android:src="@drawable/prof_image"
+
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        bind:url="@{author.image}" />
 
                     <TextView
                         android:id="@+id/tv_name"
@@ -86,7 +109,7 @@
                         android:layout_marginStart="16dp"
                         android:gravity="start"
                         android:lineSpacingExtra="9dp"
-                        android:text="@string/tv_name"
+                        android:text="@{author.username}"
                         android:textAlignment="viewStart"
                         android:textColor="#000000"
                         android:textSize="16sp"
@@ -133,7 +156,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:text="@string/tv_number_posts"
+                        android:text="@{countOfArticles}"
+                        tools:text="@string/tv_number_posts"
                         android:textAlignment="center"
                         android:textColor="#363636"
                         android:textSize="24sp"
@@ -177,6 +201,7 @@
 
 
             </com.google.android.material.card.MaterialCardView>
+
 
             <RadioGroup
                 android:id="@+id/titleRadioBtn"
@@ -243,16 +268,15 @@
 
                 app:layout_constraintTop_toBottomOf="@id/titleRadioBtn"
                 app:reverseLayout="false"
-                tools:listitem="@layout/item_profile_post"
-                 />
+                tools:listitem="@layout/item_profile_post" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
 
                 />
 

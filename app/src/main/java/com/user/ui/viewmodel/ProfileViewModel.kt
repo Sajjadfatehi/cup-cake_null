@@ -8,6 +8,7 @@ import com.core.util.Resource
 import com.user.data.UserRepository
 import com.user.data.modelfromservice.AllArticleOfPerson
 import com.user.data.modelfromservice.Article
+import com.user.data.modelfromservice.Profile
 import com.user.ui.ArticleView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,14 +27,15 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
     var isDeleteSuccess = MutableLiveData<Boolean>()
     var itemNumberOfDeletedArticle = -1
 
+    var profile = MutableLiveData<Resource<Profile>>()
 
 
-     fun getAllArticleOfPerson(author: String) = viewModelScope.launch {
-         allArticleOfPerson.postValue(Resource.Loading())
+    fun getAllArticleOfPerson(author: String) = viewModelScope.launch {
+        allArticleOfPerson.postValue(Resource.Loading())
 
-         val response = userRepository.getAllArticleOfPerson(author, allArticleOfPersonPage)
-         allArticleOfPerson.postValue(handleAllArticleOfPersonResponse(response))
-     }
+        val response = userRepository.getAllArticleOfPerson(author, allArticleOfPersonPage)
+        allArticleOfPerson.postValue(handleAllArticleOfPersonResponse(response))
+    }
 
     private fun handleAllArticleOfPersonResponse(response: Response<AllArticleOfPerson>): Resource<AllArticleOfPerson> {
         if (response.isSuccessful) {
@@ -122,21 +124,42 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
     }
 
 
-    fun deleteArticleTest(slug: String, itemNumber: Int) = viewModelScope.launch {
-        allArticleOfPerson.postValue(Resource.Loading())
+    fun deleteArticleTest(slug: String, itemNumber: Int) = viewModelScope.launch(Dispatchers.IO) {
+        Log.d("zendegi", "step2 ${slug}: ")
+
         val response = userRepository.deleteArticle(slug)
-        handleDeleteArticleTest(response, itemNumber)
+        handleDeleteArticleTest(response)
         if (response.isSuccessful) {
             itemNumberOfDeletedArticle = itemNumber
+            Log.d("zendegi", "deleteArticleTest done1: ${itemNumber} ")
             isDeleteSuccess.postValue(true)
 
         }
     }
 
-    private fun handleDeleteArticleTest(response: Response<Unit>, itemNumber: Int): Resource<Unit> {
+    private fun handleDeleteArticleTest(response: Response<Unit>): Resource<Unit> {
         if (response.isSuccessful) {
 
             return Resource.Success(Unit)
+        }
+        return Resource.Error(response.message())
+    }
+
+    fun getProfile(userName: String) = viewModelScope.launch(Dispatchers.IO) {
+
+        profile.postValue(Resource.Loading())
+        val response = userRepository.profile(userName)
+        profile.postValue(handleGetProfile(response))
+
+    }
+
+    fun handleGetProfile(response: Response<Profile>): Resource<Profile> {
+        if (response.isSuccessful) {
+
+            response.body()?.let {
+                return Resource.Success(it)
+
+            }
         }
         return Resource.Error(response.message())
     }
@@ -145,8 +168,8 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
     init {
 
         postList.value = userRepository.getPostInProf()
-
         getAllArticleOfPerson(userName)
+        getProfile(userName)
 
 
     }
@@ -161,6 +184,7 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
     }
 
     fun deleteArticleFromList(itemNumber: Int) {
+
         val art = allArticleOfPerson.value?.data?.articles!![itemNumber]
         val re = allArticleOfPerson.value!!.data?.articles!!.minus(art)
         val artciNew = AllArticleOfPerson(re.toMutableList(), re.size)
