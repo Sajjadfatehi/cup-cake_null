@@ -47,6 +47,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
     }
 
     var userName: String = ""
+    var isFollowing = false
     private lateinit var bindingProf: TestlayoutBinding
 
     private val titleInProfList = mutableListOf<String>()
@@ -82,15 +83,18 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userName = if (isFromEdit) {
-            argsFromEdit?.getString("userName").toString()
+        if (isFromEdit) {
+            userName = argsFromEdit?.getString("userName").toString()
 
         } else {
-
             val authorArgs = arguments?.let {
                 ProfileFragmentArgs.fromBundle(it)
             }
-            authorArgs?.author?.username.toString()
+            userName = authorArgs?.author?.username.toString()
+            authorArgs?.author?.following?.let {
+                Log.d("bibi", "log ${it}: ")
+                isFollowing = it
+            }
         }
 
 
@@ -103,6 +107,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             profileViewModelProviderFactory
         ).get(ProfileViewModel::class.java)
 
+        viewModel.isFollowing = isFollowing
 
 
         titleInProfList.add("نوشته ها")
@@ -153,6 +158,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             findNavController().navigateUp()
         }
 
+        titleRadioBtn.check(R.id.radio1)
 
 
 
@@ -234,31 +240,34 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         })
 
-        viewModel.followResponse.observe(viewLifecycleOwner, Observer {response->
-            when(response){
-                is Resource.Success->{
-                    follow_button.text="دنبال میکنید"
-                    follow_button.setBackgroundColor(Color.GREEN)
+        viewModel.followResponse.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is Resource.Success -> {
+                    Log.d("bibi", "follow res ${viewModel.isFollowing}: ")
+
+                    viewModel.isFollowing=true
+                    bindingProf.follow=true
                 }
-                is Resource.Error->{
+                is Resource.Error -> {
 
                 }
-                is Resource.Loading->{
+                is Resource.Loading -> {
 
                 }
             }
 
         })
-        viewModel.unFollowResponse.observe(viewLifecycleOwner, Observer {response->
-            when(response){
-                is Resource.Success->{
-                    follow_button.text="دنبال کردن"
-                    follow_button.setBackgroundColor(Color.BLUE)
+        viewModel.unFollowResponse.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is Resource.Success -> {
+                    Log.d("bibi", "Unfollow res ${viewModel.isFollowing}: ")
+                   viewModel.isFollowing=false
+                    bindingProf.follow=false
                 }
-                is Resource.Error->{
+                is Resource.Error -> {
 
                 }
-                is Resource.Loading->{
+                is Resource.Loading -> {
 
                 }
             }
@@ -266,8 +275,15 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         })
 
         follow_button.setOnClickListener {
-           // viewModel.follow(userName, FollowRequest(EmailBody("seyed@gmail.com")))
-            viewModel.unFollow(userName)
+            Log.d("bibi", "onViewCreated:${viewModel.isFollowing} ")
+            if (viewModel.isFollowing) {
+                viewModel.unFollow(userName)
+
+            } else {
+                viewModel.follow(userName, FollowRequest(EmailBody("seyed@gmail.com")))
+            }
+
+
         }
     }
 
@@ -339,12 +355,12 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         }
 
     }
-    override fun onBookMarkClick(slug: String,isFavorited:Boolean,itemNumber:Int) {
-        if (isFavorited){
-            viewModel.unFavoritedArticle(slug,itemNumber)
 
-        }
-        else{
+    override fun onBookMarkClick(slug: String, isFavorited: Boolean, itemNumber: Int) {
+        if (isFavorited) {
+            viewModel.unFavoritedArticle(slug, itemNumber)
+
+        } else {
             viewModel.favoriteArticle(slug)
 
         }

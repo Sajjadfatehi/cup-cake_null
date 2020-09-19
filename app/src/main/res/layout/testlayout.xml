@@ -13,6 +13,9 @@
         <variable
             name="countOfArticles"
             type="String" />
+        <variable
+            name="follow"
+            type="Boolean" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -138,16 +141,17 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
-                        android:backgroundTint="#286de6"
+                        android:backgroundColor="@{author.following?  @color/isNotFollow:@color/isFollow }"
 
                         android:gravity="center"
-                        android:text="@string/tv_follow_button"
+                        android:text="@{author.following?@string/profileWasFollow: @string/tv_follow_button  }"
                         android:textAlignment="center"
                         android:textSize="16sp"
                         app:cornerRadius="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
 
+                        bind:isFollowing="@{follow}"
 
                         />
 

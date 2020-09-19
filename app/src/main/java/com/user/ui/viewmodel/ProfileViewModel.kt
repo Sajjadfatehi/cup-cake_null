@@ -19,6 +19,7 @@ import retrofit2.Response
 class ProfileViewModel(val userRepository: UserRepository, val userName: String) : ViewModel() {
 
 
+     var isFollowing=false
     //private val userRepository = UserRepository()
     var postList: MutableLiveData<MutableList<ArticleView>> = MutableLiveData()
     val allArticleOfPerson: MutableLiveData<Resource<AllArticleOfPerson>> = MutableLiveData()
