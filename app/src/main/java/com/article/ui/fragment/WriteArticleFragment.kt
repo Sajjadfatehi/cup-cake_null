@@ -129,6 +129,7 @@ class WriteArticleFragment : Fragment() {
             if (isUpdatedSuccess) {
                 hideProgress()
                 val bundle = Bundle()
+
                 bundle.putString("userName", writeViewModel.userName)
                 findNavController().navigate(
                     R.id.action_writeArticleFragment_to_profileFragment,

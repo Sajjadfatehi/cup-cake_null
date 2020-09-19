@@ -4,6 +4,7 @@ import com.core.LocalDataSource
 import com.core.db.AppDataBase
 import com.core.services.RetrofitService
 import com.user.data.api.UserApi
+import com.user.data.modelfromservice.FollowRequest
 import com.user.data.modelfromservice.RegisterRequest
 import com.user.ui.ArticleView
 
@@ -42,10 +43,10 @@ class UserRepository(val db:AppDataBase) {
 
     suspend fun profile(userName: String) =
         retrofit.profile(userName)
-//
-//    suspend fun follow(userName:String)=
-//        retrofit.follow(userName)
-//
-//    suspend fun unFollow(userName:String)=
-//        retrofit.unFollow(userName)
+
+    suspend fun follow(userName:String,followRequest: FollowRequest)=
+        retrofit.follow(userName,followRequest )
+
+    suspend fun unFollow(userName:String)=
+        retrofit.unFollow(userName)
 }

@@ -8,6 +8,7 @@ import com.core.util.Resource
 import com.user.data.UserRepository
 import com.user.data.modelfromservice.AllArticleOfPerson
 import com.user.data.modelfromservice.Article
+import com.user.data.modelfromservice.FollowRequest
 import com.user.data.modelfromservice.Profile
 import com.user.ui.ArticleView
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +17,7 @@ import retrofit2.Response
 
 
 class ProfileViewModel(val userRepository: UserRepository, val userName: String) : ViewModel() {
+
 
     //private val userRepository = UserRepository()
     var postList: MutableLiveData<MutableList<ArticleView>> = MutableLiveData()
@@ -29,6 +31,10 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
     var itemNumberOfDeletedArticle = -1
 
     var profile = MutableLiveData<Resource<Profile>>()
+
+    var followResponse = MutableLiveData<Resource<Profile>>()
+    var unFollowResponse = MutableLiveData<Resource<Profile>>()
+
 
 
     fun getAllArticleOfPerson(author: String) = viewModelScope.launch {
@@ -174,6 +180,27 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
         return Resource.Error(response.message())
     }
 
+
+    fun follow(userName: String,followRequest: FollowRequest)=viewModelScope.launch(Dispatchers.IO){
+        followResponse.postValue(Resource.Loading())
+        val response=userRepository.follow(userName,followRequest)
+        followResponse.postValue(handleFollow(response))
+    }
+    fun unFollow(userName: String)=viewModelScope.launch(Dispatchers.IO){
+        unFollowResponse.postValue(Resource.Loading())
+        val response=userRepository.unFollow(userName)
+        unFollowResponse.postValue(handleFollow(response))
+    }
+
+    private fun handleFollow(response:Response<Profile>):Resource<Profile>{
+        if (response.isSuccessful){
+            response.body()?.let {result->
+                return Resource.Success(result)
+            }
+
+        }
+        return Resource.Error(response.message())
+    }
 
     init {
 

@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.bumptech.glide.Glide
 import com.core.db.AppDataBase
 import com.core.util.Constants.Companion.QUERY_PAGE_SIZE
 import com.core.util.Resource
@@ -28,12 +29,15 @@ import com.example.anull.databinding.TestlayoutBinding
 import com.user.data.UserRepository
 import com.user.data.modelfromservice.Article
 import com.user.data.modelfromservice.Author
+import com.user.data.modelfromservice.EmailBody
+import com.user.data.modelfromservice.FollowRequest
 import com.user.ui.ClickListener
 import com.user.ui.viewmodel.ProfileViewModel
 import com.user.ui.viewmodel.providerfactory.ProfileViewModelProviderFactory
 import kotlinx.android.synthetic.main.testlayout.*
 
 class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack {
+
 
     lateinit var testAdapter: TestAdapterClass
     private val MIGRATION_1_2 = object : Migration(1, 2) {
@@ -48,6 +52,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
     private val titleInProfList = mutableListOf<String>()
     private val bottomSheetFragment = BottomSheetFragment()
     private lateinit var viewModel: ProfileViewModel
+
 
     private var isFromEdit: Boolean = false
     private var argsFromEdit: Bundle? = Bundle()
@@ -79,9 +84,12 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         userName = if (isFromEdit) {
             argsFromEdit?.getString("userName").toString()
+
         } else {
 
-            val authorArgs = arguments?.let { ProfileFragmentArgs.fromBundle(it) }
+            val authorArgs = arguments?.let {
+                ProfileFragmentArgs.fromBundle(it)
+            }
             authorArgs?.author?.username.toString()
         }
 
@@ -226,6 +234,41 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         })
 
+        viewModel.followResponse.observe(viewLifecycleOwner, Observer {response->
+            when(response){
+                is Resource.Success->{
+                    follow_button.text="دنبال میکنید"
+                    follow_button.setBackgroundColor(Color.GREEN)
+                }
+                is Resource.Error->{
+
+                }
+                is Resource.Loading->{
+
+                }
+            }
+
+        })
+        viewModel.unFollowResponse.observe(viewLifecycleOwner, Observer {response->
+            when(response){
+                is Resource.Success->{
+                    follow_button.text="دنبال کردن"
+                    follow_button.setBackgroundColor(Color.BLUE)
+                }
+                is Resource.Error->{
+
+                }
+                is Resource.Loading->{
+
+                }
+            }
+
+        })
+
+        follow_button.setOnClickListener {
+           // viewModel.follow(userName, FollowRequest(EmailBody("seyed@gmail.com")))
+            viewModel.unFollow(userName)
+        }
     }
 
 
@@ -299,9 +342,11 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
     override fun onBookMarkClick(slug: String,isFavorited:Boolean,itemNumber:Int) {
         if (isFavorited){
             viewModel.unFavoritedArticle(slug,itemNumber)
+
         }
         else{
             viewModel.favoriteArticle(slug)
+
         }
 
     }

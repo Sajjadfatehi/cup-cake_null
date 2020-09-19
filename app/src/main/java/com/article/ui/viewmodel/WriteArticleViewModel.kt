@@ -75,7 +75,6 @@ class WriteArticleViewModel(val articleRepository: ArticleRepository) : ViewMode
 
     fun checkArgsIsEmpty(bundle: Bundle?) {
 
-        Log.d("ahtof", "is:  ${isFromEdit}")
         if (bundle != null) {
             if (!bundle.isEmpty) {
 

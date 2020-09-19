@@ -57,14 +57,16 @@ interface UserApi {
         userName: String
     ): Response<Profile>
 
-    @POST("profiles/celeb_{USERNAME}/follow")
-    fun follow(
+    @POST("profiles/{USERNAME}/follow")
+    suspend fun follow(
         @Path("USERNAME")
-        userName:String
+        userName:String,
+        @Body
+        user: FollowRequest
     ):Response<Profile>
 
     @DELETE("profiles/{USERNAME}/follow")
-    fun unFollow(
+    suspend fun unFollow(
         @Path("USERNAME")
         userName:String
     ):Response<Profile>
