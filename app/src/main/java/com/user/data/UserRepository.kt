@@ -30,6 +30,10 @@ class UserRepository(val db:AppDataBase) {
     suspend fun favoriteArticle(slug: String) =
         retrofit.favoriteArticle(slug)
 
+    suspend fun unFavoriteArticle(slug: String) =
+        retrofit.unFavoriteArticle(slug)
+
+
     suspend fun favoritedArticleByUserName(favoritedUserName: String) =
         retrofit.favoriteArticleByUserName(favorited = favoritedUserName)
 
@@ -38,4 +42,10 @@ class UserRepository(val db:AppDataBase) {
 
     suspend fun profile(userName: String) =
         retrofit.profile(userName)
+//
+//    suspend fun follow(userName:String)=
+//        retrofit.follow(userName)
+//
+//    suspend fun unFollow(userName:String)=
+//        retrofit.unFollow(userName)
 }

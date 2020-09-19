@@ -21,6 +21,7 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
     var postList: MutableLiveData<MutableList<ArticleView>> = MutableLiveData()
     val allArticleOfPerson: MutableLiveData<Resource<AllArticleOfPerson>> = MutableLiveData()
     val favoriteArticleResponse: MutableLiveData<Resource<Article>> = MutableLiveData()
+    val unFavoriteArticleResponse: MutableLiveData<Resource<Article>> = MutableLiveData()
     var allArticleOfPersonPage = 1
     var allArticleOfPersonResponse: AllArticleOfPerson? = null
 
@@ -111,6 +112,15 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
         favoriteArticleResponse.postValue(Resource.Loading())
         val response = userRepository.favoriteArticle(slug)
         favoriteArticleResponse.postValue(handleFavoriteArticle(response))
+
+    }
+    fun unFavoritedArticle(slug:String,itemNumber:Int)=viewModelScope.launch(Dispatchers.IO) {
+        unFavoriteArticleResponse.postValue(Resource.Loading())
+        val response=userRepository.unFavoriteArticle(slug)
+        unFavoriteArticleResponse.postValue(handleFavoriteArticle(response))
+        if (response.isSuccessful) run {
+            deleteArticleFromList(itemNumber)
+        }
 
     }
 

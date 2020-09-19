@@ -33,7 +33,8 @@ class TestAdapterClass(val clickListener: ClickListener) :
                 clickListener.onLikeClick()
             }
             binding.favoriteIc.setOnClickListener {
-                clickListener.onBookMarkClick(differ.currentList[layoutPosition].slug)
+                clickListener.onBookMarkClick(differ.currentList[layoutPosition].slug,
+                    differ.currentList[layoutPosition].favorited,layoutPosition)
             }
         }
     }

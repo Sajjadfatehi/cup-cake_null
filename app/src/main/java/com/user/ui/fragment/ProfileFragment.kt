@@ -296,9 +296,14 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         }
 
     }
+    override fun onBookMarkClick(slug: String,isFavorited:Boolean,itemNumber:Int) {
+        if (isFavorited){
+            viewModel.unFavoritedArticle(slug,itemNumber)
+        }
+        else{
+            viewModel.favoriteArticle(slug)
+        }
 
-    override fun onBookMarkClick(slug: String) {
-        viewModel.favoriteArticle(slug)
     }
 
     override fun onLikeClick() {

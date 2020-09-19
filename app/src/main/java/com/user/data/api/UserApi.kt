@@ -28,6 +28,15 @@ interface UserApi {
 
     ): Response<Article>
 
+
+    @DELETE("articles/{slug}/favorite")
+    suspend fun unFavoriteArticle(
+        @Path("slug")
+        slug: String
+
+    ): Response<Article>
+
+
     @GET("articles")
     suspend fun favoriteArticleByUserName(
         @Query("favorited")
@@ -47,4 +56,16 @@ interface UserApi {
         @Path("USERNAME")
         userName: String
     ): Response<Profile>
+
+    @POST("profiles/celeb_{USERNAME}/follow")
+    fun follow(
+        @Path("USERNAME")
+        userName:String
+    ):Response<Profile>
+
+    @DELETE("profiles/{USERNAME}/follow")
+    fun unFollow(
+        @Path("USERNAME")
+        userName:String
+    ):Response<Profile>
 }

@@ -8,6 +8,6 @@ interface ClickListener {
     fun onCardClick(article: Article, layoutPosition: Int)
     fun onImageClick(author: Author)
 
-    fun onBookMarkClick(slug: String)
+    fun onBookMarkClick(slug: String,isFavorited:Boolean,itemNumber:Int)
     fun onLikeClick()
 }
