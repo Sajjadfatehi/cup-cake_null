@@ -82,6 +82,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val thisViewLifeCycleOwner=viewLifecycleOwner
 
         if (isFromEdit) {
             userName = argsFromEdit?.getString("userName").toString()
@@ -114,7 +115,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         titleInProfList.add("علاقه مندی")
 
         //set profile
-        viewModel.profile.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.profile.observe(thisViewLifeCycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
@@ -149,7 +150,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 //            }
 //        }
 
-        viewModel.postList.observe(viewLifecycleOwner, Observer {
+        viewModel.postList.observe(thisViewLifeCycleOwner, Observer {
             recycler_posts_in_prof.adapter?.notifyDataSetChanged()
 
         })
@@ -192,13 +193,16 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         setUpRecyclerView()
 
-        viewModel.allArticleOfPerson.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.allArticleOfPerson.observe(thisViewLifeCycleOwner, Observer { response ->
             Log.d("asghar", "bbbbbb: ")
             when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let { allArticleOfPerson ->
-                        bindingProf.countOfArticles = allArticleOfPerson.articlesCount.toString()
+                        if (titleRadioBtn.checkedRadioButtonId==radio1.id){
+                            bindingProf.countOfArticles = allArticleOfPerson.articlesCount.toString()
+                        }
+
                         testAdapter.differ.submitList(allArticleOfPerson.articles.toList())
                         val totalPages = allArticleOfPerson.articlesCount / QUERY_PAGE_SIZE + 2
                         isLastPage = totalPages == viewModel.allArticleOfPersonPage
@@ -224,7 +228,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         })
 
-        viewModel.isDeleteSuccess.observe(viewLifecycleOwner, Observer { isDeletedSuccess ->
+        viewModel.isDeleteSuccess.observe(thisViewLifeCycleOwner, Observer { isDeletedSuccess ->
             if (isDeletedSuccess) {
 
                 Log.d("zendegi", "detele observe: ")
@@ -240,7 +244,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         })
 
-        viewModel.followResponse.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.followResponse.observe(thisViewLifeCycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
                     Log.d("bibi", "follow res ${viewModel.isFollowing}: ")
@@ -257,7 +261,8 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             }
 
         })
-        viewModel.unFollowResponse.observe(viewLifecycleOwner, Observer { response ->
+
+        viewModel.unFollowResponse.observe(thisViewLifeCycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
                     Log.d("bibi", "Unfollow res ${viewModel.isFollowing}: ")
@@ -271,6 +276,28 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
                 }
             }
+
+        })
+
+        viewModel.favoriteArticleResponse.observe(thisViewLifeCycleOwner, Observer {response->
+            when(response){
+                is Resource.Success->{
+
+
+
+                }
+                is Resource.Error->{
+
+                }
+                is Resource.Loading->{
+
+                }
+            }
+
+        })
+
+        viewModel.unFavoriteArticleResponse.observe(thisViewLifeCycleOwner, Observer {response->
+
 
         })
 

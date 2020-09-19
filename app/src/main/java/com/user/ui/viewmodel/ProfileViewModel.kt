@@ -36,6 +36,8 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
     var followResponse = MutableLiveData<Resource<Profile>>()
     var unFollowResponse = MutableLiveData<Resource<Profile>>()
 
+    var itemNumberOfArticleFavorited=-1
+    var itemNumberOfArticleUnFavorited=-1
 
 
     fun getAllArticleOfPerson(author: String) = viewModelScope.launch {
@@ -121,6 +123,7 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
         favoriteArticleResponse.postValue(handleFavoriteArticle(response))
 
     }
+
     fun unFavoritedArticle(slug:String,itemNumber:Int)=viewModelScope.launch(Dispatchers.IO) {
         unFavoriteArticleResponse.postValue(Resource.Loading())
         val response=userRepository.unFavoriteArticle(slug)
@@ -139,7 +142,6 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
         }
         return Resource.Error(response.message())
     }
-
 
     fun deleteArticleTest(slug: String, itemNumber: Int) = viewModelScope.launch(Dispatchers.IO) {
         Log.d("zendegi", "step2 ${slug}: ")
@@ -225,8 +227,20 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
 
         val art = allArticleOfPerson.value?.data?.articles!![itemNumber]
         val re = allArticleOfPerson.value!!.data?.articles!!.minus(art)
+
         val artciNew = AllArticleOfPerson(re.toMutableList(), re.size)
         allArticleOfPerson.postValue(Resource.Success(artciNew))
     }
+//
+//    fun updateArticleFromList(itemNumber: Int,article: Article) {
+//
+//    first minus second add
+//        val art = allArticleOfPerson.value?.data?.articles!![itemNumber]
+//        val re = allArticleOfPerson.value!!.data?.articles!!.minus(art)
+//
+//        val artciNew = AllArticleOfPerson(re.toMutableList(), re.size)
+//        allArticleOfPerson.postValue(Resource.Success(artciNew))
+//    }
+
 
 }

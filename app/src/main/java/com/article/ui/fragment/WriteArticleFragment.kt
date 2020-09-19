@@ -65,6 +65,7 @@ class WriteArticleFragment : Fragment() {
         val writeViewModelProvider = WriteViewModelProviderFactory(articleRepository)
         writeViewModel =
             ViewModelProvider(this, writeViewModelProvider).get(WriteArticleViewModel::class.java)
+
         writeViewModel.argsFromProf = args
         writeViewModel.checkArgsIsEmpty(args)
 
@@ -77,54 +78,36 @@ class WriteArticleFragment : Fragment() {
 
         writeViewModel.isFromEdit.observe(viewLifecycleOwner, Observer { isFromEdit ->
             if (isFromEdit) {
-                Log.d("ahtof", "${isFromEdit} and \n ${args} ")
-
-                // val article = writeViewModel.article
-
 
                 submit_article.setOnClickListener {
-//
+
                     //show progress bar
                     showProgressBar()
-//
+
                     val body = edit_text.text.toString().trim()
                     val slug = writeViewModel.article.slug
-                    writeViewModel.updateArticle(
-                        slug,
-                        EditArticleRequest(BodyOfEditedArticle(body))
-                    )
-//                        bundle.putString("body",body)
-//
-//                        if (itemSelectedForEdit >0) {
-//                            bundle.putInt("numberOfEditPost", itemSelectedForEdit)
-//                        }
-//                        bundle.putString("userName",writeViewModel.userName)
-//                        findNavController().navigate(
-//                            R.id.action_writeArticleFragment_to_profileFragment,
-//                            bundle
-//                        )
 
+                    writeViewModel.updateArticle(slug, EditArticleRequest(BodyOfEditedArticle(body)))
                     writeViewModel.editedArticle
 
-
                 }
-                } else {
-
-                    Log.d("reqCj", "babay : ")
-                    binding.submitArticle.setOnClickListener {
-                        var tags = writeViewModel.tagsChip.values.toList<String>()
-                        val createArticleModel = CreateArticleModel(
-                            ArticleInCreateArticleModel(
-                                body = "mamad is good",
-                                description = edit_text.text.toString(),
-                                title = edit_title.text.toString(),
-                                tagList = tags
-                            )
+            }
+            else {
+                binding.submitArticle.setOnClickListener {
+                    var tags = writeViewModel.tagsChip.values.toList<String>()
+                    val createArticleModel = CreateArticleModel(
+                        ArticleInCreateArticleModel(
+                            description = "Nothing",
+                            body = edit_text.text.toString(),
+                            title = edit_title.text.toString(),
+                            tagList = tags
                         )
-                        writeViewModel.createArticle(createArticleModel)
-                    }
+                    )
+                    writeViewModel.createArticle(createArticleModel)
+                }
             }
         })
+
         writeViewModel.isUpdated.observe(viewLifecycleOwner, Observer { isUpdatedSuccess ->
             if (isUpdatedSuccess) {
                 hideProgress()

@@ -158,6 +158,7 @@ class TitleFragment : Fragment() {
     private fun setUpRecyclerView() {
         titleAdapterDiff = ArticleAdapterDiff()
         recyclerTitle.apply {
+            setHasFixedSize(true)
             adapter = titleAdapterDiff
             layoutManager = LinearLayoutManager(activity)
             addOnScrollListener(this@TitleFragment.scrollListener)

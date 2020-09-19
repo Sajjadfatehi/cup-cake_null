@@ -6,10 +6,12 @@ import com.core.services.RetrofitService
 import com.user.data.api.UserApi
 import com.user.data.modelfromservice.FollowRequest
 import com.user.data.modelfromservice.RegisterRequest
+import com.user.data.reomtedatasource.UserRemote
 import com.user.ui.ArticleView
 
-class UserRepository(val db:AppDataBase) {
+class UserRepository(val db: AppDataBase) {
     val localDataSource = LocalDataSource()
+    val userRemote = UserRemote()
     val retrofit = RetrofitService.retrofit.create(UserApi::class.java)
 
     init {
@@ -22,31 +24,31 @@ class UserRepository(val db:AppDataBase) {
     }
 
     suspend fun getAllArticleOfPerson(author: String, pageNumber: Int) =
-        retrofit.getAllArticleOfPerson(author, pageNumber)
+        userRemote.getAllArticleOfPerson(author, pageNumber)
 
 
     suspend fun register(registerRequest: RegisterRequest) =
-        retrofit.register(registerRequest)
+        userRemote.register(registerRequest)
 
     suspend fun favoriteArticle(slug: String) =
-        retrofit.favoriteArticle(slug)
+        userRemote.favoriteArticle(slug)
 
     suspend fun unFavoriteArticle(slug: String) =
-        retrofit.unFavoriteArticle(slug)
+        userRemote.unFavoriteArticle(slug)
 
 
     suspend fun favoritedArticleByUserName(favoritedUserName: String) =
-        retrofit.favoriteArticleByUserName(favorited = favoritedUserName)
+        userRemote.favoritedArticleByUserName(favoritedUserName)
 
     suspend fun deleteArticle(slug: String) =
-        retrofit.deleteArticle(slug)
+        userRemote.deleteArticle(slug)
 
     suspend fun profile(userName: String) =
-        retrofit.profile(userName)
+        userRemote.profile(userName)
 
-    suspend fun follow(userName:String,followRequest: FollowRequest)=
-        retrofit.follow(userName,followRequest )
+    suspend fun follow(userName: String, followRequest: FollowRequest) =
+        userRemote.follow(userName, followRequest)
 
-    suspend fun unFollow(userName:String)=
-        retrofit.unFollow(userName)
+    suspend fun unFollow(userName: String) =
+        userRemote.unFollow(userName)
 }
