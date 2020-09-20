@@ -1,54 +1,57 @@
 package com.user.data
 
 import com.core.LocalDataSource
+import com.core.RemoteDataSource
 import com.core.db.AppDataBase
 import com.core.services.RetrofitService
 import com.user.data.api.UserApi
+import com.user.data.localdatasource.UserLocalDataSource
 import com.user.data.modelfromservice.FollowRequest
 import com.user.data.modelfromservice.RegisterRequest
 import com.user.data.reomtedatasource.UserRemote
 import com.user.ui.ArticleView
 
-class UserRepository(val db: AppDataBase) {
-    val localDataSource = LocalDataSource()
-    val userRemote = UserRemote()
+class UserRepository(val local:UserLocalDataSource,val remote:UserRemote) {
+//    val localDataSource = LocalDataSource()
+//    val userLocalDataSource=UserLocalDataSource()
+
     val retrofit = RetrofitService.retrofit.create(UserApi::class.java)
 
     init {
 
 
     }
-
-    fun getPostInProf(): MutableList<ArticleView> {
-        return localDataSource.getPostInProf()
-    }
+//
+//    fun getPostInProf(): MutableList<ArticleView> {
+//        return localDataSource.getPostInProf()
+//    }
 
     suspend fun getAllArticleOfPerson(author: String, pageNumber: Int) =
-        userRemote.getAllArticleOfPerson(author, pageNumber)
+        remote.getAllArticleOfPerson(author, pageNumber)
 
 
     suspend fun register(registerRequest: RegisterRequest) =
-        userRemote.register(registerRequest)
+        remote.register(registerRequest)
 
     suspend fun favoriteArticle(slug: String) =
-        userRemote.favoriteArticle(slug)
+        remote.favoriteArticle(slug)
 
     suspend fun unFavoriteArticle(slug: String) =
-        userRemote.unFavoriteArticle(slug)
+        remote.unFavoriteArticle(slug)
 
 
     suspend fun favoritedArticleByUserName(favoritedUserName: String) =
-        userRemote.favoritedArticleByUserName(favoritedUserName)
+        remote.favoritedArticleByUserName(favoritedUserName)
 
     suspend fun deleteArticle(slug: String) =
-        userRemote.deleteArticle(slug)
+        remote.deleteArticle(slug)
 
     suspend fun profile(userName: String) =
-        userRemote.profile(userName)
+        remote.profile(userName)
 
     suspend fun follow(userName: String, followRequest: FollowRequest) =
-        userRemote.follow(userName, followRequest)
+        remote.follow(userName, followRequest)
 
     suspend fun unFollow(userName: String) =
-        userRemote.unFollow(userName)
+        remote.unFollow(userName)
 }

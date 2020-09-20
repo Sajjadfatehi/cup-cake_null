@@ -41,7 +41,6 @@ interface UserApi {
     suspend fun favoriteArticleByUserName(
         @Query("favorited")
         favorited: String
-
     ): Response<AllArticleOfPerson>
 
     @DELETE("articles/{slug}")

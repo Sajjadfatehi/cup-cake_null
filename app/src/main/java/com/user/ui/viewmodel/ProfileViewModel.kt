@@ -124,11 +124,11 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
 
     }
 
-    fun unFavoritedArticle(slug:String,itemNumber:Int)=viewModelScope.launch(Dispatchers.IO) {
+    fun unFavoritedArticle(slug:String,itemNumber:Int,isFromRadio1:Boolean)=viewModelScope.launch(Dispatchers.IO) {
         unFavoriteArticleResponse.postValue(Resource.Loading())
         val response=userRepository.unFavoriteArticle(slug)
         unFavoriteArticleResponse.postValue(handleFavoriteArticle(response))
-        if (response.isSuccessful) run {
+        if (response.isSuccessful && !isFromRadio1) run {
             deleteArticleFromList(itemNumber)
         }
 
@@ -207,7 +207,7 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
 
     init {
 
-        postList.value = userRepository.getPostInProf()
+        //postList.value = userRepository.getPostInProf()
         getAllArticleOfPerson(userName)
         getProfile(userName)
 

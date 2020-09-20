@@ -20,8 +20,10 @@ import com.example.anull.databinding.FragmentSignUpBinding
 import com.user.data.ArticleEntity
 import com.user.data.UserEntity
 import com.user.data.UserRepository
+import com.user.data.localdatasource.UserLocalDataSource
 import com.user.data.modelfromservice.RegisterRequest
 import com.user.data.modelfromservice.User
+import com.user.data.reomtedatasource.UserRemote
 import com.user.ui.viewmodel.SignUpViewModel
 import com.user.ui.viewmodel.providerfactory.SiguUpViewModelProviderFactory
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -131,8 +133,11 @@ class SignUpFragment : Fragment() {
 
         // getSizeOfComments(db)
 
-
-        val userRepository = UserRepository(AppDataBase.invoke(requireContext(), MIGRATION_1_2))
+        val userLocalDataSource=
+            UserLocalDataSource(AppDataBase.invoke(requireContext(),MIGRATION_1_2))
+        val userRemoteDataSource= UserRemote()
+        val userRepository = UserRepository(userLocalDataSource,userRemoteDataSource
+        )
         val singUpViewModelProvider = SiguUpViewModelProviderFactory(userRepository)
         viewModel =
             ViewModelProvider(this, singUpViewModelProvider).get(SignUpViewModel::class.java)

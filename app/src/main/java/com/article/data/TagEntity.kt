@@ -18,4 +18,5 @@ data class TagEntity(
     @PrimaryKey val id: Int,
     var tagId: Long,
     var text: String
+
 )

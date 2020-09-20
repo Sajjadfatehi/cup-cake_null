@@ -27,10 +27,12 @@ import com.core.util.TestAdapterClass
 import com.example.anull.R
 import com.example.anull.databinding.TestlayoutBinding
 import com.user.data.UserRepository
+import com.user.data.localdatasource.UserLocalDataSource
 import com.user.data.modelfromservice.Article
 import com.user.data.modelfromservice.Author
 import com.user.data.modelfromservice.EmailBody
 import com.user.data.modelfromservice.FollowRequest
+import com.user.data.reomtedatasource.UserRemote
 import com.user.ui.ClickListener
 import com.user.ui.viewmodel.ProfileViewModel
 import com.user.ui.viewmodel.providerfactory.ProfileViewModelProviderFactory
@@ -99,7 +101,9 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         }
 
 
-        val userRepository = UserRepository(AppDataBase.invoke(requireContext(), MIGRATION_1_2))
+        val userLocalDataSource=UserLocalDataSource(AppDataBase.invoke(requireContext(),MIGRATION_1_2))
+        val userRemoteDataSource=UserRemote()
+        val userRepository = UserRepository(userLocalDataSource,userRemoteDataSource)
         val profileViewModelProviderFactory =
             ProfileViewModelProviderFactory(userRepository, userName)
 
@@ -283,7 +287,9 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             when(response){
                 is Resource.Success->{
 
+                    recycler_posts_in_prof.adapter?.notifyDataSetChanged()
 
+                    Log.d("hadige", "fa res: ")
 
                 }
                 is Resource.Error->{
@@ -298,7 +304,18 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         viewModel.unFavoriteArticleResponse.observe(thisViewLifeCycleOwner, Observer {response->
 
+            when(response){
+                is Resource.Success->{
+                    recycler_posts_in_prof.adapter?.notifyDataSetChanged()
+                    Log.d("hadige", "unfa res: ")
+                }
+                is Resource.Error->{
 
+                }
+                is Resource.Loading->{
+
+                }
+            }
         })
 
         follow_button.setOnClickListener {
@@ -385,8 +402,9 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
     override fun onBookMarkClick(slug: String, isFavorited: Boolean, itemNumber: Int) {
         if (isFavorited) {
-            viewModel.unFavoritedArticle(slug, itemNumber)
+            viewModel.unFavoritedArticle(slug, itemNumber,titleRadioBtn.checkedRadioButtonId==radio1.id)
 
+            Log.d("hadige", "${titleRadioBtn.checkedRadioButtonId==radio1.id}: ")
         } else {
             viewModel.favoriteArticle(slug)
 
