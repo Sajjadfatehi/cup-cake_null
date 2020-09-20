@@ -1,6 +1,6 @@
 package com.example.anull
 
-import org.junit.Test
+import org.junTest
 
 /**
  * Example local unit test, which will execute on the development machine (host).

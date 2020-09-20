@@ -66,12 +66,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title_bar"
+                app:tabGravity="start"
                 app:tabIndicator="@drawable/tab_color_selector"
                 app:tabIndicatorColor="@color/white"
                 app:tabIndicatorGravity="stretch"
                 app:tabMode="scrollable"
                 app:tabSelectedTextColor="@color/Purple"
-                app:tabTextColor="@color/white" />
+                app:tabTextColor="@color/white" >
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/for_you"/>
+            </com.google.android.material.tabs.TabLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/box_search"

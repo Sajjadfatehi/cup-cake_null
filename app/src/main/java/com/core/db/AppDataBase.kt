@@ -11,7 +11,7 @@ import com.user.data.UserDao
 import com.user.data.UserEntity
 
 @Database(
-    entities = [UserEntity::class, ArticleEntity::class, TagModel::class, CommentArticleModelEntity::class],
+    entities = [UserEntity::class, ArticleDataEntity::class, TagModel::class, CommentArticleModelEntity::class, TagAndArticleEntity::class],
     version = 1,
     exportSchema = false
 )
@@ -19,9 +19,12 @@ import com.user.data.UserEntity
 abstract class AppDataBase : RoomDatabase() {
 
     abstract fun articleDao(): ArticleDao
+
     abstract fun tagDao(): TagDao
 
     abstract fun userDao(): UserDao
+
+
 
     companion object {
 

@@ -16,4 +16,6 @@ interface TagDao {
 
     @Query("SELECT * FROM tags")
     fun getAllTag(): List<TagModel>
+
+
 }

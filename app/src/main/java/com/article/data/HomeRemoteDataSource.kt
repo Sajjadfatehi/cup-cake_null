@@ -29,4 +29,22 @@ class HomeRemoteDataSource() {
             return ResultCallBack.Error(Exception("bad request"))
         }
     }
+
+    suspend fun getArticleWithTag(text: String): ResultCallBack<ArticleModel> {
+        val result = articleApi.getArticleWithTag(text)
+        try {
+            if (result.isSuccessful) {
+                result.body()?.let {
+                    it?.let {
+                        return ResultCallBack.Success(it)
+                    }
+                }
+                return ResultCallBack.Error(Exception("server data failed"))
+            }
+            return ResultCallBack.Error(Exception(result.code().toString()))
+        } catch (e: Exception) {
+            Log.i("Exception", "getArticleWithTag: Exception user remote data source ")
+            return ResultCallBack.Error(Exception("bad request"))
+        }
+    }
 }

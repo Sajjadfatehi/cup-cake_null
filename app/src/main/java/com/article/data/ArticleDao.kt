@@ -7,37 +7,11 @@ import androidx.room.*
 interface ArticleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(articles: ArticleEntity)
+    fun insert(articles: List<ArticleDataEntity>)
 
-    @Query("select * from articles where id=1 ")
-    fun getArticle(): ArticleEntity
+    @Query("SELECT * FROM article WHERE slug in(SELECT slug FROM tag_article WHERE tag =:text)")
+    fun getArticleWithTag(text: String): List<ArticleUser>
 
-    @Query("select * from articles")
-    fun getAllArticles(): LiveData<List<ArticleEntity>>
-
-
-    @Transaction
-    @Query("select * from articles ")
-    fun getArticleAndCommentAndTag(): LiveData<List<ArticleAndCommentAndTag>>
-
-    @Query("delete from articles")
-    fun clear()
-
-    @Update
-    fun updateArticles(vararg articles: ArticleEntity)
-
-    @Delete
-    fun deleteArticles(vararg articles: ArticleEntity)
-
-    @Query("select * from articles where id= :articleId")
-    fun searchArticleWithCommentAndTag(articleId: Int): ArticleAndCommentAndTag
-
-
-
-    /*@Query("select * from articles")
-    fun getArticlesAndTags(articleEntity: ArticleEntity): ArticleAndTag
-
-    @Query("select * from articles")
-    fun getArticlesAndComments(articleEntity: ArticleEntity): ArticleAndComment*/
-
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertArticleTag(tagAndArticleEntity: List<TagAndArticleEntity>)
 }

@@ -2,6 +2,7 @@ package com.home.ui.fragment
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +13,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.article.data.ArticleRepository
+import com.article.data.ArticleUser
 import com.article.data.TagModel
 import com.example.anull.R
 import com.example.anull.databinding.FragmentHomeBinding
-import com.home.data.HomeRepasitory
+import com.google.android.material.tabs.TabLayout
 import com.home.data.HomeViewModel
 import com.home.data.PersonArticleModelEntity
 import com.home.data.TabModelEntity
@@ -27,15 +29,17 @@ import kotlinx.android.synthetic.main.fragment_home.*
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), TabLayout.OnTabSelectedListener {
     private var param1: String? = null
     private var param2: String? = null
     var backAgain = false
+    private lateinit var homeViewModel: HomeViewModel
 
 
     private lateinit var binding: FragmentHomeBinding
     private var list = mutableListOf<PersonArticleModelEntity>()
     private var tabs: ArrayList<TabModelEntity> = ArrayList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -85,10 +89,19 @@ class HomeFragment : Fragment() {
         requireActivity().window.decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 
-        val homeViewModel = HomeViewModel(repo = ArticleRepository())
+        homeViewModel = HomeViewModel(repo = ArticleRepository())
         homeViewModel.getAllTags()
+        //------------------------------
+//        homeViewModel.getArticleWithTag()
+        //------------------------------
+        binding.tabLayout.addOnTabSelectedListener(this)
+        //------------------------------
         homeViewModel.tags.observe(viewLifecycleOwner, Observer {
             setTabs(it)
+        })
+        //-----------------------------
+        homeViewModel.articles.observe(viewLifecycleOwner, Observer {
+            updateList(it)
         })
 
         binding.icProfile.setOnClickListener {
@@ -99,19 +112,22 @@ class HomeFragment : Fragment() {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToWriteArticleFragment())
         }
 
-        repeat(20) {
-            list.add(
-                PersonArticleModelEntity(
-                    "محمد",
-                    "دو روز قبل",
-                    true,
-                    " ین متن میتواند یک تست موقت باشد ین متن میتواند یک تست موقت باشد ین متن میتواند یک تست موقت باشد"
-                )
-            )
-        }
+//        repeat(20) {
+//            list.add(
+//                PersonArticleModelEntity(
+//                    "محمد",
+//                    "دو روز قبل",
+//                    true,
+//                    " ین متن میتواند یک تست موقت باشد ین متن میتواند یک تست موقت باشد ین متن میتواند یک تست موقت باشد"
+//                )
+//            )
+//        }
 
         recycler_person_article.apply {
-            adapter = PersonArticleAdapter(list)
+            (binding.recyclerPersonArticle.adapter as? PersonArticleAdapter)
+            adapter = PersonArticleAdapter().also {
+                it.setList(listOf<ArticleUser>())
+            }
         }
         recycler_best_article.apply {
             adapter = BestArticleAdapter(list)
@@ -120,12 +136,35 @@ class HomeFragment : Fragment() {
 
     }
 
+    private fun updateList(list: List<ArticleUser>) {
+        (binding.recyclerPersonArticle.adapter as? PersonArticleAdapter)?.setList(list)
+    }
+
     private fun setTabs(it: List<TagModel>?) {
 
         for (element in it!!) {
             tabLayout.addTab(tabLayout.newTab().setText(element.title))
         }
 
+    }
+
+
+    override fun onTabSelected(tab: TabLayout.Tab?) {
+        if (homeViewModel.getArticleWithTag(tab?.text.toString())
+                .equals(resources.getString(R.string.for_you))
+        ) {
+            homeViewModel.getArticleWithTag(tab?.text.toString())
+        } else {
+            homeViewModel.getArticleWithTag(tab?.text.toString())
+        }
+    }
+
+    override fun onTabUnselected(tab: TabLayout.Tab?) {
+        Log.i("onTabSelected", "onTabSelected: $tab")
+    }
+
+    override fun onTabReselected(tab: TabLayout.Tab?) {
+        Log.i("onTabSelected", "onTabSelected: $tab")
     }
 
 

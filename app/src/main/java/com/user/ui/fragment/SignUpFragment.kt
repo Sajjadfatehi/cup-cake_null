@@ -17,7 +17,6 @@ import com.article.data.TagModel
 import com.core.db.AppDataBase
 import com.example.anull.R
 import com.example.anull.databinding.FragmentSignUpBinding
-import com.article.data.ArticleEntity
 import com.user.data.UserEntity
 import com.user.ui.viewmodel.SignUpViewModel
 import kotlinx.android.synthetic.main.fragment_sign_up.*
@@ -49,8 +48,6 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val db = AppDataBase.buildDatabase(requireContext(), MIGRATION_1_2)
-        db.userDao()
-            .insertUser(UserEntity(1, "goh", "koonkesh0", "www.porn.com", 3241, "hot babe"))
 
 //        db.articleDao()
 //            .insert(
@@ -59,16 +56,7 @@ class SignUpFragment : Fragment() {
 //                    "gfdsgsd", "gdsfgsd", true
 //                )
 //            )
-        db.articleDao().clear()
-        db.userDao().clear()
 
-        db.userDao().insertUser(UserEntity(3, "sajjad", "none", "ss", 300, "sfvbbbb"))
-        db.userDao().insertUser(UserEntity(43, "cjj", "nosne", "sss", 30, "sfbbb"))
-
-        db.articleDao().insert(ArticleEntity(5, 3, date, "dsb", "dg", "dsg", "sdg", true))
-        db.articleDao().insert(ArticleEntity(6, 3, date, "dsb", "dg", "dsg", "sdg", true))
-
-        db.articleDao().insert(ArticleEntity(71, 43, date, "hj", "dg", "dsdddg", "sdhhhg", false))
 
         db.userDao().insertComment(CommentArticleModelEntity(1, 5, "cj", "chert"))
         db.userDao().insertComment(CommentArticleModelEntity(2, 5, "cj2", "chert2"))
@@ -80,12 +68,6 @@ class SignUpFragment : Fragment() {
         runBlocking {
             delay(2000L)
         }
-
-
-
-        getArticleAndCommentAndTag(db)
-
-        getUserWithArticleAndCommentAndTag(db)
 
         //insert tag
         //  insertTag(db)
@@ -167,48 +149,6 @@ class SignUpFragment : Fragment() {
         })
     }
 
-    private fun getSizeOfArticles(db: AppDataBase) {
-        val tempList = db.articleDao().getAllArticles()
-        tempList.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            Log.d("sfatehi", "count of articles ${it.size}")
-        })
-    }
-
-    private fun getUserAndCountOfArticle(db: AppDataBase) {
-        val tempUserAndCountOfArticle = db.userDao().getUserAndCountOfArticle()
-        tempUserAndCountOfArticle.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            Log.d("sfatehi", "user and count of his article : ${it}")
-        })
-    }
-
-    private fun deleteAbshari(db: AppDataBase) {
-        db.userDao().deleteUsers(UserEntity(3, "sajjad", "none", "ss", 300, "sfvbbbb"))
-    }
-
-    private fun searchArticle(db: AppDataBase) {
-        Log.d("sfatehi", "result of search : ${db.articleDao().searchArticleWithCommentAndTag(71)}")
-    }
-
-    private fun updateComment(db: AppDataBase) {
-        db.userDao().updateComments(CommentArticleModelEntity(3, 6, "cj", "update comment"))
-    }
-
-    private fun getUserWithArticleAndCommentAndTag(db: AppDataBase) {
-        val tempUserWithArticleAndCommentAndTag = db.userDao().getUserWithArticleAndCommentAndTag()
-        tempUserWithArticleAndCommentAndTag.observe(
-            viewLifecycleOwner,
-            androidx.lifecycle.Observer {
-                Log.d("sfatehi", "${it}")
-            })
-    }
-
-    private fun getArticleAndCommentAndTag(db: AppDataBase) {
-        val tempArticleAndcommentAndTag = db.articleDao().getArticleAndCommentAndTag()
-        tempArticleAndcommentAndTag.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            Log.d("sfatehi", "ok: tit:  ${it}")
-
-        })
-    }
 
 
 }

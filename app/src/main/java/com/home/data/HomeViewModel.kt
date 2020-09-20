@@ -3,8 +3,7 @@ package com.home.data
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.article.data.ArticleRepository
-import com.article.data.TagModel
+import com.article.data.*
 import com.core.ResultCallBack
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,6 +14,8 @@ import kotlinx.coroutines.launch
 class HomeViewModel(val repo : ArticleRepository):ViewModel() {
 
     val tags = MutableLiveData<List<TagModel>>()
+    val tag = String
+    val articles = MutableLiveData<List<ArticleUser>>()
 
     fun getAllTags(){
         viewModelScope.launch(Dispatchers.IO) {
@@ -22,6 +23,14 @@ class HomeViewModel(val repo : ArticleRepository):ViewModel() {
                 tags.postValue(it)
             }
 
+        }
+    }
+
+    fun getArticleWithTag(text :String){
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.getArticleWithTag(text).also {
+                articles.postValue(it)
+            }
         }
     }
 }

@@ -7,8 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.article.data.ArticleUser
 import com.example.anull.R
-import com.home.data.PersonArticleModelEntity
 import com.home.ui.fragment.HomeFragmentDirections
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_person_article.view.*
@@ -17,8 +17,9 @@ import kotlinx.android.synthetic.main.item_person_article.view.*
 Created by Moha.Azizi on 16/08/2020 .
  */
 
-class PersonArticleAdapter(private val list: MutableList<PersonArticleModelEntity>) :
+class PersonArticleAdapter() :
     RecyclerView.Adapter<PersonArticleAdapter.ViewHolder>() {
+    private lateinit var list: List<ArticleUser>
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -41,12 +42,12 @@ class PersonArticleAdapter(private val list: MutableList<PersonArticleModelEntit
             }
         }
 
-        fun bind(personArticleModel: PersonArticleModelEntity) {
+        fun bind(articles: ArticleUser) {
             image?.setImageResource(R.drawable.prof_image)
-            name?.text = personArticleModel.name
-            lastDate?.text = personArticleModel.date
-            desc?.text = personArticleModel.description
-            if (personArticleModel.favorite) {
+            name?.text = articles.articleDataEntity.createdAt
+            lastDate?.text = articles.articleDataEntity.updatedAt
+            desc?.text = articles.articleDataEntity.description
+            if (articles.articleDataEntity.favorited) {
                 favorite?.setImageResource(R.drawable.ic_is_bookmark)
             } else {
                 favorite?.setImageResource(R.drawable.ic_bookmark)
@@ -54,6 +55,11 @@ class PersonArticleAdapter(private val list: MutableList<PersonArticleModelEntit
         }
 
 
+    }
+
+    fun setList(list: List<ArticleUser>) {
+        this.list = list
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
