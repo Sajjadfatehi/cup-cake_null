@@ -269,7 +269,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         viewModel.unFollowResponse.observe(thisViewLifeCycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
-                    Log.d("bibi", "Unfollow res ${viewModel.isFollowing}: ")
+                    Log.d("bibi", "Unfollow ressss ${viewModel.isFollowing}: ")
                    viewModel.isFollowing=false
                     bindingProf.follow=false
                 }
@@ -287,9 +287,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             when(response){
                 is Resource.Success->{
 
-                    recycler_posts_in_prof.adapter?.notifyDataSetChanged()
-
-                    Log.d("hadige", "fa res: ")
+                    Log.d("hadige", "fa resssss: ")
 
                 }
                 is Resource.Error->{
@@ -306,8 +304,8 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
             when(response){
                 is Resource.Success->{
-                    recycler_posts_in_prof.adapter?.notifyDataSetChanged()
-                    Log.d("hadige", "unfa res: ")
+
+                    Log.d("hadige", "unfa ressss: ")
                 }
                 is Resource.Error->{
 
@@ -395,6 +393,8 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         if (bindingProf.titleRadioBtn.checkedRadioButtonId == bindingProf.radio2.id) {
 
             findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentSelf(author))
+            //for when navigateUp fix radio button
+            titleRadioBtn.check(radio1.id)
 
         }
 
@@ -404,9 +404,9 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         if (isFavorited) {
             viewModel.unFavoritedArticle(slug, itemNumber,titleRadioBtn.checkedRadioButtonId==radio1.id)
 
-            Log.d("hadige", "${titleRadioBtn.checkedRadioButtonId==radio1.id}: ")
+            Log.d("hadige", "on book${titleRadioBtn.checkedRadioButtonId==radio1.id}: ")
         } else {
-            viewModel.favoriteArticle(slug)
+            viewModel.favoriteArticle(slug,itemNumber)
 
         }
 

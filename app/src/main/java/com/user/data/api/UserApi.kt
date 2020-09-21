@@ -1,5 +1,6 @@
 package com.user.data.api
 
+import com.article.data.modelfromservice.ArticleResponse
 import com.user.data.modelfromservice.*
 import retrofit2.Response
 import retrofit2.http.*
@@ -26,7 +27,7 @@ interface UserApi {
         @Path("slug")
         slug: String
 
-    ): Response<Article>
+    ): Response<ArticleResponse>
 
 
     @DELETE("articles/{slug}/favorite")
@@ -34,7 +35,7 @@ interface UserApi {
         @Path("slug")
         slug: String
 
-    ): Response<Article>
+    ): Response<ArticleResponse>
 
 
     @GET("articles")

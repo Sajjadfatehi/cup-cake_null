@@ -28,7 +28,6 @@ class ArticleRepository(val db:AppDataBase) {
 
 
     fun getTagTitleList(): MutableList<PersonArticleModelView> {
-
         return localDataSource.getTagList()
     }
 

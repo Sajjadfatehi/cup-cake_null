@@ -1,5 +1,6 @@
 package com.article.data.api
 
+import com.article.data.modelfromservice.ArticleResponse
 import com.article.data.modelfromservice.CreateArticleModel
 import com.user.data.modelfromservice.AllArticleOfPerson
 import com.user.data.modelfromservice.Article
@@ -33,4 +34,13 @@ interface ArticleApi {
         @Body
         editArticleRequest: EditArticleRequest
     ): Response<Article>
+
+
+
+    @GET("articles/{slug}")
+    suspend fun articleBySlug(
+        @Path("slug")
+        slug:String
+    ):Response<ArticleResponse>
+
 }
