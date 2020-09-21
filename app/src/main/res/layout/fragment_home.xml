@@ -117,7 +117,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_person_article"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_400sdp"
+                android:layout_height="@dimen/_300sdp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"

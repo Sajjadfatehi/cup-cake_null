@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.article.data.ArticleUser
 import com.example.anull.R
 import com.home.data.PersonArticleModelEntity
 import de.hdodenhof.circleimageview.CircleImageView
@@ -15,16 +16,16 @@ import kotlinx.android.synthetic.main.item_person_article.view.*
 Created by Moha.Azizi on 16/08/2020 .
  */
 
-class BestArticleAdapter(private val list: MutableList<PersonArticleModelEntity>) :
+class BestArticleAdapter() :
     RecyclerView.Adapter<BestArticleAdapter.ViewHolder>() {
-
+    private lateinit var  list: List<ArticleUser>
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(personArticleModel: PersonArticleModelEntity) {
+        fun bind(articles: ArticleUser) {
             image?.setImageResource(R.drawable.prof_image)
-            name?.text = personArticleModel.name
-            lastDate?.text = personArticleModel.date
-            desc?.text = personArticleModel.description
-            if (personArticleModel.favorite) {
+            name?.text = articles.articleDataEntity.createdAt
+            lastDate?.text = articles.articleDataEntity.updatedAt
+            desc?.text = articles.articleDataEntity.description
+            if (articles.articleDataEntity.favorited) {
                 favorite?.setImageResource(R.drawable.ic_is_bookmark)
             } else {
                 favorite?.setImageResource(R.drawable.ic_bookmark)
@@ -46,6 +47,10 @@ class BestArticleAdapter(private val list: MutableList<PersonArticleModelEntity>
         }
     }
 
+    fun setList(list: List<ArticleUser>) {
+        this.list = list
+        notifyDataSetChanged()
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_best_article, parent, false)

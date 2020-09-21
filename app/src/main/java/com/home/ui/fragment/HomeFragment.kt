@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isInvisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -126,11 +127,14 @@ class HomeFragment : Fragment(), TabLayout.OnTabSelectedListener {
         recycler_person_article.apply {
             (binding.recyclerPersonArticle.adapter as? PersonArticleAdapter)
             adapter = PersonArticleAdapter().also {
-                it.setList(listOf<ArticleUser>())
+                it.setList(listOf())
             }
         }
         recycler_best_article.apply {
-            adapter = BestArticleAdapter(list)
+            (binding.recyclerPersonArticle.adapter as? BestArticleAdapter)
+            adapter = BestArticleAdapter().also {
+                it.setList(listOf())
+            }
         }
 
 
@@ -138,6 +142,15 @@ class HomeFragment : Fragment(), TabLayout.OnTabSelectedListener {
 
     private fun updateList(list: List<ArticleUser>) {
         (binding.recyclerPersonArticle.adapter as? PersonArticleAdapter)?.setList(list)
+        list.sortedBy {
+            it.articleDataEntity.favoritesCount
+
+        }
+        if (list.isEmpty()) {
+            binding.recyclerBestArticle.isInvisible
+            binding.textBestArticle.isInvisible
+        }
+        (binding.recyclerBestArticle.adapter as? BestArticleAdapter)?.setList(list)
     }
 
     private fun setTabs(it: List<TagModel>?) {
