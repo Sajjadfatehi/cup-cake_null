@@ -7,7 +7,7 @@
 
         <variable
             name="article"
-            type="com.home.ui.PersonArticleModelView" />
+            type="com.user.data.modelfromservice.Article" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -25,12 +25,13 @@
 
             >
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/item_image_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:scaleType="fitXY"
                 android:contentDescription="@string/image_of_profile_desc"
-                android:src="@drawable/prof_image"
+                tools:src="@drawable/prof_image"
 
 
                 app:layout_constraintStart_toEndOf="@id/guidelineLeft2"
@@ -43,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="1dp"
-                android:text="@{article.name}"
+                android:text="@{article.author.username}"
                 tools:text="@string/tv_name"
                 android:textAlignment="viewEnd"
                 android:textColor="#363636"
@@ -63,7 +64,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="1dp"
-                android:text="@{article.date}"
+                android:text="@{article.createdAt}"
                 tools:text="@string/date_of_post"
                 android:textAlignment="viewEnd"
                 android:textColor="#9e9e9e"
@@ -81,6 +82,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:fontFamily="@font/is_font"
+                android:maxLines="2"
+                android:ellipsize="end"
 
                 android:lineSpacingExtra="10sp"
                 android:text="@{article.description}"

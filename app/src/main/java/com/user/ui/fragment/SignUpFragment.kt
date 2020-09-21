@@ -13,15 +13,18 @@ import androidx.navigation.fragment.findNavController
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.article.data.CommentArticleModelEntity
-import com.article.data.TagModel
 import com.core.db.AppDataBase
 import com.example.anull.R
 import com.example.anull.databinding.FragmentSignUpBinding
-import com.user.data.UserEntity
+import com.user.data.UserRepository
+import com.user.data.localdatasource.UserLocalDataSource
+import com.user.data.modelfromservice.RegisterRequest
+import com.user.data.modelfromservice.User
+import com.user.data.reomtedatasource.UserRemote
 import com.user.ui.viewmodel.SignUpViewModel
+import com.user.ui.viewmodel.providerfactory.SiguUpViewModelProviderFactory
+import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_sign_up.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import java.util.*
 
 class SignUpFragment : Fragment() {
@@ -47,67 +50,16 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val db = AppDataBase.buildDatabase(requireContext(), MIGRATION_1_2)
-
-//        db.articleDao()
-//            .insert(
-//                ArticleEntity(
-//                    1, 2, "gfdsg", "gsdgs", "gsdgs",
-//                    "gfdsgsd", "gdsfgsd", true
-//                )
-//            )
 
 
-        db.userDao().insertComment(CommentArticleModelEntity(1, 5, "cj", "chert"))
-        db.userDao().insertComment(CommentArticleModelEntity(2, 5, "cj2", "chert2"))
 
-        db.userDao().insertComment(CommentArticleModelEntity(3, 6, "cj", "chert"))
-        db.userDao().insertComment(CommentArticleModelEntity(4, 6, "cj2", "chert2"))
-
-
-        runBlocking {
-            delay(2000L)
-        }
-
-        //insert tag
-        //  insertTag(db)
-
-        //update comment
-        //     updateComment(db)
-
-        //     searchArticle(db)
-//
-//        val tempList2=db.userDao().getUserWithArticleAndCommentAndTag()
-//        tempList2.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-//              Log.d("sfatehi", " list of user and sub : ${it}")
-////
-//
-//        })
-
-        //delete Abshari
-
-        //   deleteAbshari(db)
-
-
-        //   getUserAndCountOfArticle(db)
-
-        // getSizeOfArticles(db)
-//
-//        val tempList3=db.userDao().getUserAndArticleCount()
-//        tempList3.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-//            Log.d("sfatehi", "name of user: ${it.get(0).user.name}  countOfArticle: ${it.get(0).articleCount} ")
-//        })
-
-
-//        Log.d("sfatehi","titi : ${db.userDao().getUserAndArticleCount()}")
-
-        //   getSizaOfTags(db)
-
-
-        // getSizeOfComments(db)
-
-
-        viewModel = ViewModelProvider(this).get(SignUpViewModel::class.java)
+        val userLocalDataSource=
+            UserLocalDataSource(AppDataBase.invoke(requireContext(),MIGRATION_1_2))
+        val userRemoteDataSource= UserRemote()
+        val userRepository = UserRepository(userLocalDataSource,userRemoteDataSource)
+        val singUpViewModelProvider = SiguUpViewModelProviderFactory(userRepository)
+        viewModel =
+            ViewModelProvider(this, singUpViewModelProvider).get(SignUpViewModel::class.java)
         binding.lifecycleOwner = this
         binding.signUViewModel = viewModel
 
@@ -119,15 +71,40 @@ class SignUpFragment : Fragment() {
             findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToTitleFragment())
         }
 
+        viewModel.isRegisterSuccess.observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer { isRegisterSuccess ->
+                if (isRegisterSuccess) {
+                    hideProgressBar()
+                    findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeFragment())
+
+                }
+
+            })
 
         singUpButton.setOnClickListener {
+            if (!checkEditTextIsEmpty()) {
 
-            //below line is for app bar layout that don,t go behind the status bar
+                showProgressBar()
+                viewModel.register(
+                    RegisterRequest(
+                        User(
+                            email = emailEditText.text.toString(),
+                            username = userNameEditText.text.toString(),
+                            password = passSignUp.text.toString()
+                        )
+                    )
+                )
+//            //below line is for app bar layout that don,t go behind the status bar
 
-            findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeFragment())
-            requireActivity().window.decorView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
+                // hideProgressBar()
+
+                requireActivity().window.decorView.systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
+
+
+            }
 
 
         }
@@ -135,20 +112,42 @@ class SignUpFragment : Fragment() {
 
     }
 
-    private fun getSizeOfComments(db: AppDataBase) {
-        val tempComment = db.userDao().getAllComments()
-        tempComment.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            Log.d("sfatehi", " count of comments ${it.size}")
-        })
+
+    private fun hideProgressBar() {
+        registerProgressBar.visibility = View.INVISIBLE
     }
 
-    private fun getSizaOfTags(db: AppDataBase) {
-        val tempTag = db.userDao().getAllTags()
-        tempTag.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            Log.d("sfatehi", "count of tags ${it.size}")
-        })
+    private fun showProgressBar() {
+        registerProgressBar.visibility = View.VISIBLE
+
     }
 
+    private fun checkEditTextIsEmpty(): Boolean {
 
+        val userName = userNameEditText.text.toString().trim()
+        val email = emailEditText.text.toString().trim()
+        val pass = passSignUp.text.toString().trim()
+        val repetitionPass = repetitionPass.text.toString().trim()
+        when {
+            userName.isEmpty() -> {
+                userNameInputLayout.error = "خطا! این کادر نباید خالی باشد "
+                return true
+            }
+            email.isEmpty() -> {
+                emailInputLayout.error = "خطا! این کادر نباید خالی باشد "
+                return true
+            }
+            pass.isEmpty() -> {
+                passLoginInputLayout.error = "خطا! این کادر نباید خالی باشد "
+                return true
+            }
+            repetitionPass.isEmpty() -> {
+                repetitionPassInputLayout.error = "خطا! این کادر نباید خالی باشد "
+                return true
+            }
+            else -> return false
+        }
+
+    }
 
 }

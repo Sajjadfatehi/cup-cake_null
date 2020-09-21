@@ -1,8 +1,11 @@
 package com.article.data
 
 import android.util.Log
+import com.article.data.api.ArticleApi
+import com.article.data.modelfromservice.CreateArticleModel
 import com.core.ResultCallBack
 import com.core.RetrofitUtil
+import com.user.data.modelfromservice.EditArticleRequest
 import java.lang.Exception
 
 /**
@@ -47,4 +50,14 @@ class HomeRemoteDataSource() {
             return ResultCallBack.Error(Exception("bad request"))
         }
     }
+
+    suspend fun getArticleByTag(tag: String, pageNumber: Int) =
+        articleApi.getArticlesByTag(tag, pageNumber)
+
+    suspend fun createArticle(createArticleModel: CreateArticleModel) =
+        articleApi.createArticle(createArticleModel = createArticleModel)
+
+
+    suspend fun updateArticle(slug: String, editArticleRequest: EditArticleRequest) =
+        articleApi.updateArticle(slug, editArticleRequest)
 }

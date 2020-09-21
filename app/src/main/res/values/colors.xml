@@ -10,6 +10,8 @@
     <color name="black">#363636</color>
     <color name="background_profile_fragment">#f3f3f3</color>
 
+    <color name="isFollow">#286de6</color>
+    <color name="isNotFollow">#177C1C</color>
 
     <color name="Purple">#8c45cc</color>
     <color name="statusBar">#8c45cc</color>

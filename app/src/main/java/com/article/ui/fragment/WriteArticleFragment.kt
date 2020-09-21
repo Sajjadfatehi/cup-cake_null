@@ -2,6 +2,7 @@ package com.article.ui.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,17 +10,31 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.article.data.ArticleRepository
+import com.article.data.modelfromservice.ArticleInCreateArticleModel
+import com.article.data.modelfromservice.CreateArticleModel
 import com.article.ui.viewmodel.WriteArticleViewModel
+import com.article.ui.viewmodel.providerfactory.WriteViewModelProviderFactory
+import com.core.db.AppDataBase
 import com.example.anull.R
 import com.example.anull.databinding.FragmentWriteArticleBinding
-import com.user.ui.ArticleView
+import com.user.data.modelfromservice.BodyOfEditedArticle
+import com.user.data.modelfromservice.EditArticleRequest
 import kotlinx.android.synthetic.main.fragment_write_article.*
 
 
 class WriteArticleFragment : Fragment() {
 
+    private val MIGRATION_1_2 = object : Migration(1, 2) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE articles ADD COLUMN test TEXT")
+        }
+    }
     var args: Bundle = Bundle()
     private lateinit var writeViewModel: WriteArticleViewModel
     private lateinit var binding: FragmentWriteArticleBinding
@@ -27,7 +42,6 @@ class WriteArticleFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        writeViewModel = ViewModelProvider(this).get(WriteArticleViewModel::class.java)
         args = this.requireArguments()
 
     }
@@ -46,39 +60,68 @@ class WriteArticleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val articleRepository =
+            ArticleRepository()
+        val writeViewModelProvider = WriteViewModelProviderFactory(articleRepository)
+        writeViewModel =
+            ViewModelProvider(this, writeViewModelProvider).get(WriteArticleViewModel::class.java)
+
+        writeViewModel.argsFromProf = args
+        writeViewModel.checkArgsIsEmpty(args)
 
 
-        writeViewModel.checkArgsIsNull(args)
+        // writeViewModel.checkArgsIsNull(args)
         writeViewModel.activity = requireActivity()
 
         binding.writeViewModel = writeViewModel
         binding.lifecycleOwner = this
 
-        writeViewModel.isFromEdit.observe(
-            viewLifecycleOwner,
-            androidx.lifecycle.Observer { isFromEdit ->
-                if (isFromEdit) {
+        writeViewModel.isFromEdit.observe(viewLifecycleOwner, Observer { isFromEdit ->
+            if (isFromEdit) {
 
-                    val post = args.getParcelable<ArticleView>("post")
-                    val itemSelectedForEdit = args.getInt("number")
+                submit_article.setOnClickListener {
 
-                    submit_article.setOnClickListener {
-                        val bundle = Bundle()
-                        post?.title = edit_title.text.toString().trim()
-                        post?.desc = edit_text.text.toString().trim()
-                        //add keyword later
+                    //show progress bar
+                    showProgressBar()
 
-                        bundle.putParcelable("editPost", post)
-                        if (itemSelectedForEdit != null) {
-                            bundle.putInt("numberOfEditPost", itemSelectedForEdit)
-                        }
-                        findNavController().navigate(
-                            R.id.action_writeArticleFragment_to_profileFragment,
-                            bundle
-                        )
-                    }
+                    val body = edit_text.text.toString().trim()
+                    val slug = writeViewModel.article.slug
+
+                    writeViewModel.updateArticle(slug, EditArticleRequest(BodyOfEditedArticle(body)))
+                    writeViewModel.editedArticle
+
                 }
-            })
+            }
+            else {
+                binding.submitArticle.setOnClickListener {
+                    var tags = writeViewModel.tagsChip.values.toList<String>()
+                    val createArticleModel = CreateArticleModel(
+                        ArticleInCreateArticleModel(
+                            description = "Nothing",
+                            body = edit_text.text.toString(),
+                            title = edit_title.text.toString(),
+                            tagList = tags
+                        )
+                    )
+                    writeViewModel.createArticle(createArticleModel)
+                }
+            }
+        })
+
+        writeViewModel.isUpdated.observe(viewLifecycleOwner, Observer { isUpdatedSuccess ->
+            if (isUpdatedSuccess) {
+                hideProgress()
+                val bundle = Bundle()
+
+                bundle.putString("userName", writeViewModel.userName)
+                findNavController().navigate(
+                    R.id.action_writeArticleFragment_to_profileFragment,
+                    bundle
+                )
+                writeViewModel.isUpdated.value = false
+            }
+
+        })
 
         binding.arrowBackWA.setOnClickListener {
             hideKeyboard()
@@ -89,6 +132,7 @@ class WriteArticleFragment : Fragment() {
             if (b)
                 setAdjustPan()
         }
+
 
     }
 
@@ -105,6 +149,14 @@ class WriteArticleFragment : Fragment() {
             //below code is for when user click on edit text , adjust pan call again
             setTagEdt.clearFocus()
         }
+    }
+
+    private fun showProgressBar() {
+        writeProgress.visibility = View.VISIBLE
+    }
+
+    private fun hideProgress() {
+        writeProgress.visibility = View.INVISIBLE
     }
 
 }

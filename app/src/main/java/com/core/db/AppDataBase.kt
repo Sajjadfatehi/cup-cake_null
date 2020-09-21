@@ -16,7 +16,7 @@ import com.user.data.UserEntity
     exportSchema = false
 )
 @TypeConverters(Converters::class)
-abstract class AppDataBase : RoomDatabase() {
+abstract class AppDataBase() : RoomDatabase() {
 
     abstract fun articleDao(): ArticleDao
 
@@ -28,6 +28,13 @@ abstract class AppDataBase : RoomDatabase() {
 
     companion object {
 
+        @Volatile
+        private var instance:AppDataBase?=null
+        private val LOCK=Any()
+
+        operator fun invoke(context: Context, migration12: Migration)= instance ?: synchronized(LOCK){
+            instance ?: buildDatabase(context,migration12).also { instance=it }
+        }
         private const val databaseName = "null-db"
 
         fun buildDatabase(

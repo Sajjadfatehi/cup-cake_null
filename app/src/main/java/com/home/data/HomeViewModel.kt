@@ -19,7 +19,7 @@ class HomeViewModel(val repo : ArticleRepository):ViewModel() {
 
     fun getAllTags(){
         viewModelScope.launch(Dispatchers.IO) {
-            repo.getTagTitleList().also {
+            repo.getTagTitleList0().also {
                 tags.postValue(it)
             }
 
