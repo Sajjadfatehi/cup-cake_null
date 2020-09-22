@@ -1,5 +1,6 @@
 package com.user.data.api
 
+import com.article.data.ArticleModel
 import com.article.data.modelfromservice.ArticleResponse
 import com.user.data.modelfromservice.*
 import retrofit2.Response
@@ -14,7 +15,7 @@ interface UserApi {
         @Query("page")
         pageNumber: Int = 1
 
-    ): Response<AllArticleOfPerson>
+    ): Response<ArticleModel>
 
     @POST("users")
     suspend fun register(
@@ -42,7 +43,7 @@ interface UserApi {
     suspend fun favoriteArticleByUserName(
         @Query("favorited")
         favorited: String
-    ): Response<AllArticleOfPerson>
+    ): Response<ArticleModel>
 
     @DELETE("articles/{slug}")
     suspend fun deleteArticle(

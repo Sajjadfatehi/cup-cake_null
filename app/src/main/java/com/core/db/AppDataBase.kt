@@ -7,11 +7,13 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import com.article.data.*
+import com.article.data.modelfromservice.UserAndHisFavoriteArticle
 import com.user.data.UserDao
 import com.user.data.UserEntity
 
 @Database(
-    entities = [UserEntity::class, ArticleDataEntity::class, TagModel::class, CommentArticleModelEntity::class, TagAndArticleEntity::class],
+    entities = [UserEntity::class, ArticleDataEntity::class, TagModel::class,
+        CommentArticleModelEntity::class, TagAndArticleEntity::class,UserAndHisFavoriteArticle::class],
     version = 1,
     exportSchema = false
 )
@@ -35,7 +37,7 @@ abstract class AppDataBase() : RoomDatabase() {
         operator fun invoke(context: Context, migration12: Migration)= instance ?: synchronized(LOCK){
             instance ?: buildDatabase(context,migration12).also { instance=it }
         }
-        private const val databaseName = "null-db"
+        private const val databaseName = "data_base"
 
         fun buildDatabase(
             context: Context,

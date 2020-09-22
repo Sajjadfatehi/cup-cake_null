@@ -6,8 +6,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.article.data.ArticleDataEntity
 import com.article.data.ArticleRepository
+import com.article.data.modelfromservice.ArticleResponse
 import com.article.data.modelfromservice.CreateArticleModel
+import com.core.ResultCallBack
 import com.core.util.Resource
 import com.google.android.material.chip.Chip
 import com.user.data.modelfromservice.Article
@@ -19,16 +22,16 @@ import retrofit2.Response
 
 class WriteArticleViewModel(val articleRepository: ArticleRepository) : ViewModel() {
 
-    var articleInCreateArticleModel: MutableLiveData<Resource<Article>> = MutableLiveData()
+    var articleInCreateArticleModel: MutableLiveData<Resource<ArticleResponse>> = MutableLiveData()
     var activity: FragmentActivity = FragmentActivity()
     val tagsChip = mutableMapOf<Chip, String>()
     var argsFromProf: Bundle = Bundle()
     var isFromEdit = MutableLiveData<Boolean>()
-    lateinit var article: Article
+    lateinit var article: ArticleDataEntity
 
     var userName = ""
     var isUpdated = MutableLiveData<Boolean>()
-    var editedArticle: MutableLiveData<Resource<Article>> = MutableLiveData()
+    var editedArticle: MutableLiveData<Resource<ArticleResponse>> = MutableLiveData()
 
 
     init {
@@ -38,39 +41,18 @@ class WriteArticleViewModel(val articleRepository: ArticleRepository) : ViewMode
     fun createArticle(createArticleModel: CreateArticleModel) =
         viewModelScope.launch(Dispatchers.IO) {
             val response = articleRepository.createArticle(createArticleModel = createArticleModel)
-            Log.d("reqCj", "${response.isSuccessful}: ")
-            articleInCreateArticleModel.postValue(handleCreateArticle(response))
+
+            articleInCreateArticleModel.postValue(response)
 
         }
 
-    fun handleCreateArticle(response: Response<Article>): Resource<Article> {
-        if (response.isSuccessful) {
-            response.body()?.let { resultResponse ->
-                return Resource.Success(resultResponse)
-            }
-        }
-        return Resource.Error(response.message())
-    }
 
 
-    fun updateArticle(slug: String, editArticleRequest: EditArticleRequest) =
-        viewModelScope.launch(Dispatchers.IO) {
+    fun updateArticle(slug: String, editArticleRequest: EditArticleRequest) = viewModelScope.launch(Dispatchers.IO) {
             editedArticle.postValue(Resource.Loading())
             val response = articleRepository.updateArticle(slug, editArticleRequest)
-            editedArticle.postValue(handleUpdateArticle(response))
+            editedArticle.postValue(response)
         }
-
-    private fun handleUpdateArticle(response: Response<Article>): Resource<Article> {
-        if (response.isSuccessful) {
-
-            isUpdated.postValue(true)
-            response.body()?.let { result ->
-                return Resource.Success(result)
-            }
-
-        }
-        return Resource.Error(response.message())
-    }
 
 
     fun checkArgsIsEmpty(bundle: Bundle?) {
@@ -78,7 +60,7 @@ class WriteArticleViewModel(val articleRepository: ArticleRepository) : ViewMode
         if (bundle != null) {
             if (!bundle.isEmpty) {
 
-                bundle.getParcelable<Article>("post")?.let {
+                bundle.getParcelable<ArticleDataEntity>("post")?.let {
                     article = it
                     isFromEdit.value = true
 

@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.article.data.ArticleDataEntity
+import com.article.data.ArticleUser
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.anull.databinding.ItemProfilePostBinding
@@ -27,28 +29,28 @@ class TestAdapterClass(val clickListener: ClickListener) :
                 clickListener.onCardClick(differ.currentList[layoutPosition], layoutPosition)
             }
             binding.itemImagePostProf.setOnClickListener {
-                clickListener.onImageClick(differ.currentList[layoutPosition].author)
+                clickListener.onImageClick(differ.currentList[layoutPosition].userEntity)
             }
             binding.likePost.setOnClickListener {
                 clickListener.onLikeClick()
             }
             binding.favoriteIc.setOnClickListener {
-                clickListener.onBookMarkClick(differ.currentList[layoutPosition].slug,
-                    differ.currentList[layoutPosition].favorited,layoutPosition)
+                clickListener.onBookMarkClick(differ.currentList[layoutPosition].articleDataEntity.slug,
+                    differ.currentList[layoutPosition].articleDataEntity.favorited,layoutPosition)
             }
         }
     }
 
 
-    private val differCallBack = object : DiffUtil.ItemCallback<Article>() {
+    private val differCallBack = object : DiffUtil.ItemCallback<ArticleUser>() {
 
-        override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
+        override fun areItemsTheSame(oldItem: ArticleUser, newItem: ArticleUser): Boolean {
 //            below code is when read from datta base
-            return oldItem.slug == newItem.slug
+            return oldItem.articleDataEntity.slug == newItem.articleDataEntity.slug
 //            return oldItem.url=newItem.url
         }
 
-        override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
+        override fun areContentsTheSame(oldItem: ArticleUser, newItem: ArticleUser): Boolean {
             return oldItem == newItem
         }
     }
@@ -69,11 +71,12 @@ class TestAdapterClass(val clickListener: ClickListener) :
     }
 
     override fun onBindViewHolder(holder: ArticleViewNew, position: Int) {
-        var article = differ.currentList[position]
+        var author=differ.currentList[position].userEntity
+        var article = differ.currentList[position].articleDataEntity
         holder.binding.article = article
-        if (article.author.image != null) {
+        if (author.image != null) {
             holder.binding.apply {
-                Glide.with(itemImagePostProf.context).load(article.author.image)
+                Glide.with(itemImagePostProf.context).load(author.image)
                     .transform(CircleCrop()).into(itemImagePostProf)
             }
         } else {

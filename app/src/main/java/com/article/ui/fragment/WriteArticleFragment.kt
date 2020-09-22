@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,15 +17,21 @@ import androidx.navigation.fragment.findNavController
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.article.data.ArticleRepository
+import com.article.data.localdatasource.ArticleLocalDataSource
 import com.article.data.modelfromservice.ArticleInCreateArticleModel
 import com.article.data.modelfromservice.CreateArticleModel
+import com.article.data.remotedatasource.ArticleRemoteDataSource
 import com.article.ui.viewmodel.WriteArticleViewModel
 import com.article.ui.viewmodel.providerfactory.WriteViewModelProviderFactory
 import com.core.db.AppDataBase
+import com.core.util.Resource
 import com.example.anull.R
 import com.example.anull.databinding.FragmentWriteArticleBinding
+import com.user.data.UserRepository
 import com.user.data.modelfromservice.BodyOfEditedArticle
 import com.user.data.modelfromservice.EditArticleRequest
+import com.user.data.reomtedatasource.UserRemote
+import com.user.ui.viewmodel.providerfactory.ProfileViewModelProviderFactory
 import kotlinx.android.synthetic.main.fragment_write_article.*
 
 
@@ -60,8 +67,9 @@ class WriteArticleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val articleRepository =
-            ArticleRepository()
+        val articleLocalDataSource=ArticleLocalDataSource(AppDataBase.invoke(requireContext(),MIGRATION_1_2))
+        val articleRemoteDataSource=ArticleRemoteDataSource()
+        val articleRepository = ArticleRepository(articleLocalDataSource,articleRemoteDataSource)
         val writeViewModelProvider = WriteViewModelProviderFactory(articleRepository)
         writeViewModel =
             ViewModelProvider(this, writeViewModelProvider).get(WriteArticleViewModel::class.java)
@@ -94,7 +102,8 @@ class WriteArticleFragment : Fragment() {
             }
             else {
                 binding.submitArticle.setOnClickListener {
-                    var tags = writeViewModel.tagsChip.values.toList<String>()
+                    showProgressBar()
+                    var tags = writeViewModel.tagsChip.values.toList()
                     val createArticleModel = CreateArticleModel(
                         ArticleInCreateArticleModel(
                             description = "Nothing",
@@ -104,23 +113,58 @@ class WriteArticleFragment : Fragment() {
                         )
                     )
                     writeViewModel.createArticle(createArticleModel)
+
                 }
             }
         })
 
-        writeViewModel.isUpdated.observe(viewLifecycleOwner, Observer { isUpdatedSuccess ->
-            if (isUpdatedSuccess) {
-                hideProgress()
-                val bundle = Bundle()
+//        writeViewModel.isUpdated.observe(viewLifecycleOwner, Observer { isUpdatedSuccess ->
+//            if (isUpdatedSuccess) {
+//                hideProgress()
+//                val bundle = Bundle()
+//
+//                bundle.putString("userName", writeViewModel.userName)
+//                findNavController().navigate(
+//                    R.id.action_writeArticleFragment_to_profileFragment,
+//                    bundle
+//                )
+//                writeViewModel.isUpdated.value = false
+//            }
+//
+//        })
+        writeViewModel.editedArticle.observe(viewLifecycleOwner, Observer {response->
+            when(response){
+                is Resource.Success->{
+                    hideProgress()
+                    val bundle = Bundle()
 
-                bundle.putString("userName", writeViewModel.userName)
-                findNavController().navigate(
-                    R.id.action_writeArticleFragment_to_profileFragment,
-                    bundle
-                )
-                writeViewModel.isUpdated.value = false
+                    bundle.putString("userName", writeViewModel.userName)
+                    findNavController().navigate(
+                        R.id.action_writeArticleFragment_to_profileFragment,
+                        bundle
+                    )
+                    writeViewModel.isUpdated.value = false
+                }
+                is Resource.Loading->{
+                    showProgressBar()
+                }
             }
+        })
 
+        writeViewModel.articleInCreateArticleModel.observe(viewLifecycleOwner, Observer {response->
+
+            when(response){
+                is Resource.Success->{
+                    hideProgress()
+                    Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading->{
+
+                }
+                is Resource.Error->{
+
+                }
+            }
         })
 
         binding.arrowBackWA.setOnClickListener {

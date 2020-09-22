@@ -30,6 +30,10 @@ class UserRepo(
         userLocalDataSource.saveToken(token)
     }
 
+    fun setUserNameInShared(username : String?){
+        userLocalDataSource.saveUserName(username)
+
+    }
     suspend fun validUser(): ResultCallBack<LoginRes> {
         return if (isNetworkConnected()) {
             userRemoteDataSource.validUser()

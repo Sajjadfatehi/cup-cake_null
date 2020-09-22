@@ -12,10 +12,12 @@ import androidx.room.Query
 @Dao
 interface TagDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addTAg(tag: List<TagModel>)
+    suspend fun addTAg(tag: List<TagModel>)
 
     @Query("SELECT * FROM tags")
-    fun getAllTag(): List<TagModel>
+    suspend fun getAllTag(): List<TagModel>
 
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTags(tags:List<TagModel>)
 }

@@ -1,12 +1,15 @@
 package com.article.data
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by moha on 9/16/2020.
  */
+@Parcelize
 @Entity(tableName = "article")
 data class ArticleDataEntity(
     @PrimaryKey
@@ -20,4 +23,4 @@ data class ArticleDataEntity(
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "updatedAt") val updatedAt: String
 
-)
+) : Parcelable

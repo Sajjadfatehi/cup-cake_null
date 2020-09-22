@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.article.data.ArticleUser
 import com.bumptech.glide.Glide
 import com.core.db.AppDataBase
 import com.core.util.Constants.Companion.QUERY_PAGE_SIZE
@@ -26,6 +27,7 @@ import com.core.util.Resource
 import com.core.util.TestAdapterClass
 import com.example.anull.R
 import com.example.anull.databinding.TestlayoutBinding
+import com.user.data.UserEntity
 import com.user.data.UserRepository
 import com.user.data.localdatasource.UserLocalDataSource
 import com.user.data.modelfromservice.Article
@@ -144,15 +146,6 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             }
         })
 
-//        bindingProf.lifecycleOwner=this
-//        recycler_posts_in_prof.apply {
-//            adapter = viewModel.getPosts()?.let { list ->
-//                PostsInProfAdapter(
-//                    list,
-//                    this@ProfileFragment
-//                )
-//            }
-//        }
 
         viewModel.postList.observe(thisViewLifeCycleOwner, Observer {
             recycler_posts_in_prof.adapter?.notifyDataSetChanged()
@@ -174,7 +167,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             if (radio.tag == "posts") {
 
 
-                viewModel.getAllArticleOfPerson(userName)
+                viewModel.getAllArticleOfPersonNew(userName)
 
 
 
@@ -197,18 +190,56 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         setUpRecyclerView()
 
-        viewModel.allArticleOfPerson.observe(thisViewLifeCycleOwner, Observer { response ->
+//        viewModel.allArticleOfPerson.observe(thisViewLifeCycleOwner, Observer { response ->
+//            Log.d("asghar", "bbbbbb: ")
+//            when (response) {
+//                is Resource.Success -> {
+//                    hideProgressBar()
+//                    response.data?.let { allArticleOfPerson ->
+//                        if (titleRadioBtn.checkedRadioButtonId==radio1.id){
+//                            bindingProf.countOfArticles = allArticleOfPerson.articlesCount.toString()
+//                        }
+//
+//                        testAdapter.differ.submitList(allArticleOfPerson.articles.toList())
+//                        val totalPages = allArticleOfPerson.articlesCount / QUERY_PAGE_SIZE + 2
+//                        isLastPage = totalPages == viewModel.allArticleOfPersonPage
+//
+//                        if (isLastPage) {
+//                            recycler_posts_in_prof.setPadding(0, 0, 0, 0)
+//                        }
+//
+//                    }
+//                }
+//                is Resource.Error -> {
+//                    hideProgressBar()
+//                    response.message?.let { message ->
+//                        Log.e("ProfileFragment ", "an error happened: $message ")
+//                    }
+//                }
+//                is Resource.Loading -> {
+//                    showProgressBar()
+//                }
+//
+//
+//            }
+//
+//        })
+
+
+
+
+        viewModel.allArticleOfPersonNew.observe(thisViewLifeCycleOwner, Observer { response ->
             Log.d("asghar", "bbbbbb: ")
-            when (response) {
-                is Resource.Success -> {
-                    hideProgressBar()
-                    response.data?.let { allArticleOfPerson ->
+
+
+
+                    response?.let { allArticleOfPerson ->
                         if (titleRadioBtn.checkedRadioButtonId==radio1.id){
-                            bindingProf.countOfArticles = allArticleOfPerson.articlesCount.toString()
+                            bindingProf.countOfArticles = allArticleOfPerson.size.toString()
                         }
 
-                        testAdapter.differ.submitList(allArticleOfPerson.articles.toList())
-                        val totalPages = allArticleOfPerson.articlesCount / QUERY_PAGE_SIZE + 2
+                        testAdapter.differ.submitList(allArticleOfPerson.toList())
+                        val totalPages = allArticleOfPerson.size / QUERY_PAGE_SIZE + 2
                         isLastPage = totalPages == viewModel.allArticleOfPersonPage
 
                         if (isLastPage) {
@@ -216,19 +247,10 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
                         }
 
                     }
-                }
-                is Resource.Error -> {
-                    hideProgressBar()
-                    response.message?.let { message ->
-                        Log.e("ProfileFragment ", "an error happened: $message ")
-                    }
-                }
-                is Resource.Loading -> {
-                    showProgressBar()
-                }
 
 
-            }
+
+
 
         })
 
@@ -240,7 +262,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
                 Log.d("zendegi", "delte item :${itemNumberOfDeletedArticle} ")
                 if (itemNumberOfDeletedArticle >= 0) {
-                    viewModel.deleteArticleFromList(itemNumberOfDeletedArticle)
+                    viewModel.deleteArticleFromListNew(itemNumberOfDeletedArticle)
                 }
                 viewModel.itemNumberOfDeletedArticle = -1
                 viewModel.isDeleteSuccess.value = false
@@ -341,10 +363,12 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         if (action == ("delete")) {
             if (numberOfItem != null) {
                 Log.d("zendegi", "step 1 number= ${numberOfItem} ")
-                viewModel.deleteArticleTest(
-                    viewModel.allArticleOfPerson.value?.data?.articles!![numberOfItem].slug,
-                    numberOfItem
-                )
+                viewModel.allArticleOfPersonNew.value?.let {list->
+                    list[numberOfItem].articleDataEntity.slug
+                }?.let {slug->
+                    viewModel.deleteArticleTest(
+                        slug,numberOfItem)
+                }
 //                viewModel.deleteArticleFromList(numberOfItem)
                 //  recycler_posts_in_prof.adapter?.notifyItemRemoved(numberOfItem)
                 bottomSheetFragment.dismiss()
@@ -353,8 +377,14 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         } else if (action == ("edit")) {
             val bundle = Bundle()
 
+//            numberOfItem?.let { number ->
+//                viewModel.allArticleOfPerson.value?.data?.articles?.get(number)?.let { article ->
+//                    bundle.putParcelable("post", article)
+//                    bundle.putString("userName", userName)
+//                }
+//            }
             numberOfItem?.let { number ->
-                viewModel.allArticleOfPerson.value?.data?.articles?.get(number)?.let { article ->
+                viewModel.allArticleOfPersonNew.value?.get(number)?.articleDataEntity?.let { article ->
                     bundle.putParcelable("post", article)
                     bundle.putString("userName", userName)
                 }
@@ -371,7 +401,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
     }
 
 
-    override fun onClick(article: Article, layoutPosition: Int) {
+    override fun onClick(article: ArticleUser, layoutPosition: Int) {
         val args = Bundle()
 
         args.putInt("layoutPosition", layoutPosition)
@@ -385,11 +415,11 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 //        }
     }
 
-    override fun onCardClick(article: Article, layoutPosition: Int) {
+    override fun onCardClick(article: ArticleUser, layoutPosition: Int) {
         Toast.makeText(requireContext(), "card clicked", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onImageClick(author: Author) {
+    override fun onImageClick(author: UserEntity) {
         if (bindingProf.titleRadioBtn.checkedRadioButtonId == bindingProf.radio2.id) {
 
             findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentSelf(author))
@@ -448,7 +478,8 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
                     && isTotalMoreThanVisible && isScrolling
             if (shouldPaginate) {
 
-                viewModel.getAllArticleOfPerson(userName)
+             //   viewModel.getAllArticleOfPerson(userName)
+                viewModel.getAllArticleOfPersonNew(userName)
 
                 isScrolling = false
             }

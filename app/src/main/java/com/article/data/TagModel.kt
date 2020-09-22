@@ -11,4 +11,8 @@ data class TagModel(
     @PrimaryKey
     @ColumnInfo(name = "tag") val title: String
 
-)
+) {
+
+
+}
+

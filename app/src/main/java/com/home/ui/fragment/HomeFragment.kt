@@ -13,9 +13,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.article.data.ArticleRepository
 import com.article.data.ArticleUser
 import com.article.data.TagModel
+import com.article.data.localdatasource.ArticleLocalDataSource
+import com.article.data.remotedatasource.ArticleRemoteDataSource
+import com.core.db.AppDataBase
 import com.example.anull.R
 import com.example.anull.databinding.FragmentHomeBinding
 import com.google.android.material.tabs.TabLayout
@@ -24,6 +29,7 @@ import com.home.data.PersonArticleModelEntity
 import com.home.data.TabModelEntity
 import com.home.ui.adapter.BestArticleAdapter
 import com.home.ui.adapter.PersonArticleAdapter
+import com.user.data.UserEntity
 import com.user.data.modelfromservice.Author
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -37,7 +43,11 @@ class HomeFragment : Fragment(), TabLayout.OnTabSelectedListener {
     var backAgain = false
     private lateinit var homeViewModel: HomeViewModel
 
-
+    private val MIGRATION_1_2 = object : Migration(1, 2) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE articles ADD COLUMN test TEXT")
+        }
+    }
     private lateinit var binding: FragmentHomeBinding
     private var list = mutableListOf<PersonArticleModelEntity>()
     private var tabs: ArrayList<TabModelEntity> = ArrayList()
@@ -90,8 +100,9 @@ class HomeFragment : Fragment(), TabLayout.OnTabSelectedListener {
         //------------------------------------------------
         requireActivity().window.decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-
-        homeViewModel = HomeViewModel(repo = ArticleRepository())
+        val articleLocalDataSource= ArticleLocalDataSource(AppDataBase.invoke(requireContext(),MIGRATION_1_2))
+        val articleRemoteDataSource= ArticleRemoteDataSource()
+        homeViewModel = HomeViewModel(repo = ArticleRepository(articleLocalDataSource,articleRemoteDataSource))
         homeViewModel.getAllTags()
         //------------------------------
 //        homeViewModel.getArticleWithTag()
@@ -110,10 +121,11 @@ class HomeFragment : Fragment(), TabLayout.OnTabSelectedListener {
 
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToProfileFragment(
-                    Author(
-                        false,
+                    UserEntity(
+                        "44444444",
                         null,
-                        "44444444"
+                        false,
+                        ""
                     )
                 )
             )

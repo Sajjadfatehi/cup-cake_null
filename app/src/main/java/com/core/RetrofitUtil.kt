@@ -10,6 +10,7 @@ import com.user.data.UserLocalDataSource
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -26,7 +27,7 @@ object RetrofitUtil {
     private var retrofit: Retrofit? = null
     private const val baseURL = "http://192.168.5.69:3000/api/"
     private val networkFlipperPlugin = NetworkFlipperPlugin()
-
+    private val logging=HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     fun getInstance(): Retrofit {
         return retrofit ?: getRetrofit().also { retrofit = it }
     }
@@ -53,7 +54,7 @@ object RetrofitUtil {
         }
         val request = newBuilder.build()
         chain.proceed(request)
-    }
+    }.addNetworkInterceptor(logging)
         .addNetworkInterceptor(FlipperOkhttpInterceptor(MyApp.networkFlipperPlugin))
         .build()
 

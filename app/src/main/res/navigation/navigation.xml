@@ -95,7 +95,7 @@
             app:destination="@id/profileFragment" />
         <argument
             android:name="author"
-            app:argType="com.user.data.modelfromservice.Author" />
+            app:argType="com.user.data.UserEntity" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"

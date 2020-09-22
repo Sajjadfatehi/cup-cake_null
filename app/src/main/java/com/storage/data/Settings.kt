@@ -24,10 +24,16 @@ class Settings(sharedPreferences: SharedPreferences) {
         TOKEN
     )
 
+    var username:String? by StringPreference(
+        sharedPreferences,
+        USERNAME
+    )
+
     companion object Key {
         const val APP_VERSION = "APP_VERSION"
         const val APP_VERSION_NAME = "APP_VERSION_NAME"
         const val IS_UP_TO_DATE = "IS_UP_TO_DATE"
         const val TOKEN = "TOKEN"
+        const val USERNAME= "USERNAME"
     }
 }

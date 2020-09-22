@@ -1,6 +1,9 @@
 package com.article.data
 
+import android.os.Parcelable
 import com.user.data.UserEntity
+
+
 
 data class Article(
     val author: Author,

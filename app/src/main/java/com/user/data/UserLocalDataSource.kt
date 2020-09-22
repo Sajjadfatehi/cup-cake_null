@@ -17,4 +17,10 @@ class UserLocalDataSource(val sherPref: SharedPreferences, val userDao: UserDao?
     }
 
     fun getToken() = settings.token
+
+    fun saveUserName(username :String?){
+        settings.username = username
+    }
+
+    fun getUserName() = settings.username
 }

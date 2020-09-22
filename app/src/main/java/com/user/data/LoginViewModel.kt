@@ -45,6 +45,7 @@ class LoginViewModel(val repo: UserRepo) : ViewModel() {
             } else if (response is ResultCallBack.Success) {
                 isLogin.value = true
                 repo.setTokenInShared(response.data.user.token)
+                repo.setUserNameInShared(response.data.user.username)
             }
             result.postValue(false)
         }

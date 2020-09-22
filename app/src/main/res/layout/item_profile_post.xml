@@ -9,7 +9,7 @@
 
         <variable
             name="article"
-            type="com.user.data.modelfromservice.Article" />
+            type="com.article.data.ArticleDataEntity" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="1dp"
-                android:text="@{article.author.username}"
+                android:text="@{article.aothorusername}"
                 android:textAlignment="viewEnd"
                 android:textColor="#363636"
                 android:textSize="14sp"

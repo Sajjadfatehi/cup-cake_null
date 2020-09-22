@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.article.data.ArticleRepository
+import com.article.data.localdatasource.ArticleLocalDataSource
+import com.article.data.remotedatasource.ArticleRemoteDataSource
 import com.article.ui.adapter.ArticleAdapter
 import com.article.ui.adapter.ArticleAdapterDiff
 import com.article.ui.viewmodel.TitleViewModel
@@ -54,7 +56,10 @@ class TitleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val articleRepository=ArticleRepository()
+
+        val articleLocalDataSource= ArticleLocalDataSource(AppDataBase.invoke(requireContext(),MIGRATION_1_2))
+        val articleRemoteDataSource= ArticleRemoteDataSource()
+        val articleRepository=ArticleRepository(articleLocalDataSource,articleRemoteDataSource)
         val titleViewModelProvider=TitleViewModelProviderFactory(articleRepository)
 
         viewModel = ViewModelProvider(this,titleViewModelProvider).get(TitleViewModel::class.java)

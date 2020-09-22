@@ -29,26 +29,21 @@ interface ArticleApi {
 
     @POST("articles")
     suspend fun createArticle(
-        @Body
-
-        createArticleModel: CreateArticleModel
-    ): Response<Article>
+        @Body createArticleModel: CreateArticleModel
+    ): Response<ArticleResponse>
 
 
     @PUT("articles/{slug}")
     suspend fun updateArticle(
-        @Path("slug")
-        slug: String,
-        @Body
-        editArticleRequest: EditArticleRequest
-    ): Response<Article>
-
+        @Path("slug") slug: String,
+        @Body editArticleRequest: EditArticleRequest
+    ): Response<ArticleResponse>
 
 
     @GET("articles/{slug}")
     suspend fun articleBySlug(
         @Path("slug")
-        slug:String
-    ):Response<ArticleResponse>
+        slug: String
+    ): Response<ArticleResponse>
 
 }

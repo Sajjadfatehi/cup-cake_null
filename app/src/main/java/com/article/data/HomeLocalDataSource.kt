@@ -40,7 +40,7 @@ class HomeLocalDataSource() {
         return postList
     }
 
-    fun getTagList(): List<TagModel> {
+  suspend  fun getTagList(): List<TagModel> {
         tags = dao.getAllTag()
         return tags
     }
@@ -50,7 +50,7 @@ class HomeLocalDataSource() {
         return articles
     }
 
-    fun addAllTags(tags: List<TagModel>) {
+    suspend fun addAllTags(tags: List<TagModel>) {
         dao.addTAg(tags)
     }
 
