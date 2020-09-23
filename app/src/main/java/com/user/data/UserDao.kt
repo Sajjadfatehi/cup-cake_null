@@ -1,12 +1,10 @@
 package com.user.data
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 import com.article.data.ArticleUser
 import com.article.data.CommentArticleModelEntity
 import com.article.data.TagModel
-import com.article.data.UserWithArticlesAndTagsView
 import com.article.data.modelfromservice.UserAndHisFavoriteArticle
 
 @Dao
@@ -49,6 +47,9 @@ interface UserDao {
 
     @Query("select * from comments")
     fun getAllComments(): LiveData<List<CommentArticleModelEntity>>
+
+    @Query("select * from author where username=:userName")
+    suspend fun getUser(userName: String): UserEntity
 
 
 //    //favorite ?!

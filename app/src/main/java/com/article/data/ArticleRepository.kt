@@ -9,7 +9,6 @@ import com.article.data.remotedatasource.ArticleRemoteDataSource
 import com.core.ResultCallBack
 import com.core.RetrofitUtil
 import com.core.RoomDataBase
-import com.core.db.AppDataBase
 import com.core.util.Resource
 import com.user.data.modelfromservice.EditArticleRequest
 
@@ -61,19 +60,18 @@ class ArticleRepository(
         if (result is Resource.Success) {
 
             articleLocalDataSource.db.withTransaction {
-                result.data?.article?.mapToEntity()?.let { article ->
-                    articleLocalDataSource.updateArticle(article)
-                }
                 result.data?.article?.mapToUserEntity()?.let { userEntity ->
-                    articleLocalDataSource.addUsers(listOf(userEntity) )
+                    articleLocalDataSource.addUsers(listOf(userEntity))
                 }
-
-                result.data?.article?.tagList?.map { tag->
+                result.data?.article?.mapToEntity()?.let { article ->
+                    articleLocalDataSource.insertArticle(listOf(article))
+                }
+                result.data?.article?.tagList?.map { tag ->
                     TagModel(tag)
                 }?.let { articleLocalDataSource.insertTags(it) }
 
-                result.data?.article?.tagList?.map { tag->
-                    TagAndArticleEntity(tag,result.data.article.slug)
+                result.data?.article?.tagList?.map { tag ->
+                    TagAndArticleEntity(tag, result.data.article.slug)
                 }?.let { articleLocalDataSource.addArticleTag(it) }
             }
 

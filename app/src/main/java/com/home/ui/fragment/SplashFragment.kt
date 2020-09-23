@@ -3,7 +3,6 @@ package com.home.ui.fragment
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,6 @@ import com.example.anull.R
 import com.example.anull.databinding.FragmentSplashBinding
 import com.home.data.SplashViewModel
 import com.storage.data.PreferenceProperty
-import com.user.data.LoginViewModel
 import com.user.data.UserLocalDataSource
 import com.user.data.UserRemoteDataSource
 import com.user.data.UserRepo
@@ -29,6 +27,7 @@ class SplashFragment : Fragment() {
     private val splashTimeOut: Long = 3000
     private lateinit var binding: FragmentSplashBinding
     private lateinit var viewmodel: SplashViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater,

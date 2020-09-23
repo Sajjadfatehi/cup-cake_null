@@ -3,14 +3,10 @@ package com.user.data
 import android.util.Log
 import androidx.room.withTransaction
 import com.article.data.ArticleUser
-import com.article.data.HomeLocalDataSource
 import com.article.data.TagAndArticleEntity
 import com.article.data.TagModel
 import com.article.data.modelfromservice.UserAndHisFavoriteArticle
 import com.core.ResultCallBack
-import com.core.RetrofitUtil
-import com.core.RoomDataBase
-import com.user.data.api.UserApi
 import com.user.data.localdatasource.UserLocalDataSource
 import com.user.data.modelfromservice.FollowRequest
 import com.user.data.modelfromservice.RegisterRequest
@@ -38,22 +34,65 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
 
     suspend fun deleteArticle(slug: String): ResultCallBack<Unit> {
         val result = remote.deleteArticle(slug)
-        if (result is ResultCallBack.Success){
+        if (result is ResultCallBack.Success) {
             local.deleteArticle(slug)
 
         }
+        Log.d("mamad", "dlet rep ${result}: ")
         return result
     }
 
-    suspend fun profile(userName: String) =
-        remote.profile(userName)
+    suspend fun profile(userName: String): ResultCallBack<UserEntity> {
+        val result = remote.profile(userName)
 
 
-    suspend fun follow(userName: String, followRequest: FollowRequest) =
-        remote.follow(userName, followRequest)
+        if (result is ResultCallBack.Success) {
+            local.db.withTransaction {
 
-    suspend fun unFollow(userName: String) =
-        remote.unFollow(userName)
+                local.addUsers(listOf(result.data.profile.mapYoUserEntity()))
+            }
+            return ResultCallBack.Success(local.getUser(userName))
+
+        }
+
+        return ResultCallBack.Error(Exception("follow failed"))
+
+    }
+
+
+    suspend fun follow(userName: String, followRequest: FollowRequest): ResultCallBack<UserEntity> {
+        val result = remote.follow(userName, followRequest)
+
+
+        if (result is ResultCallBack.Success) {
+            local.db.withTransaction {
+
+                local.addUsers(listOf(result.data.profile.mapYoUserEntity()))
+            }
+            return ResultCallBack.Success(local.getUser(userName))
+
+        }
+
+        return ResultCallBack.Error(Exception("follow failed"))
+
+    }
+
+    suspend fun unFollow(userName: String): ResultCallBack<UserEntity> {
+        val result = remote.unFollow(userName)
+
+        if (result is ResultCallBack.Success) {
+            local.db.withTransaction {
+
+                local.addUsers(listOf(result.data.profile.mapYoUserEntity()))
+            }
+            return ResultCallBack.Success(local.getUser(userName))
+
+        }
+
+        return ResultCallBack.Error(Exception("follow failed"))
+
+    }
+
 
     suspend fun getAllArticleOfPersonNew(
         author: String,
@@ -63,6 +102,7 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
 
         if (result is ResultCallBack.Success) {
             local.db.withTransaction {
+                local.db.articleDao().deleteArticleByUserName(author)
                 local.addUsers(result.data.articles.map {
                     it.mapToUserEntity()
                 })

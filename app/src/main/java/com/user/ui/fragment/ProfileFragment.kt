@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.article.data.ArticleUser
-import com.bumptech.glide.Glide
+import com.core.ResultCallBack
 import com.core.db.AppDataBase
 import com.core.util.Constants.Companion.QUERY_PAGE_SIZE
 import com.core.util.Resource
@@ -30,8 +30,6 @@ import com.example.anull.databinding.TestlayoutBinding
 import com.user.data.UserEntity
 import com.user.data.UserRepository
 import com.user.data.localdatasource.UserLocalDataSource
-import com.user.data.modelfromservice.Article
-import com.user.data.modelfromservice.Author
 import com.user.data.modelfromservice.EmailBody
 import com.user.data.modelfromservice.FollowRequest
 import com.user.data.reomtedatasource.UserRemote
@@ -123,21 +121,20 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         //set profile
         viewModel.profile.observe(thisViewLifeCycleOwner, Observer { response ->
             when (response) {
-                is Resource.Success -> {
+                is ResultCallBack.Success -> {
                     hideProgressBar()
-                    response.data?.let { profile ->
+                    response.data.let { profile ->
 
-                        bindingProf.author = profile.profile
+                        bindingProf.author = profile
 
                     }
 
                 }
-                is Resource.Error -> {
+                is ResultCallBack.Error -> {
                     hideProgressBar()
-                    response.message?.let { message ->
-                    }
+
                 }
-                is Resource.Loading -> {
+                is ResultCallBack.Loading -> {
 
                     showProgressBar()
                 }
@@ -254,34 +251,19 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         })
 
-        viewModel.isDeleteSuccess.observe(thisViewLifeCycleOwner, Observer { isDeletedSuccess ->
-            if (isDeletedSuccess) {
-
-                Log.d("zendegi", "detele observe: ")
-                val itemNumberOfDeletedArticle = viewModel.itemNumberOfDeletedArticle
-
-                Log.d("zendegi", "delte item :${itemNumberOfDeletedArticle} ")
-                if (itemNumberOfDeletedArticle >= 0) {
-                    viewModel.deleteArticleFromListNew(itemNumberOfDeletedArticle)
-                }
-                viewModel.itemNumberOfDeletedArticle = -1
-                viewModel.isDeleteSuccess.value = false
-            }
-
-        })
 
         viewModel.followResponse.observe(thisViewLifeCycleOwner, Observer { response ->
             when (response) {
-                is Resource.Success -> {
+                is ResultCallBack.Success -> {
                     Log.d("bibi", "follow res ${viewModel.isFollowing}: ")
 
-                    viewModel.isFollowing=true
-                    bindingProf.follow=true
+                    viewModel.isFollowing = true
+                    bindingProf.follow = true
                 }
-                is Resource.Error -> {
+                is ResultCallBack.Error -> {
 
                 }
-                is Resource.Loading -> {
+                is ResultCallBack.Loading -> {
 
                 }
             }
@@ -290,15 +272,15 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         viewModel.unFollowResponse.observe(thisViewLifeCycleOwner, Observer { response ->
             when (response) {
-                is Resource.Success -> {
+                is ResultCallBack.Success -> {
                     Log.d("bibi", "Unfollow ressss ${viewModel.isFollowing}: ")
-                   viewModel.isFollowing=false
-                    bindingProf.follow=false
+                    viewModel.isFollowing = false
+                    bindingProf.follow = false
                 }
-                is Resource.Error -> {
+                is ResultCallBack.Error -> {
 
                 }
-                is Resource.Loading -> {
+                is ResultCallBack.Loading -> {
 
                 }
             }
@@ -339,14 +321,13 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         })
 
         follow_button.setOnClickListener {
-            Log.d("bibi", "onViewCreated:${viewModel.isFollowing} ")
-            if (viewModel.isFollowing) {
+
+        if (viewModel.isFollowing) {
                 viewModel.unFollow(userName)
 
             } else {
                 viewModel.follow(userName, FollowRequest(EmailBody("seyed@gmail.com")))
             }
-
 
         }
     }

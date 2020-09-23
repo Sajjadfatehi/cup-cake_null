@@ -8,7 +8,7 @@
 
         <variable
             name="author"
-            type="com.user.data.modelfromservice.Author" />
+            type="com.user.data.UserEntity" />
 
         <variable
             name="countOfArticles"

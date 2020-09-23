@@ -1,6 +1,5 @@
 package com.article.data
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
@@ -22,5 +21,8 @@ interface ArticleDao {
     suspend fun deleteArticle(slug: String)
 
     @Query("select * from article")
-    suspend fun getAllArticles():MutableList<ArticleDataEntity>
+    suspend fun getAllArticles(): MutableList<ArticleDataEntity>
+
+    @Query("delete from article where authorusername=:userName")
+    suspend fun deleteArticleByUserName(userName: String)
 }

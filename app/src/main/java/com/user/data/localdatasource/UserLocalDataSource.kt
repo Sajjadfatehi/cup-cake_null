@@ -26,19 +26,22 @@ class UserLocalDataSource(val db:AppDataBase) {
         db.articleDao().insertArticleTag(tagAndArticleEntity)
     }
 
-    suspend fun addUserAndFavoriteArticles(userAdFavoriteArticles:List<UserAndHisFavoriteArticle>){
+    suspend fun addUserAndFavoriteArticles(userAdFavoriteArticles: List<UserAndHisFavoriteArticle>) {
         db.userDao().insertUserAndFavoriteArticle(userAdFavoriteArticles)
 
     }
 
 
-   suspend fun insertTags(tags:List<TagModel>){
+    suspend fun insertTags(tags: List<TagModel>) {
         db.tagDao().insertTags(tags)
     }
 
+    suspend fun getUser(userName: String): UserEntity {
+        return db.userDao().getUser(userName)
+    }
 
 
-    suspend fun addTags(tags : List<TagModel>){
+    suspend fun addTags(tags: List<TagModel>) {
         db.tagDao().addTAg(tags)
     }
 

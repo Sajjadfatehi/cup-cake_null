@@ -8,16 +8,15 @@ import com.article.data.ArticleUser
 import com.article.data.modelfromservice.ArticleResponse
 import com.core.ResultCallBack
 import com.core.util.Resource
+import com.user.data.UserEntity
 import com.user.data.UserRepository
 import com.user.data.modelfromservice.AllArticleOfPerson
 import com.user.data.modelfromservice.Article
 import com.user.data.modelfromservice.FollowRequest
-import com.user.data.modelfromservice.Profile
 import com.user.ui.ArticleView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import kotlin.math.log
 
 
 class ProfileViewModel(val userRepository: UserRepository, val userName: String) : ViewModel() {
@@ -34,17 +33,10 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
     var allArticleOfPersonPage = 1
     var allArticleOfPersonResponse: AllArticleOfPerson? = null
 
-    var isDeleteSuccess = MutableLiveData<Boolean>()
-    var itemNumberOfDeletedArticle = -1
+    var profile = MutableLiveData<ResultCallBack<UserEntity>>()
 
-    var profile = MutableLiveData<Resource<Profile>>()
-
-    var followResponse = MutableLiveData<Resource<Profile>>()
-    var unFollowResponse = MutableLiveData<Resource<Profile>>()
-
-    var itemNumberOfArticleFavorited = -1
-    var itemNumberOfArticleUnFavorited = -1
-
+    var followResponse = MutableLiveData<ResultCallBack<UserEntity>>()
+    var unFollowResponse = MutableLiveData<ResultCallBack<UserEntity>>()
 
 //    fun getAllArticleOfPerson(author: String) = viewModelScope.launch {
 //        allArticleOfPerson.postValue(Resource.Loading())
@@ -172,9 +164,10 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
 
     fun deleteArticleTest(slug: String, itemNumber: Int) = viewModelScope.launch(Dispatchers.IO) {
         val response = userRepository.deleteArticle(slug)
-        if (response is ResultCallBack.Success){
-            itemNumberOfDeletedArticle = itemNumber
-            isDeleteSuccess.postValue(true)
+        if (response is ResultCallBack.Success) {
+
+            Log.d("mamad", "yes deket in view model sucees: ")
+            deleteArticleFromListNew(itemNumber)
 
         }
 
@@ -183,46 +176,27 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
 
     fun getProfile(userName: String) = viewModelScope.launch(Dispatchers.IO) {
 
-        profile.postValue(Resource.Loading())
+        profile.postValue(ResultCallBack.Loading(""))
         val response = userRepository.profile(userName)
-        profile.postValue(handleGetProfile(response))
+        profile.postValue(response)
 
     }
 
-    fun handleGetProfile(response: Response<Profile>): Resource<Profile> {
-        if (response.isSuccessful) {
-
-            response.body()?.let {
-                return Resource.Success(it)
-
-            }
-        }
-        return Resource.Error(response.message())
-    }
 
 
     fun follow(userName: String, followRequest: FollowRequest) =
         viewModelScope.launch(Dispatchers.IO) {
-            followResponse.postValue(Resource.Loading())
+            followResponse.postValue(ResultCallBack.Loading(""))
             val response = userRepository.follow(userName, followRequest)
-            followResponse.postValue(handleFollow(response))
+            followResponse.postValue(response)
         }
 
     fun unFollow(userName: String) = viewModelScope.launch(Dispatchers.IO) {
-        unFollowResponse.postValue(Resource.Loading())
+        unFollowResponse.postValue(ResultCallBack.Loading(""))
         val response = userRepository.unFollow(userName)
-        unFollowResponse.postValue(handleFollow(response))
+        unFollowResponse.postValue(response)
     }
 
-    private fun handleFollow(response: Response<Profile>): Resource<Profile> {
-        if (response.isSuccessful) {
-            response.body()?.let { result ->
-                return Resource.Success(result)
-            }
-
-        }
-        return Resource.Error(response.message())
-    }
 
     init {
 

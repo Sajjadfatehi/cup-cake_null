@@ -2,9 +2,10 @@ package com.article.data
 
 import android.os.Parcelable
 import com.user.data.UserEntity
+import kotlinx.android.parcel.Parcelize
 
 
-
+@Parcelize
 data class Article(
     val author: Author,
     val body: String? = null,
@@ -16,7 +17,7 @@ data class Article(
     val tagList: List<String>,
     val title: String,
     val updatedAt: String
-) {
+) : Parcelable {
     fun mapToEntity(): ArticleDataEntity {
         return ArticleDataEntity(
             slug = slug,
