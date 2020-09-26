@@ -1,6 +1,7 @@
 package com.user.ui.fragment
 
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -293,7 +294,6 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             when (response) {
                 is ResultCallBack.Success -> {
 
-                    Log.d("hadige", "fa resssss: ")
 
                 }
                 is ResultCallBack.Error -> {
@@ -330,7 +330,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
             } else {
                 viewModel.userRepository.getEmailFromShare()?.let { email ->
                     EmailBody(email)
-                }?.let { emailBody ->
+                }.let { emailBody ->
                     FollowRequest(emailBody)
                 }.let { followRequset ->
                     viewModel.follow(userName, followRequset)
@@ -351,7 +351,6 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         if (action == ("delete")) {
             if (numberOfItem != null) {
-                Log.d("zendegi", "step 1 number= ${numberOfItem} ")
                 viewModel.allArticleOfPersonNew.value?.let { list ->
                     list[numberOfItem].articleDataEntity.slug
                 }?.let { slug ->
@@ -359,10 +358,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
                         slug, numberOfItem
                     )
                 }
-//                viewModel.deleteArticleFromList(numberOfItem)
-                //  recycler_posts_in_prof.adapter?.notifyItemRemoved(numberOfItem)
                 bottomSheetFragment.dismiss()
-
             }
         } else if (action == ("edit")) {
             val bundle = Bundle()
@@ -380,22 +376,48 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
                 }
             }
 
-
-
             findNavController().navigate(
                 R.id.action_profileFragment_to_writeArticleFragment,
                 bundle
             )
             bottomSheetFragment.dismiss()
+        } else if (action == ("share")) {
+            var title = "title \n :"
+            var body = "body \n:"
+
+            if (titleRadioBtn.checkedRadioButtonId == radio1.id) {
+                title += numberOfItem?.let { viewModel.allArticleOfPersonNew.value?.get(it)?.articleDataEntity?.title }
+                    .toString().trim()
+                body += numberOfItem?.let { viewModel.allArticleOfPersonNew.value?.get(it)?.articleDataEntity?.body }
+                    .toString().trim()
+            } else {
+                title += numberOfItem?.let { viewModel.allFavoriteArticleOfPersonNew.value?.get(it)?.articleDataEntity?.title }
+                    .toString().trim()
+                body += numberOfItem?.let { viewModel.allFavoriteArticleOfPersonNew.value?.get(it)?.articleDataEntity?.body }
+                    .toString().trim()
+            }
+
+            val sendIntent: Intent = Intent().apply {
+                setAction(Intent.ACTION_SEND)
+                putExtra(Intent.EXTRA_TEXT, title)
+                putExtra(Intent.EXTRA_TEXT, body)
+                type = "text/plain"
+            }
+
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+
         }
     }
 
 
     override fun onClick(article: ArticleUser, layoutPosition: Int) {
         val args = Bundle()
+        val isMyOwnPage = (viewModel.userRepository.getUserNameFromShare() == viewModel.userName) &&
+                (titleRadioBtn.checkedRadioButtonId == radio1.id)
 
         args.putInt("layoutPosition", layoutPosition)
-
+        args.putBoolean("isMyOwnPage", isMyOwnPage)
         bottomSheetFragment.arguments = args
         bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
 
@@ -497,7 +519,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         }
     }
 
-    //    (viewModel.userName=="44444444")&&(titleRadioBtn.checkedRadioButtonId == radio1.id)
+
     private fun setUpRecyclerView() {
         testAdapter = TestAdapterClass(this@ProfileFragment)
         recycler_posts_in_prof.apply {

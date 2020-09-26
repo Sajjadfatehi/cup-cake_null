@@ -61,6 +61,7 @@
     <string name="tv_economy">اقتصاد</string>
     <string name="tv_edit_article">ویرایش مقاله</string>
     <string name="tv_delete_article">حذف مقاله</string>
+    <string name="tv_share_article">اشتراک مقاله</string>
     <string name="hint_text_send_comment">دیدگاه خود را اینجا بنویسید</string>
     <string name="tv_write_article">نوشتن مقاله</string>
     <string name="tv_draft">پیش نویس</string>

@@ -34,6 +34,8 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
 
         val args = arguments
 
+        args?.getBoolean("isMyOwnPage")?.let { handleVisibilityOfButtons(it) }
+
         edit_article_btn.setOnClickListener {
 
             val number = args?.getInt("layoutPosition")
@@ -46,6 +48,10 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
             iCall.onCall("delete", number)
 
         }
+        share_article_btn.setOnClickListener {
+            val number = args?.getInt("layoutPosition")
+            iCall.onCall("share", number)
+        }
 
 
     }
@@ -56,6 +62,13 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
             iCall = parentFragment as CallBack
         } catch (e: Exception) {
             //handle exception
+        }
+    }
+
+    private fun handleVisibilityOfButtons(isMyOwnPage: Boolean) {
+        if (!isMyOwnPage) {
+            edit_article_btn.visibility = View.GONE
+            delete_article_btn.visibility = View.GONE
         }
     }
 
