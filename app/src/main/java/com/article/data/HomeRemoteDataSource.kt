@@ -6,12 +6,11 @@ import com.article.data.modelfromservice.CreateArticleModel
 import com.core.ResultCallBack
 import com.core.RetrofitUtil
 import com.user.data.modelfromservice.EditArticleRequest
-import java.lang.Exception
 
 /**
  * Created by moha on 9/15/2020.
  */
-class HomeRemoteDataSource() {
+class HomeRemoteDataSource {
 
     val articleApi = RetrofitUtil.getInstance().create(ArticleApi::class.java)
 
@@ -35,10 +34,11 @@ class HomeRemoteDataSource() {
 
     suspend fun getArticleWithTag(text: String): ResultCallBack<ArticleModel> {
         val result = articleApi.getArticleWithTag(text)
+
         try {
             if (result.isSuccessful) {
                 result.body()?.let {
-                    it?.let {
+                    it.let {
                         return ResultCallBack.Success(it)
                     }
                 }

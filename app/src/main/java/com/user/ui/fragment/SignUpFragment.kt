@@ -2,7 +2,6 @@ package com.user.ui.fragment
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.article.data.CommentArticleModelEntity
 import com.core.db.AppDataBase
 import com.example.anull.R
 import com.example.anull.databinding.FragmentSignUpBinding
@@ -49,14 +47,11 @@ class SignUpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-
-
-        val userLocalDataSource=
-            UserLocalDataSource(AppDataBase.invoke(requireContext(),MIGRATION_1_2))
-        val userRemoteDataSource= UserRemote()
-        val userRepository = UserRepository(userLocalDataSource,userRemoteDataSource)
+        binding.isLoadingFinish = true
+        val userLocalDataSource =
+            UserLocalDataSource(AppDataBase.invoke(requireContext(), MIGRATION_1_2))
+        val userRemoteDataSource = UserRemote()
+        val userRepository = UserRepository(userLocalDataSource, userRemoteDataSource)
         val singUpViewModelProvider = SiguUpViewModelProviderFactory(userRepository)
         viewModel =
             ViewModelProvider(this, singUpViewModelProvider).get(SignUpViewModel::class.java)
@@ -75,7 +70,7 @@ class SignUpFragment : Fragment() {
             viewLifecycleOwner,
             androidx.lifecycle.Observer { isRegisterSuccess ->
                 if (isRegisterSuccess) {
-                    hideProgressBar()
+                    binding.isLoadingFinish = true
                     findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeFragment())
 
                 }
@@ -85,7 +80,7 @@ class SignUpFragment : Fragment() {
         singUpButton.setOnClickListener {
             if (!checkEditTextIsEmpty()) {
 
-                showProgressBar()
+                binding.isLoadingFinish = false
                 viewModel.register(
                     RegisterRequest(
                         User(
@@ -112,15 +107,6 @@ class SignUpFragment : Fragment() {
 
     }
 
-
-    private fun hideProgressBar() {
-        registerProgressBar.visibility = View.INVISIBLE
-    }
-
-    private fun showProgressBar() {
-        registerProgressBar.visibility = View.VISIBLE
-
-    }
 
     private fun checkEditTextIsEmpty(): Boolean {
 

@@ -1,13 +1,15 @@
 package com.article.data
 
-import com.article.data.TagModel
+import com.config.MyApp
 import com.core.RoomDataBase
 import com.example.anull.R
 import com.home.ui.PersonArticleModelView
+import com.storage.data.PreferenceProperty.Companion.getPreferences
+import com.storage.data.Settings
 import com.user.data.UserEntity
 import com.user.ui.ArticleView
 
-class HomeLocalDataSource() {
+class HomeLocalDataSource {
     var postList: MutableList<ArticleView> = mutableListOf<ArticleView>()
     var tagTitleList = mutableListOf<PersonArticleModelView>()
     lateinit var tags: List<TagModel>
@@ -16,7 +18,7 @@ class HomeLocalDataSource() {
     private val dao = dataBase.tagDao()
     private val userDao = dataBase.userDao()
     private val articleDao = dataBase.articleDao()
-
+    private val settings = Settings(MyApp.app.applicationContext.getPreferences())
 
     init {
 
@@ -54,16 +56,17 @@ class HomeLocalDataSource() {
         dao.addTAg(tags)
     }
 
-    fun addArticle(articles: List<ArticleDataEntity>) {
+    suspend fun addArticle(articles: List<ArticleDataEntity>) {
         articleDao.insert(articles)
     }
 
-    fun addArticleTag(tagAndArticleEntity: List<TagAndArticleEntity>) {
+    suspend fun addArticleTag(tagAndArticleEntity: List<TagAndArticleEntity>) {
         articleDao.insertArticleTag(tagAndArticleEntity)
     }
 
-    fun addUsers(userEntity: List<UserEntity>) {
+    suspend fun addUsers(userEntity: List<UserEntity>) {
         userDao.insertUser(userEntity)
     }
 
+    fun getUserNameFromShare() = settings.username
 }

@@ -1,16 +1,10 @@
 package com.user.data
 
-import android.text.Editable
-import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.ResultCallBack
-import com.example.anull.databinding.FragmentLoginBinding
-import com.storage.data.Settings
-import com.storage.data.stringPreference
 import kotlinx.coroutines.launch
-import javax.security.auth.callback.Callback
 
 /**
  * Created by moha on 9/12/2020.
@@ -46,6 +40,7 @@ class LoginViewModel(val repo: UserRepo) : ViewModel() {
                 isLogin.value = true
                 repo.setTokenInShared(response.data.user.token)
                 repo.setUserNameInShared(response.data.user.username)
+                repo.setEmailInShared(response.data.user.email)
             }
             result.postValue(false)
         }

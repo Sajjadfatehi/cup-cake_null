@@ -5,11 +5,14 @@ import androidx.room.withTransaction
 import com.article.data.ArticleUser
 import com.article.data.TagAndArticleEntity
 import com.article.data.TagModel
+import com.article.data.modelfromservice.ArticleResponse
 import com.article.data.modelfromservice.UserAndHisFavoriteArticle
+import com.core.Network
 import com.core.ResultCallBack
 import com.user.data.localdatasource.UserLocalDataSource
 import com.user.data.modelfromservice.FollowRequest
 import com.user.data.modelfromservice.RegisterRequest
+import com.user.data.modelfromservice.RegisterResponse
 import com.user.data.reomtedatasource.UserRemote
 
 
@@ -19,14 +22,65 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
         remote.getAllArticleOfPerson(author, pageNumber)
 
 
-    suspend fun register(registerRequest: RegisterRequest) =
-        remote.register(registerRequest)
+    suspend fun register(registerRequest: RegisterRequest): ResultCallBack<RegisterResponse> {
+        return if (Network.isNetworkConnected()) {
+            remote.register(registerRequest)
+        } else {
+            ResultCallBack.Error(Exception("no net"))
+        }
 
-    suspend fun favoriteArticle(slug: String) =
-        remote.favoriteArticle(slug)
+    }
 
-    suspend fun unFavoriteArticle(slug: String) =
-        remote.unFavoriteArticle(slug)
+    suspend fun favoriteArticle(
+        slug: String,
+        ownUserName: String
+    ): ResultCallBack<ArticleResponse> {
+        val result = remote.favoriteArticle(slug)
+
+        if (result is ResultCallBack.Success) {
+            local.db.withTransaction {
+
+                local.addArticle(listOf(result.data.article.mapToEntity()))
+                local.addUserAndFavoriteArticles(
+                    listOf(
+                        UserAndHisFavoriteArticle(
+                            ownUserName,
+                            slug
+                        )
+                    )
+                )
+
+            }
+
+        }
+        return result
+
+    }
+
+    suspend fun unFavoriteArticle(
+        slug: String,
+        ownUserName: String
+    ): ResultCallBack<ArticleResponse> {
+        val result = remote.unFavoriteArticle(slug)
+
+        if (result is ResultCallBack.Success) {
+            local.db.withTransaction {
+
+                local.addArticle(listOf(result.data.article.mapToEntity()))
+                local.deleteUserAndFavoriteArticles(
+                    listOf(
+                        UserAndHisFavoriteArticle(
+                            ownUserName,
+                            slug
+                        )
+                    )
+                )
+
+            }
+
+        }
+        return result
+    }
 
 
     suspend fun favoritedArticleByUserName(favoritedUserName: String) =
@@ -122,7 +176,10 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
             }
 
         }
-        Log.d("UserRepository", "ss:${author} bib ${local.db.userDao().getArticlesByAuthor(author)} ")
+        Log.d(
+            "UserRepository",
+            "ss:${author} bib ${local.db.userDao().getArticlesByAuthor(author)} "
+        )
 
         return local.db.userDao().getArticlesByAuthor(author)
     }
@@ -132,6 +189,8 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
 
         if (result is ResultCallBack.Success) {
             local.db.withTransaction {
+                local.db.articleDao().deleteFavoriteArticleOfUser(author)
+//                local.db.articleDao().deleteAllFavoriteArticleOfUser()
                 local.addUsers(result.data.articles.map {
                     it.mapToUserEntity()
                 })
@@ -161,17 +220,27 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
     }
 
 
+    fun setTokenInShared(token: String?) {
+        local.saveToken(token)
+    }
+
+    fun setUserNameInShared(username: String?) {
+        local.saveUserName(username)
+
+    }
+
+    fun setEmailInShared(email: String?) {
+        local.saveEmail(email)
+
+    }
+
+    fun getUserNameFromShare(): String {
+        return local.getUserName().toString()
+    }
+
+    fun getEmailFromShare(): String {
+        return local.getEmail().toString()
+    }
+
 }
 
-//    val localDataSource = LocalDataSource()
-//    val userLocalDataSource=UserLocalDataSource()
-
-//
-//init {
-//
-//
-//}
-//
-//    fun getPostInProf(): MutableList<ArticleView> {
-//        return localDataSource.getPostInProf()
-//    }

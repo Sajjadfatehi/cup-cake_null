@@ -2,7 +2,6 @@ package com.article.ui.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,11 +26,8 @@ import com.core.db.AppDataBase
 import com.core.util.Resource
 import com.example.anull.R
 import com.example.anull.databinding.FragmentWriteArticleBinding
-import com.user.data.UserRepository
 import com.user.data.modelfromservice.BodyOfEditedArticle
 import com.user.data.modelfromservice.EditArticleRequest
-import com.user.data.reomtedatasource.UserRemote
-import com.user.ui.viewmodel.providerfactory.ProfileViewModelProviderFactory
 import kotlinx.android.synthetic.main.fragment_write_article.*
 
 
@@ -76,11 +72,7 @@ class WriteArticleFragment : Fragment() {
 
         writeViewModel.argsFromProf = args
         writeViewModel.checkArgsIsEmpty(args)
-
-
-        // writeViewModel.checkArgsIsNull(args)
         writeViewModel.activity = requireActivity()
-
         binding.writeViewModel = writeViewModel
         binding.lifecycleOwner = this
 
@@ -101,6 +93,10 @@ class WriteArticleFragment : Fragment() {
                 }
             }
             else {
+                //fill edit text from share pref
+                fillTitleEditText()
+                fillBodyEditText()
+
                 binding.submitArticle.setOnClickListener {
                     showProgressBar()
                     var tags = writeViewModel.tagsChip.values.toList()
@@ -115,8 +111,14 @@ class WriteArticleFragment : Fragment() {
                     writeViewModel.createArticle(createArticleModel)
 
                 }
+
+                write_draft.setOnClickListener {
+                    saveTitleInSharePref()
+                    saveBodyInSharePref()
+                }
             }
         })
+
 
 //        writeViewModel.isUpdated.observe(viewLifecycleOwner, Observer { isUpdatedSuccess ->
 //            if (isUpdatedSuccess) {
@@ -203,5 +205,28 @@ class WriteArticleFragment : Fragment() {
         writeProgress.visibility = View.INVISIBLE
     }
 
+    private fun fillTitleEditText() {
+        val title = writeViewModel.getTitleFromShare()
+        if (!title.isNullOrEmpty()) {
+            edit_title.setText(title)
+        }
+    }
+
+    private fun fillBodyEditText() {
+        val body = writeViewModel.getBodyFromShare()
+        if (!body.isNullOrEmpty()) {
+            edit_text.setText(body)
+        }
+    }
+
+    private fun saveTitleInSharePref() {
+        val title = edit_title.text.toString().trim()
+        writeViewModel.saveTitleInSharePref(title)
+    }
+
+    private fun saveBodyInSharePref() {
+        val body = edit_text.text.toString().trim()
+        writeViewModel.saveBodyInSharePref(body)
+    }
 }
 

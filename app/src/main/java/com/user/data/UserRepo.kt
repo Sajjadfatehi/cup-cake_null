@@ -1,11 +1,5 @@
 package com.user.data
 
-import android.content.Context
-import android.content.Context.CONNECTIVITY_SERVICE
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
-import androidx.core.content.ContextCompat.getSystemService
-import com.config.MyApp
 import com.core.Network.isNetworkConnected
 import com.core.ResultCallBack
 
@@ -30,10 +24,16 @@ class UserRepo(
         userLocalDataSource.saveToken(token)
     }
 
-    fun setUserNameInShared(username : String?){
+    fun setUserNameInShared(username: String?) {
         userLocalDataSource.saveUserName(username)
 
     }
+
+    fun setEmailInShared(email: String?) {
+        userLocalDataSource.saveEmailName(email)
+
+    }
+
     suspend fun validUser(): ResultCallBack<LoginRes> {
         return if (isNetworkConnected()) {
             userRemoteDataSource.validUser()

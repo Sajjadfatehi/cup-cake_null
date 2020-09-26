@@ -1,9 +1,6 @@
 package com.article.data
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 /**
  * Created by moha on 9/15/2020.
@@ -18,6 +15,17 @@ interface TagDao {
     suspend fun getAllTag(): List<TagModel>
 
 
+    @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTags(tags:List<TagModel>)
+    suspend fun insertTags(tags: List<TagModel>)
+
+
+    @Query("delete from tags where tag=:tag")
+    suspend fun deleteTagByTag(tag: String)
+
+    @Query("delete from tag_article where tag=:tag")
+    suspend fun deleteTagAndArticleByTag(tag: String)
+
+    @Query("delete from tag_article")
+    suspend fun clearTagAndArticle()
 }

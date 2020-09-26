@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:bind="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -80,16 +79,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
+                android:ellipsize="end"
+
+
                 android:fontFamily="@font/is_font"
-
-
                 android:lineSpacingExtra="10sp"
+                android:maxLines="2"
                 android:text="@{article.title}"
                 android:textAlignment="viewStart"
                 android:textColor="#363636"
                 android:textSize="16sp"
-                android:maxLines="2"
-                android:ellipsize="end"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@id/guidelineRight"
                 app:layout_constraintStart_toEndOf="@id/guidelineLeft"
@@ -103,10 +102,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
 
-                android:maxLines="2"
                 android:ellipsize="end"
                 android:fontFamily="@font/is_font"
                 android:lineSpacingExtra="10sp"
+                android:maxLines="2"
                 android:text="@{article.body}"
 
                 android:textSize="16sp"
@@ -126,7 +125,6 @@
                 android:contentDescription="@string/menu_icon_post"
                 app:layout_constraintEnd_toStartOf="@id/guidelineRight"
                 app:layout_constraintTop_toTopOf="@id/item_image_post_prof"
-
                 app:srcCompat="@drawable/ic_icon_menu" />
 
             <ImageView
@@ -139,8 +137,7 @@
                 app:layout_constraintEnd_toStartOf="@id/item_icon_menu_tag_pot_prof"
                 app:layout_constraintTop_toTopOf="@id/item_image_post_prof"
 
-                bind:isFavorites="@{article.favorited}"
-                />
+                bind:isFavorites="@{article.favorited}" />
 
             <ImageView
                 android:id="@+id/like_post"

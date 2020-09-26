@@ -7,7 +7,11 @@
 
         <variable
             name="article"
-            type="com.user.data.modelfromservice.Article" />
+            type="com.article.data.ArticleDataEntity" />
+
+        <variable
+            name="author"
+            type="com.user.data.UserEntity" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -34,6 +38,7 @@
                 tools:src="@drawable/prof_image"
 
 
+
                 app:layout_constraintStart_toEndOf="@id/guidelineLeft2"
 
                 app:layout_constraintTop_toBottomOf="@id/guidelineTop2" />
@@ -44,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="1dp"
-                android:text="@{article.author.username}"
+                android:text="@{author.username}"
                 tools:text="@string/tv_name"
                 android:textAlignment="viewEnd"
                 android:textColor="#363636"

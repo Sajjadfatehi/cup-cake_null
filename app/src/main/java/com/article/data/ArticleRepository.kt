@@ -52,8 +52,67 @@ class ArticleRepository(
         return localDataSource.getArticleWithTag(text)
     }
 
-    suspend fun getArticleByTag(tag: String, pageNumber: Int) =
-        retrofit.getArticlesByTag(tag, pageNumber)
+    suspend fun getArticleByTag(tag: String, pageNumber: Int): ResultCallBack<List<ArticleUser>> {
+
+        val result = articleRemoteDataSource.gteArticleByTagNew(tag, pageNumber)
+
+        if (result is ResultCallBack.Success) {
+
+            articleLocalDataSource.db.tagDao().deleteTagAndArticleByTag(tag)
+            articleLocalDataSource.addUsers(result.data.articles.map {
+                it.mapToUserEntity()
+            })
+            articleLocalDataSource.addArticle(result.data.articles.map {
+                it.mapToEntity()
+            })
+
+            result.data.articles.forEach { article ->
+                articleLocalDataSource.insertTags(article.tagList.map { tag ->
+                    TagModel(tag)
+                })
+                articleLocalDataSource.addArticleTag(article.tagList.map { tag ->
+                    TagAndArticleEntity(tag, article.slug)
+                })
+            }
+            return ResultCallBack.Success(result.data.articles.map {
+                it.toArticleView()
+            })
+        }
+        return ResultCallBack.Error(Throwable("read from api in not successful"))
+
+    }
+//
+//    suspend fun getArticleByTagNewRemote(tag: String, pageNumber: Int) {
+//        val result=articleRemoteDataSource.gteArticleByTagNew(tag,pageNumber)
+//
+//        if (result is ResultCallBack.Success){
+//            articleLocalDataSource.db.withTransaction {
+//                articleLocalDataSource.db.tagDao().deleteTagAndArticleByTag(tag)
+//
+//                articleLocalDataSource.addUsers(result.data.articles.map {
+//                    it.mapToUserEntity()
+//                })
+//                articleLocalDataSource.addArticle(result.data.articles.map {
+//                    it.mapToEntity()
+//                })
+//
+//                result.data.articles.forEach { article ->
+//
+//                    articleLocalDataSource.insertTags(article.tagList.map { tag ->
+//                        TagModel(tag)
+//                    })
+//
+//                    articleLocalDataSource.addArticleTag(article.tagList.map { tag ->
+//                        TagAndArticleEntity(tag, article.slug)
+//                    })
+//                }
+//            }
+//        }
+//    }
+//
+//    fun getArticleByTagLocal(tag:String):MutableLiveData<MutableList<ArticleUser>>{
+//        return articleLocalDataSource.getArticleByTag(tag)
+//    }
 
     suspend fun createArticle(createArticleModel: CreateArticleModel): Resource<ArticleResponse> {
         val result = articleRemoteDataSource.createArticle(createArticleModel)
@@ -100,4 +159,17 @@ class ArticleRepository(
         return result
     }
 
+    fun getUserNameFromShare() = articleLocalDataSource.getUserNameFromShare()
+
+    fun getTitleFromShare() = articleLocalDataSource.getTitleFromShare()
+
+    fun getBodyFromShare() = articleLocalDataSource.getBodyFromShare()
+
+    fun saveTitleInSharePref(title: String) {
+        articleLocalDataSource.saveTitle(title)
+    }
+
+    fun saveBodyInSharePref(body: String) {
+        articleLocalDataSource.saveBody(body)
+    }
 }

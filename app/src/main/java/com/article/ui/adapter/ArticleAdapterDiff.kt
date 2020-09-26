@@ -5,40 +5,35 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.article.data.ArticleUser
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.anull.databinding.ItemTitleBinding
 
-import com.user.data.modelfromservice.Article
-
 class ArticleAdapterDiff :
     RecyclerView.Adapter<ArticleAdapterDiff.TitleViewHolder>() {
 
-
     inner class TitleViewHolder(var binding: ItemTitleBinding) :
-        RecyclerView.ViewHolder(binding.root){
+        RecyclerView.ViewHolder(binding.root) {
         init {
 
         }
     }
 
+    private val differCallBack = object : DiffUtil.ItemCallback<ArticleUser>() {
 
-
-
-    private val differCallBack=object : DiffUtil.ItemCallback<Article>(){
-
-        override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
+        override fun areItemsTheSame(oldItem: ArticleUser, newItem: ArticleUser): Boolean {
 //            below code is when read from datta base
 //            return oldItem.url=newItem.url
-            return oldItem.slug==newItem.slug
+            return oldItem.articleDataEntity.slug == newItem.articleDataEntity.slug
         }
 
-        override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
-            return oldItem==newItem
+        override fun areContentsTheSame(oldItem: ArticleUser, newItem: ArticleUser): Boolean {
+            return oldItem == newItem
         }
     }
 
-    val differ= AsyncListDiffer(this,differCallBack)
+    val differ = AsyncListDiffer(this, differCallBack)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TitleViewHolder {
@@ -52,11 +47,12 @@ class ArticleAdapterDiff :
 
     override fun onBindViewHolder(holder: TitleViewHolder, position: Int) {
 
-        var article=differ.currentList[position]
+        var article = differ.currentList[position].articleDataEntity
+        var author = differ.currentList[position].userEntity
         holder.binding.article = article
-        if (article.author.image!=null){
+        if (author.image != null) {
             holder.binding.apply {
-                Glide.with(itemImageTitle.context).load(article.author.image).transform(
+                Glide.with(itemImageTitle.context).load(author.image).transform(
                     CircleCrop()
                 ).into(itemImageTitle)
             }

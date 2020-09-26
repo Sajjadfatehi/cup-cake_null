@@ -1,34 +1,30 @@
 package com.user.ui.viewmodel
 
 
-import android.hardware.usb.UsbRequest
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.core.util.Resource
+import com.core.ResultCallBack
 import com.user.data.UserRepository
-import com.user.data.modelfromservice.AllArticleOfPerson
 import com.user.data.modelfromservice.RegisterRequest
 import com.user.data.modelfromservice.RegisterResponse
-import com.user.data.modelfromservice.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Response
 
-class SignUpViewModel(val userRepository: UserRepository) : ViewModel(){
+class SignUpViewModel(val userRepository: UserRepository) : ViewModel() {
 
-    var user=MutableLiveData<Resource<RegisterResponse>>()
-    var registerResponse:RegisterResponse?=null
-    var isRegisterSuccess=MutableLiveData<Boolean>()
+    var user = MutableLiveData<ResultCallBack<RegisterResponse>>()
+    var registerResponse: RegisterResponse? = null
+    var isRegisterSuccess = MutableLiveData<Boolean>()
+    var password = MutableLiveData<String>()
+    var username = MutableLiveData<String>()
 
 
-    fun register(registerRequest:RegisterRequest)=viewModelScope.launch(Dispatchers.IO){
-        user.postValue(Resource.Loading())
-        var response=userRepository.register(registerRequest)
+    fun register(registerRequest: RegisterRequest) = viewModelScope.launch(Dispatchers.IO) {
+        user.postValue(ResultCallBack.Loading(""))
+        var response = userRepository.register(registerRequest)
         user.postValue(handleRegister(response))
 
-        Log.d("lashii", "register tt: ${user.value?.data.toString()} ")
     }
 
 
@@ -37,21 +33,40 @@ class SignUpViewModel(val userRepository: UserRepository) : ViewModel(){
 
     }
 
-    fun handleRegister(response: Response<RegisterResponse>):Resource<RegisterResponse>{
-        if (response.isSuccessful){
+    //
+//    fun handleRegister(response: Response<RegisterResponse>):Resource<RegisterResponse>{
+//        if (response.isSuccessful){
+//            isRegisterSuccess.postValue(true)
+//            response.body()?.let { resultResponse->
+//                if (registerResponse==null){
+//                    registerResponse=resultResponse
+//                }
+//                return Resource.Success(registerResponse?:resultResponse)
+//
+//            }
+//
+//        }
+//        isRegisterSuccess.postValue(false)
+//
+//        return Resource.Error(response.message())
+//    }
+    fun handleRegister(response: ResultCallBack<RegisterResponse>): ResultCallBack<RegisterResponse> {
+        if (response is ResultCallBack.Success) {
             isRegisterSuccess.postValue(true)
-            Log.d("lashii", "reg : ${response.body()?.user?.token} + ${response.body()?.user?.email}")
-            response.body()?.let { resultResponse->
-                if (registerResponse==null){
-                    registerResponse=resultResponse
+            response.data.let { resultResponse ->
+                if (registerResponse == null) {
+                    registerResponse = resultResponse
                 }
-                return Resource.Success(registerResponse?:resultResponse)
+                userRepository.setTokenInShared(resultResponse.user.token)
+                userRepository.setUserNameInShared(resultResponse.user.username)
+                userRepository.setEmailInShared(resultResponse.user.email)
+                return ResultCallBack.Success(registerResponse ?: resultResponse)
 
             }
 
         }
         isRegisterSuccess.postValue(false)
 
-        return Resource.Error(response.message())
+        return ResultCallBack.Error(Exception("some error happened"))
     }
 }

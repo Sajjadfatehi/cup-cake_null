@@ -5,7 +5,6 @@ import com.article.data.TagResponse
 import com.article.data.modelfromservice.ArticleResponse
 import com.article.data.modelfromservice.CreateArticleModel
 import com.user.data.modelfromservice.AllArticleOfPerson
-import com.user.data.modelfromservice.Article
 import com.user.data.modelfromservice.EditArticleRequest
 import retrofit2.Response
 import retrofit2.http.*
@@ -26,6 +25,15 @@ interface ArticleApi {
         pageNumber: Int = 1
 
     ): Response<AllArticleOfPerson>
+
+    @GET("articles")
+    suspend fun getArticlesByTagNew(
+        @Query("tag")
+        tag: String,
+        @Query("page")
+        pageNumber: Int = 1
+
+    ): Response<ArticleModel>
 
     @POST("articles")
     suspend fun createArticle(

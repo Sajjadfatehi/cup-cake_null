@@ -26,10 +26,14 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
 
     //private val userRepository = UserRepository()
     var postList: MutableLiveData<MutableList<ArticleView>> = MutableLiveData()
-    val allArticleOfPerson: MutableLiveData<Resource<AllArticleOfPerson>> = MutableLiveData()
+
+    // val allArticleOfPerson: MutableLiveData<Resource<AllArticleOfPerson>> = MutableLiveData()
     val allArticleOfPersonNew: MutableLiveData<MutableList<ArticleUser>> = MutableLiveData()
-    val favoriteArticleResponse: MutableLiveData<Resource<ArticleResponse>> = MutableLiveData()
-    val unFavoriteArticleResponse: MutableLiveData<Resource<ArticleResponse>> = MutableLiveData()
+    val allFavoriteArticleOfPersonNew: MutableLiveData<MutableList<ArticleUser>> = MutableLiveData()
+    val favoriteArticleResponse: MutableLiveData<ResultCallBack<ArticleResponse>> =
+        MutableLiveData()
+    val unFavoriteArticleResponse: MutableLiveData<ResultCallBack<ArticleResponse>> =
+        MutableLiveData()
     var allArticleOfPersonPage = 1
     var allArticleOfPersonResponse: AllArticleOfPerson? = null
 
@@ -85,9 +89,9 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
 
     fun getFavoritedArticleByUserName(favoritedUserName: String) =
         viewModelScope.launch(Dispatchers.IO) {
-            //allArticleOfPerson.postValue(Resource.Loading())
+//            allFavoriteArticleOfPersonNew.postValue(ResultCallBack.Loading(""))
             val response = userRepository.getFavoritedArticlesByUserName(favoritedUserName)
-            allArticleOfPersonNew.postValue(response)
+            allFavoriteArticleOfPersonNew.postValue(response)
         }
 
     private fun handleFavoritedArticleByUserName(response: Response<AllArticleOfPerson>): Resource<AllArticleOfPerson> {
@@ -123,55 +127,79 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
     }
 
 
-    fun favoriteArticle(slug: String, itemNumber: Int) = viewModelScope.launch(Dispatchers.IO) {
-        favoriteArticleResponse.postValue(Resource.Loading())
-        val response = userRepository.favoriteArticle(slug)
-        favoriteArticleResponse.postValue(handleFavoriteArticle(response))
-        if (response.isSuccessful) {
-            response.body()?.let { articleResponse ->
-                updateArticleFromList(itemNumber, articleResponse.article)
-//                Log.d("hadige", "fffff ar ${articleResponse.article}: ")
-            }
-        }
-
-    }
-
-    fun unFavoritedArticle(slug: String, itemNumber: Int, isFromRadio1: Boolean) =
+    fun favoriteArticle(slug: String, itemNumber: Int, ownUserName: String) =
         viewModelScope.launch(Dispatchers.IO) {
-            unFavoriteArticleResponse.postValue(Resource.Loading())
-            val response = userRepository.unFavoriteArticle(slug)
-            unFavoriteArticleResponse.postValue(handleFavoriteArticle(response))
-//            if (response.isSuccessful && !isFromRadio1) run {
-//                deleteArticleFromList(itemNumber)
-//            }
-            if (response.isSuccessful) {
-                response.body()?.let { articleResponse ->
-                    updateArticleFromList(itemNumber, articleResponse.article)
-//                    Log.d("hadige", "unfffff ar ${articleResponse.article}: ")
-                }
-            }
+
+            favoriteArticleResponse.postValue(ResultCallBack.Loading(""))
+            val response = userRepository.favoriteArticle(slug, ownUserName)
+
+            favoriteArticleResponse.postValue(response)
+            handleFavoriteArticle(response, itemNumber)
 
         }
 
-    private fun handleFavoriteArticle(response: Response<ArticleResponse>): Resource<ArticleResponse> {
-        if (response.isSuccessful) {
-            response.body()?.let { resultResponse ->
-                return Resource.Success(resultResponse)
-            }
-        }
-        return Resource.Error(response.message())
-    }
 
-    fun deleteArticleTest(slug: String, itemNumber: Int) = viewModelScope.launch(Dispatchers.IO) {
-        val response = userRepository.deleteArticle(slug)
+    fun unFavoritedArticle(
+        slug: String,
+        itemNumber: Int,
+        isFromRadio1: Boolean,
+        ownUserName: String
+    ) =
+        viewModelScope.launch(Dispatchers.IO) {
+            unFavoriteArticleResponse.postValue(ResultCallBack.Loading(""))
+            val response = userRepository.unFavoriteArticle(slug, ownUserName)
+//                unFavoriteArticleResponse.postValue(response)
+//                if (response is ResultCallBack.Success) {
+//                    response.data.let { articleResponse ->
+//                        //   updateArticleFromList(itemNumber, articleResponse.article)
+//
+//                    }
+//                }
+            handleUnFavoriteArticle(response, itemNumber, ownUserName, isFromRadio1)
+
+        }
+
+    private fun handleFavoriteArticle(
+        response: ResultCallBack<ArticleResponse>, itemNumber: Int
+    ) {
         if (response is ResultCallBack.Success) {
+            response.data.let { articleResponse ->
 
-            Log.d("mamad", "yes deket in view model sucees: ")
-            deleteArticleFromListNew(itemNumber)
+                updateArticleFromList(itemNumber, articleResponse.article)
+            }
+        }
+    }
+
+    private fun handleUnFavoriteArticle(
+        response: ResultCallBack<ArticleResponse>,
+        itemNumber: Int,
+        ownUserName: String,
+        isFromRadio1: Boolean
+    ) {
+        if (response is ResultCallBack.Success) {
+            response.data.let { articleResponse ->
+                if (ownUserName == userName && !isFromRadio1) {
+                    deleteArticleFromListNew(itemNumber)
+                } else {
+                    updateArticleFromList(itemNumber, articleResponse.article)
+                }
+
+            }
+        }
+    }
+
+
+    fun deleteArticleTest(slug: String, itemNumber: Int) =
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = userRepository.deleteArticle(slug)
+            if (response is ResultCallBack.Success) {
+
+                Log.d("mamad", "yes deket in view model sucees: ")
+                deleteArticleFromListNew(itemNumber)
+
+            }
 
         }
-
-    }
 
 
     fun getProfile(userName: String) = viewModelScope.launch(Dispatchers.IO) {
@@ -181,7 +209,6 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
         profile.postValue(response)
 
     }
-
 
 
     fun follow(userName: String, followRequest: FollowRequest) =
@@ -200,7 +227,7 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
 
     init {
 
-        //postList.value = userRepository.getPostInProf()
+
         // getAllArticleOfPerson(userName)
         getAllArticleOfPersonNew(userName)
         getProfile(userName)
@@ -216,36 +243,31 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
 //        return postList.value
         return postList.value
     }
-
-    fun deleteArticleFromList(itemNumber: Int) {
-
-        val tempArticle = allArticleOfPerson.value?.data?.articles!![itemNumber]
-        val tempList = allArticleOfPerson.value!!.data?.articles!!.minus(tempArticle)
-        val artciNew = AllArticleOfPerson(tempList.toMutableList(), tempList.size)
-        allArticleOfPerson.postValue(Resource.Success(artciNew))
-    }
+//
+//    fun deleteArticleFromList(itemNumber: Int) {
+//
+//        val tempArticle = allArticleOfPerson.value?.data?.articles!![itemNumber]
+//        val tempList = allArticleOfPerson.value!!.data?.articles!!.minus(tempArticle)
+//        val artciNew = AllArticleOfPerson(tempList.toMutableList(), tempList.size)
+//        allArticleOfPerson.postValue(Resource.Success(artciNew))
+//    }
 
     fun deleteArticleFromListNew(itemNumber: Int) {
 
         val tempArticle = allArticleOfPersonNew.value!![itemNumber]
         val tempList = allArticleOfPersonNew.value!!.minus(tempArticle)
-        Log.d("mamad", "ccc ${tempList}: ")
         allArticleOfPersonNew.postValue(tempList.toMutableList())
     }
 
-    //
+
     fun updateArticleFromList(itemNumber: Int, article: Article) {
-        Log.d("hadige", "view m ${itemNumber}: ")
 
-        val tempArticle = allArticleOfPerson.value?.data?.articles!![itemNumber]
-        val tempList = allArticleOfPerson.value!!.data?.articles!!.minus(tempArticle)
-        Log.d("hadige", "list : ${tempList} ")
-        tempList.toMutableList().add(itemNumber, article)
+        // val tempArticle = allArticleOfPersonNew.value!![itemNumber]
+        val tempList = allArticleOfPersonNew.value!!
 
-        Log.d("hadige", "article fff ${article}: \n")
-        Log.d("hadige", "list : ${tempList} ")
-        val artciNew = AllArticleOfPerson(tempList.toMutableList(), tempList.size)
-        allArticleOfPerson.postValue(Resource.Success(artciNew))
+        tempList[itemNumber] = ArticleUser(article.mapToEntity(), article.mapToUserEntity())
+
+        allArticleOfPersonNew.postValue(tempList)
     }
 
 

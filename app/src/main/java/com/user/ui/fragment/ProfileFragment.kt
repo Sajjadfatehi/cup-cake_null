@@ -23,7 +23,6 @@ import com.article.data.ArticleUser
 import com.core.ResultCallBack
 import com.core.db.AppDataBase
 import com.core.util.Constants.Companion.QUERY_PAGE_SIZE
-import com.core.util.Resource
 import com.core.util.TestAdapterClass
 import com.example.anull.R
 import com.example.anull.databinding.TestlayoutBinding
@@ -51,6 +50,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
     var userName: String = ""
     var isFollowing = false
     private lateinit var bindingProf: TestlayoutBinding
+
 
     private val titleInProfList = mutableListOf<String>()
     private val bottomSheetFragment = BottomSheetFragment()
@@ -84,7 +84,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val thisViewLifeCycleOwner=viewLifecycleOwner
+        val thisViewLifeCycleOwner = viewLifecycleOwner
 
         if (isFromEdit) {
             userName = argsFromEdit?.getString("userName").toString()
@@ -101,9 +101,10 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         }
 
 
-        val userLocalDataSource=UserLocalDataSource(AppDataBase.invoke(requireContext(),MIGRATION_1_2))
-        val userRemoteDataSource=UserRemote()
-        val userRepository = UserRepository(userLocalDataSource,userRemoteDataSource)
+        val userLocalDataSource =
+            UserLocalDataSource(AppDataBase.invoke(requireContext(), MIGRATION_1_2))
+        val userRemoteDataSource = UserRemote()
+        val userRepository = UserRepository(userLocalDataSource, userRemoteDataSource)
         val profileViewModelProviderFactory =
             ProfileViewModelProviderFactory(userRepository, userName)
 
@@ -117,13 +118,14 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         titleInProfList.add("نوشته ها")
         titleInProfList.add("علاقه مندی")
-
+        bindingProf.isMyPage = viewModel.userName == viewModel.userRepository.getUserNameFromShare()
         //set profile
         viewModel.profile.observe(thisViewLifeCycleOwner, Observer { response ->
             when (response) {
                 is ResultCallBack.Success -> {
                     hideProgressBar()
                     response.data.let { profile ->
+
 
                         bindingProf.author = profile
 
@@ -132,6 +134,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
                 }
                 is ResultCallBack.Error -> {
                     hideProgressBar()
+
 
                 }
                 is ResultCallBack.Loading -> {
@@ -144,46 +147,29 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         })
 
 
-        viewModel.postList.observe(thisViewLifeCycleOwner, Observer {
-            recycler_posts_in_prof.adapter?.notifyDataSetChanged()
-
-        })
-
         back.setOnClickListener {
             findNavController().navigateUp()
         }
 
-        titleRadioBtn.check(R.id.radio1)
-
-
-
         titleRadioBtn.setOnCheckedChangeListener { _, i ->
             val radio = requireActivity().findViewById<RadioButton>(i)
 
-            // Toast.makeText(requireContext(),"${radio.text}",Toast.LENGTH_SHORT).show()
-            if (radio.tag == "posts") {
+            if (radio.id == radio1.id) {
 
-
-                viewModel.getAllArticleOfPersonNew(userName)
-
-
-
-
-
+                viewModel.getAllArticleOfPersonNew(viewModel.userName)
                 radio.setTextColor(Color.parseColor("#813ac1"))
                 requireActivity().findViewById<RadioButton>(R.id.radio2)
                     .setTextColor(Color.parseColor("#363636"))
-            } else {
+            } else if (radio.id == radio2.id) {
 
-                viewModel.getFavoritedArticleByUserName(userName)
-                recycler_posts_in_prof.adapter?.notifyDataSetChanged()
+                viewModel.getFavoritedArticleByUserName(viewModel.userName)
+
                 radio.setTextColor(Color.parseColor("#813ac1"))
                 requireActivity().findViewById<RadioButton>(R.id.radio1)
                     .setTextColor(Color.parseColor("#363636"))
 
             }
         }
-
 
         setUpRecyclerView()
 
@@ -223,33 +209,49 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 //        })
 
 
-
-
         viewModel.allArticleOfPersonNew.observe(thisViewLifeCycleOwner, Observer { response ->
-            Log.d("asghar", "bbbbbb: ")
 
+            response?.let { allArticleOfPerson ->
+//
+//                if (titleRadioBtn.checkedRadioButtonId == radio1.id) {
+                bindingProf.countOfArticles = allArticleOfPerson.size.toString()
+//                }
 
+                Log.d("ProfPage", "radio is ${titleRadioBtn.checkedRadioButtonId}: ")
+                testAdapter.differ.submitList(allArticleOfPerson.toList())
+                val totalPages = allArticleOfPerson.size / QUERY_PAGE_SIZE + 2
+                isLastPage = totalPages == viewModel.allArticleOfPersonPage
 
-                    response?.let { allArticleOfPerson ->
-                        if (titleRadioBtn.checkedRadioButtonId==radio1.id){
-                            bindingProf.countOfArticles = allArticleOfPerson.size.toString()
-                        }
+                if (isLastPage) {
+                    recycler_posts_in_prof.setPadding(0, 0, 0, 0)
+                }
 
-                        testAdapter.differ.submitList(allArticleOfPerson.toList())
-                        val totalPages = allArticleOfPerson.size / QUERY_PAGE_SIZE + 2
-                        isLastPage = totalPages == viewModel.allArticleOfPersonPage
-
-                        if (isLastPage) {
-                            recycler_posts_in_prof.setPadding(0, 0, 0, 0)
-                        }
-
-                    }
-
-
-
-
+            }
 
         })
+
+        viewModel.allFavoriteArticleOfPersonNew.observe(
+            thisViewLifeCycleOwner,
+            Observer { response ->
+
+                response?.let { allFavoriteArticleOfPerson ->
+//
+//                if (titleRadioBtn.checkedRadioButtonId == radio1.id) {
+//                    bindingProf.countOfArticles = allFavoriteArticleOfPerson.size.toString()
+//                }
+
+                    Log.d("ProfPage", "radio is ${titleRadioBtn.checkedRadioButtonId}: ")
+                    testAdapter.differ.submitList(allFavoriteArticleOfPerson.toList())
+                    val totalPages = allFavoriteArticleOfPerson.size / QUERY_PAGE_SIZE + 2
+                    isLastPage = totalPages == viewModel.allArticleOfPersonPage
+
+                    if (isLastPage) {
+                        recycler_posts_in_prof.setPadding(0, 0, 0, 0)
+                    }
+
+                }
+
+            })
 
 
         viewModel.followResponse.observe(thisViewLifeCycleOwner, Observer { response ->
@@ -287,34 +289,34 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         })
 
-        viewModel.favoriteArticleResponse.observe(thisViewLifeCycleOwner, Observer {response->
-            when(response){
-                is Resource.Success->{
+        viewModel.favoriteArticleResponse.observe(thisViewLifeCycleOwner, Observer { response ->
+            when (response) {
+                is ResultCallBack.Success -> {
 
                     Log.d("hadige", "fa resssss: ")
 
                 }
-                is Resource.Error->{
+                is ResultCallBack.Error -> {
 
                 }
-                is Resource.Loading->{
+                is ResultCallBack.Loading -> {
 
                 }
             }
 
         })
 
-        viewModel.unFavoriteArticleResponse.observe(thisViewLifeCycleOwner, Observer {response->
+        viewModel.unFavoriteArticleResponse.observe(thisViewLifeCycleOwner, Observer { response ->
 
-            when(response){
-                is Resource.Success->{
+            when (response) {
+                is ResultCallBack.Success -> {
 
                     Log.d("hadige", "unfa ressss: ")
                 }
-                is Resource.Error->{
+                is ResultCallBack.Error -> {
 
                 }
-                is Resource.Loading->{
+                is ResultCallBack.Loading -> {
 
                 }
             }
@@ -322,11 +324,17 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
         follow_button.setOnClickListener {
 
-        if (viewModel.isFollowing) {
+            if (viewModel.isFollowing) {
                 viewModel.unFollow(userName)
 
             } else {
-                viewModel.follow(userName, FollowRequest(EmailBody("seyed@gmail.com")))
+                viewModel.userRepository.getEmailFromShare()?.let { email ->
+                    EmailBody(email)
+                }?.let { emailBody ->
+                    FollowRequest(emailBody)
+                }.let { followRequset ->
+                    viewModel.follow(userName, followRequset)
+                }
             }
 
         }
@@ -344,11 +352,12 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         if (action == ("delete")) {
             if (numberOfItem != null) {
                 Log.d("zendegi", "step 1 number= ${numberOfItem} ")
-                viewModel.allArticleOfPersonNew.value?.let {list->
+                viewModel.allArticleOfPersonNew.value?.let { list ->
                     list[numberOfItem].articleDataEntity.slug
-                }?.let {slug->
+                }?.let { slug ->
                     viewModel.deleteArticleTest(
-                        slug,numberOfItem)
+                        slug, numberOfItem
+                    )
                 }
 //                viewModel.deleteArticleFromList(numberOfItem)
                 //  recycler_posts_in_prof.adapter?.notifyItemRemoved(numberOfItem)
@@ -403,9 +412,11 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
     override fun onImageClick(author: UserEntity) {
         if (bindingProf.titleRadioBtn.checkedRadioButtonId == bindingProf.radio2.id) {
 
+
             findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentSelf(author))
             //for when navigateUp fix radio button
             titleRadioBtn.check(radio1.id)
+
 
         }
 
@@ -413,11 +424,22 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
 
     override fun onBookMarkClick(slug: String, isFavorited: Boolean, itemNumber: Int) {
         if (isFavorited) {
-            viewModel.unFavoritedArticle(slug, itemNumber,titleRadioBtn.checkedRadioButtonId==radio1.id)
+            viewModel.userRepository.getUserNameFromShare().let { userName ->
+                viewModel.unFavoritedArticle(
+                    slug, itemNumber,
+                    titleRadioBtn.checkedRadioButtonId == radio1.id,
+                    userName
+                )
+            }
 
-            Log.d("hadige", "on book${titleRadioBtn.checkedRadioButtonId==radio1.id}: ")
+            Log.d("hadige", "on book${titleRadioBtn.checkedRadioButtonId == radio1.id}: ")
         } else {
-            viewModel.favoriteArticle(slug,itemNumber)
+            viewModel.userRepository.getUserNameFromShare().let {
+                viewModel.favoriteArticle(
+                    slug, itemNumber,
+                    it
+                )
+            }
 
         }
 
@@ -459,8 +481,8 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
                     && isTotalMoreThanVisible && isScrolling
             if (shouldPaginate) {
 
-             //   viewModel.getAllArticleOfPerson(userName)
-                viewModel.getAllArticleOfPersonNew(userName)
+                //   viewModel.getAllArticleOfPerson(userName)
+//                viewModel.getAllArticleOfPersonNew(userName)
 
                 isScrolling = false
             }
@@ -475,6 +497,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack 
         }
     }
 
+    //    (viewModel.userName=="44444444")&&(titleRadioBtn.checkedRadioButtonId == radio1.id)
     private fun setUpRecyclerView() {
         testAdapter = TestAdapterClass(this@ProfileFragment)
         recycler_posts_in_prof.apply {

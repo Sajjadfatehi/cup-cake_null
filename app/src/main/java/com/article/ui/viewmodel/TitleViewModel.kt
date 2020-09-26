@@ -4,59 +4,63 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.article.data.ArticleRepository
-import com.core.util.Resource
+import com.article.data.ArticleUser
+import com.core.ResultCallBack
 import com.home.ui.PersonArticleModelView
-import com.user.data.modelfromservice.AllArticleOfPerson
 import kotlinx.coroutines.launch
-import retrofit2.Response
 
 class TitleViewModel(val articleRepository: ArticleRepository) : ViewModel() {
 
     var list = MutableLiveData<MutableList<PersonArticleModelView>>()
 
 
-    val articlesByTag: MutableLiveData<Resource<AllArticleOfPerson>> =
-        MutableLiveData()
+    val articlesByTag: MutableLiveData<ResultCallBack<List<ArticleUser>>> = MutableLiveData()
+
     var articlesByTagPage = 1
-    var articlesByTagResponse: AllArticleOfPerson? = null
+    var articlesByTagResponse: List<ArticleUser>? = null
 
     fun getArticlesByTag(tag: String) = viewModelScope.launch {
-        articlesByTag.postValue(Resource.Loading())
+        val x = articlesByTagPage
+        articlesByTag.postValue(ResultCallBack.Loading(""))
         val response = articleRepository.getArticleByTag(tag, articlesByTagPage)
         articlesByTag.postValue(handleArticlesByTagResponse(response))
 
     }
 
-    fun handleArticlesByTagResponse(response: Response<AllArticleOfPerson>): Resource<AllArticleOfPerson> {
-        if (response.isSuccessful) {
-//            Log.d("lashii", "${response.body()?.articles?.get(0)?.slug} ")
-            response.body()?.let { resultResponse ->
+    fun handleArticlesByTagResponse(response: ResultCallBack<List<ArticleUser>>): ResultCallBack<List<ArticleUser>> {
+        if (response is ResultCallBack.Success) {
+
+            response.data.let { resultResponse ->
                 articlesByTagPage++
                 if (articlesByTagResponse == null) {
                     articlesByTagResponse = resultResponse
                 } else {
-                    val oldArticles = articlesByTagResponse?.articles
-                    val newArticles = resultResponse.articles
-                    oldArticles?.addAll(newArticles)
+                    val oldArticles = articlesByTagResponse
+                    val newArticles = resultResponse
+                    oldArticles?.toMutableList()?.addAll(newArticles)
                 }
 
-                return Resource.Success(articlesByTagResponse ?: resultResponse)
+                return ResultCallBack.Success(articlesByTagResponse ?: resultResponse)
 
             }
         }
 
-        return Resource.Error(response.message())
+        return ResultCallBack.Error(Exception("error"))
     }
 
-
+//
+//    fun getArticleByTagNewLocal(tag:String):MutableLiveData<MutableList<ArticleUser>>{
+//       return articleRepository.getArticleByTagLocal(tag)
+//    }
+//
+//    fun getArticleByTagNewRemote(tag:String)=viewModelScope.launch(Dispatchers.IO){
+//        articleRepository.getArticleByTagNewRemote(tag,articlesByTagPage )
+//    }
 
 
     init {
 //        list.value = articleRepository.getTagTitleList()
-
-        getArticlesByTag("dragons")
-
-
+        getArticlesByTag("بورس")
     }
 
     fun getArticle(): MutableList<PersonArticleModelView>? {

@@ -30,7 +30,6 @@ import com.home.data.TabModelEntity
 import com.home.ui.adapter.BestArticleAdapter
 import com.home.ui.adapter.PersonArticleAdapter
 import com.user.data.UserEntity
-import com.user.data.modelfromservice.Author
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -122,7 +121,7 @@ class HomeFragment : Fragment(), TabLayout.OnTabSelectedListener {
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToProfileFragment(
                     UserEntity(
-                        "44444444",
+                        homeViewModel.repo.getUserNameFromShare(),
                         null,
                         false,
                         ""

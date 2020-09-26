@@ -5,12 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.article.data.ArticleDataEntity
 import com.article.data.ArticleUser
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.anull.databinding.ItemProfilePostBinding
-import com.user.data.modelfromservice.Article
 import com.user.ui.ClickListener
 
 class TestAdapterClass(val clickListener: ClickListener) :
@@ -71,8 +69,13 @@ class TestAdapterClass(val clickListener: ClickListener) :
     }
 
     override fun onBindViewHolder(holder: ArticleViewNew, position: Int) {
-        var author=differ.currentList[position].userEntity
+        var author = differ.currentList[position].userEntity
         var article = differ.currentList[position].articleDataEntity
+//
+//        if (!isMyPage){
+//            holder.binding.itemIconMenuTagPotProf.visibility=View.GONE
+//        }
+
         holder.binding.article = article
         if (author.image != null) {
             holder.binding.apply {

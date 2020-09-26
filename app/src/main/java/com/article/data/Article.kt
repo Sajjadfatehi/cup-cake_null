@@ -32,7 +32,29 @@ data class Article(
         )
     }
 
-    fun mapToUserEntity():UserEntity{
+    fun toArticleView(): ArticleUser {
+        return ArticleUser(
+            ArticleDataEntity(
+                slug,
+                body.toString(),
+                createdAt,
+                author.username,
+                description.toString(),
+                favorited,
+                favoritesCount,
+                title,
+                updatedAt
+            ),
+            UserEntity(
+                author.username,
+                author.image,
+                author.following,
+                author.bio
+            )
+        )
+    }
+
+    fun mapToUserEntity(): UserEntity {
         return UserEntity(
             username = author.username,
             image = author.image,

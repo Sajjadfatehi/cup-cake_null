@@ -1,7 +1,6 @@
 package com.article.ui.viewmodel
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,14 +9,11 @@ import com.article.data.ArticleDataEntity
 import com.article.data.ArticleRepository
 import com.article.data.modelfromservice.ArticleResponse
 import com.article.data.modelfromservice.CreateArticleModel
-import com.core.ResultCallBack
 import com.core.util.Resource
 import com.google.android.material.chip.Chip
-import com.user.data.modelfromservice.Article
 import com.user.data.modelfromservice.EditArticleRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Response
 
 
 class WriteArticleViewModel(val articleRepository: ArticleRepository) : ViewModel() {
@@ -47,13 +43,11 @@ class WriteArticleViewModel(val articleRepository: ArticleRepository) : ViewMode
         }
 
 
-
     fun updateArticle(slug: String, editArticleRequest: EditArticleRequest) = viewModelScope.launch(Dispatchers.IO) {
             editedArticle.postValue(Resource.Loading())
             val response = articleRepository.updateArticle(slug, editArticleRequest)
             editedArticle.postValue(response)
         }
-
 
     fun checkArgsIsEmpty(bundle: Bundle?) {
 
@@ -75,6 +69,18 @@ class WriteArticleViewModel(val articleRepository: ArticleRepository) : ViewMode
         }
 
 
+    }
+
+    fun getTitleFromShare() = articleRepository.getTitleFromShare()
+
+    fun getBodyFromShare() = articleRepository.getBodyFromShare()
+
+    fun saveTitleInSharePref(title: String) {
+        articleRepository.saveTitleInSharePref(title)
+    }
+
+    fun saveBodyInSharePref(body: String) {
+        articleRepository.saveBodyInSharePref(body)
     }
 
 

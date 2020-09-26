@@ -2,12 +2,14 @@ package com.user.data.reomtedatasource
 
 import android.util.Log
 import com.article.data.ArticleModel
+import com.article.data.modelfromservice.ArticleResponse
 import com.core.ResultCallBack
 import com.core.RetrofitUtil
 import com.user.data.api.UserApi
 import com.user.data.modelfromservice.FollowRequest
 import com.user.data.modelfromservice.Profile
 import com.user.data.modelfromservice.RegisterRequest
+import com.user.data.modelfromservice.RegisterResponse
 
 class UserRemote {
     val retrofit = RetrofitUtil.getInstance().create(UserApi::class.java)
@@ -57,14 +59,60 @@ class UserRemote {
     }
 
 
-    suspend fun register(registerRequest: RegisterRequest) =
-        retrofit.register(registerRequest)
+    suspend fun register(registerRequest: RegisterRequest): ResultCallBack<RegisterResponse> {
+        try {
+            val result = retrofit.register(registerRequest)
+            if (result.isSuccessful) {
+                result.body()?.let {
+                    return ResultCallBack.Success(it)
+                }
+                return ResultCallBack.Error(java.lang.Exception("server data failed"))
+            }
+            return ResultCallBack.Error(java.lang.Exception(result.code().toString()))
+        } catch (e: Exception) {
+            return ResultCallBack.Error(Exception("bad request"))
+        }
+    }
 
-    suspend fun favoriteArticle(slug: String) =
-        retrofit.favoriteArticle(slug)
 
-    suspend fun unFavoriteArticle(slug: String) =
-        retrofit.unFavoriteArticle(slug)
+    suspend fun favoriteArticle(slug: String): ResultCallBack<ArticleResponse> {
+        val result = retrofit.favoriteArticle(slug)
+
+        try {
+            if (result.isSuccessful) {
+                result.body()?.let {
+                    it.let {
+                        return ResultCallBack.Success(it)
+                    }
+                }
+                return ResultCallBack.Error(Exception("server data failed"))
+            }
+            return ResultCallBack.Error(Exception(result.code().toString()))
+        } catch (e: Exception) {
+            Log.i("Exception", "getArticleWithTag: Exception user remote data source ")
+            return ResultCallBack.Error(Exception("bad request"))
+        }
+
+    }
+
+    suspend fun unFavoriteArticle(slug: String): ResultCallBack<ArticleResponse> {
+        val result = retrofit.unFavoriteArticle(slug)
+
+        try {
+            if (result.isSuccessful) {
+                result.body()?.let {
+                    it.let {
+                        return ResultCallBack.Success(it)
+                    }
+                }
+                return ResultCallBack.Error(Exception("server data failed"))
+            }
+            return ResultCallBack.Error(Exception(result.code().toString()))
+        } catch (e: Exception) {
+            Log.i("Exception", "getArticleWithTag: Exception user remote data source ")
+            return ResultCallBack.Error(Exception("bad request"))
+        }
+    }
 
 
     suspend fun favoritedArticleByUserName(favoritedUserName: String) =
