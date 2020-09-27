@@ -7,6 +7,7 @@ import com.article.data.TagAndArticleEntity
 import com.article.data.TagModel
 import com.article.data.modelfromservice.ArticleResponse
 import com.article.data.modelfromservice.UserAndHisFavoriteArticle
+import com.config.MyApp
 import com.core.Network
 import com.core.ResultCallBack
 import com.user.data.localdatasource.UserLocalDataSource
@@ -83,9 +84,6 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
     }
 
 
-    suspend fun favoritedArticleByUserName(favoritedUserName: String) =
-        remote.favoritedArticleByUserName(favoritedUserName)
-
     suspend fun deleteArticle(slug: String): ResultCallBack<Unit> {
         val result = remote.deleteArticle(slug)
         if (result is ResultCallBack.Success) {
@@ -113,6 +111,9 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
 
     }
 
+    suspend fun profileLocal(userName: String): ResultCallBack<UserEntity> {
+        return ResultCallBack.Success(local.getUser(userName))
+    }
 
     suspend fun follow(userName: String, followRequest: FollowRequest): ResultCallBack<UserEntity> {
         val result = remote.follow(userName, followRequest)
@@ -152,73 +153,84 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
         author: String,
         pageNumber: Int
     ): MutableList<ArticleUser> {
-        val result = remote.getAllArticleOfPersonNew(author, pageNumber)
+        if (Network.hasActiveInternetConnection(MyApp.app.applicationContext)) {
 
-        if (result is ResultCallBack.Success) {
-            local.db.withTransaction {
-                local.db.articleDao().deleteArticleByUserName(author)
-                local.addUsers(result.data.articles.map {
-                    it.mapToUserEntity()
-                })
-                local.addArticle(result.data.articles.map {
-                    it.mapToEntity()
-                })
-                result.data.articles.forEach { article ->
-
-                    local.insertTags(article.tagList.map { tag ->
-                        TagModel(tag)
+            val result = remote.getAllArticleOfPersonNew(author, pageNumber)
+            if (result is ResultCallBack.Success) {
+                local.db.withTransaction {
+                    local.db.articleDao().deleteArticleByUserName(author)
+                    local.addUsers(result.data.articles.map {
+                        it.mapToUserEntity()
                     })
-
-                    local.addArticleTag(article.tagList.map { tag ->
-                        TagAndArticleEntity(tag, article.slug)
+                    local.addArticle(result.data.articles.map {
+                        it.mapToEntity()
                     })
+                    result.data.articles.forEach { article ->
+
+                        local.insertTags(article.tagList.map { tag ->
+                            TagModel(tag)
+                        })
+
+                        local.addArticleTag(article.tagList.map { tag ->
+                            TagAndArticleEntity(tag, article.slug)
+                        })
+                    }
                 }
             }
-
         }
-        Log.d(
-            "UserRepository",
-            "ss:${author} bib ${local.db.userDao().getArticlesByAuthor(author)} "
-        )
 
+        Log.d("TAGT", "1a  ${local.db.userDao().getArticlesByAuthor(author).size}: ")
+        val z = 6
+        return local.db.userDao().getArticlesByAuthor(author)
+    }
+
+    suspend fun getAllArticleOfPersonNewLocal(author: String): MutableList<ArticleUser> {
         return local.db.userDao().getArticlesByAuthor(author)
     }
 
     suspend fun getFavoritedArticlesByUserName(author: String): MutableList<ArticleUser> {
-        val result = remote.getFavoritedArticleByUserName(author)
-
-        if (result is ResultCallBack.Success) {
-            local.db.withTransaction {
-                local.db.articleDao().deleteFavoriteArticleOfUser(author)
-//                local.db.articleDao().deleteAllFavoriteArticleOfUser()
-                local.addUsers(result.data.articles.map {
-                    it.mapToUserEntity()
-                })
-                local.addArticle(result.data.articles.map {
-                    it.mapToEntity()
-                })
-
-                local.addUserAndFavoriteArticles(result.data.articles.map { article ->
-                    UserAndHisFavoriteArticle(author, article.slug)
-                })
-
-                result.data.articles.forEach { article ->
-
-                    local.insertTags(article.tagList.map { tag ->
-                        TagModel(tag)
+        if (Network.hasActiveInternetConnection(MyApp.app.applicationContext)) {
+            Log.d("TAGTT", "-1f  ${local.db.userDao().getArticlesByAuthor(author).size}: ")
+            val result = remote.getFavoritedArticleByUserName(author)
+            if (result is ResultCallBack.Success) {
+                local.db.withTransaction {
+                    local.db.articleDao().deleteFavoriteArticleOfUser(author)
+                    Log.d("TAGTT", "0f  ${local.db.userDao().getArticlesByAuthor(author).size}: ")
+                    local.addUsers(result.data.articles.map {
+                        it.mapToUserEntity()
+                    })
+                    Log.d("TAGTT", "1f  ${local.db.userDao().getArticlesByAuthor(author).size}: ")
+                    local.addArticle(result.data.articles.map {
+                        it.mapToEntity()
                     })
 
-                    local.addArticleTag(article.tagList.map { tag ->
-                        TagAndArticleEntity(tag, article.slug)
+                    Log.d("TAGTT", "2f  ${local.db.userDao().getArticlesByAuthor(author).size}: ")
+                    local.addUserAndFavoriteArticles(result.data.articles.map { article ->
+                        UserAndHisFavoriteArticle(author, article.slug)
                     })
+
+                    result.data.articles.forEach { article ->
+
+                        local.insertTags(article.tagList.map { tag ->
+                            TagModel(tag)
+                        })
+
+                        local.addArticleTag(article.tagList.map { tag ->
+                            TagAndArticleEntity(tag, article.slug)
+                        })
+                    }
                 }
-            }
 
+            }
+            Log.d("UserRepository", "bb: ${local.db.userDao().getFavoriteArticlesByUser(author)} ")
         }
-        Log.d("UserRepository", "bb: ${local.db.userDao().getFavoriteArticlesByUser(author)} ")
+
         return local.db.userDao().getFavoriteArticlesByUser(author)
     }
 
+    suspend fun getFavoritedArticlesByUserNameLocal(author: String): MutableList<ArticleUser> {
+        return local.db.userDao().getFavoriteArticlesByUser(author)
+    }
 
     fun setTokenInShared(token: String?) {
         local.saveToken(token)

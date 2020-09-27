@@ -79,12 +79,6 @@ class SplashFragment : Fragment() {
             }
         })
 
-//        if (sw == 0) {
-//            val reqWin = requireActivity().window
-//            reqWin.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//            reqWin.statusBarColor = Color.TRANSPARENT
-//
-//        } else if (sw == 1) {
             requireActivity().window.decorView.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             requireActivity().window.statusBarColor = Color.parseColor("#813ac1")
@@ -94,7 +88,7 @@ class SplashFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val window = requireActivity().window
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         changeTopOfScreen(0)
 
     }

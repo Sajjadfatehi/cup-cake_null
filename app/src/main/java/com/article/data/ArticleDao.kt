@@ -17,7 +17,7 @@ interface ArticleDao {
     suspend fun update(article: ArticleDataEntity)
 
     @Query("SELECT * FROM article WHERE slug in(SELECT slug FROM tag_article WHERE tag =:text)")
-    fun getArticleWithTag(text: String): List<ArticleUser>
+    suspend fun getArticleWithTag(text: String): List<ArticleUser>
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)

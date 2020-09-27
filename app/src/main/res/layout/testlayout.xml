@@ -35,12 +35,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:splitMotionEvents="false">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/appBarLayoutTitle"
                 style="@style/title_bar"
                 android:background="@color/Purple"
+                android:splitMotionEvents="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -71,6 +73,13 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/appBarLayoutTitle" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/prof_cardView"
@@ -79,17 +88,18 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
+                android:splitMotionEvents="false"
                 app:cardCornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/appBarLayoutTitle"
 
-
                 >
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:splitMotionEvents="false">
 
                     <ProgressBar
                         android:id="@+id/profProgressBar"
@@ -149,11 +159,11 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
                         android:backgroundColor="@{author.following?  @color/isNotFollow:@color/isFollow }"
-                        android:visibility="@{isMyPage? View.GONE:View.VISIBLE}"
                         android:gravity="center"
                         android:text="@{author.following?@string/profileWasFollow: @string/tv_follow_button  }"
                         android:textAlignment="center"
                         android:textSize="16sp"
+                        android:visibility="@{isMyPage? View.GONE:View.VISIBLE}"
                         app:cornerRadius="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -167,14 +177,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginBottom="2dp"
                         android:text="@{countOfArticles}"
-                        tools:text="@string/tv_number_posts"
                         android:textAlignment="center"
                         android:textColor="#363636"
                         android:textSize="24sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginBottom="2dp"
                         app:layout_constraintBottom_toTopOf="@id/txt_article"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:text="@string/tv_number_posts"
 
 
                         />
@@ -184,12 +194,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
+                        android:layout_marginBottom="2dp"
                         android:text="@string/tv_number_followers"
                         android:textColor="#363636"
                         android:textSize="24sp"
-                        app:layout_constraintStart_toEndOf="@id/image_profile"
-                        android:layout_marginBottom="2dp"
                         app:layout_constraintBottom_toTopOf="@id/txt_follower"
+                        app:layout_constraintStart_toEndOf="@id/image_profile"
 
                         />
 
@@ -197,12 +207,12 @@
                         android:id="@+id/txt_article"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
                         android:text="@string/tv_post"
                         android:textSize="12sp"
-                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@id/number_of_post"
                         app:layout_constraintStart_toStartOf="@id/number_of_post"
-                        app:layout_constraintBottom_toBottomOf="parent"
 
                         />
 
@@ -210,12 +220,12 @@
                         android:id="@+id/txt_follower"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
                         android:text="@string/tv_follower"
                         android:textSize="12sp"
-                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@id/number_of_follower"
                         app:layout_constraintStart_toStartOf="@id/number_of_follower"
-                        app:layout_constraintBottom_toBottomOf="parent"
 
 
                         />
@@ -235,10 +245,10 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:orientation="horizontal"
+                android:splitMotionEvents="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/prof_cardView"
-
 
                 >
 
@@ -303,6 +313,7 @@
                 app:layout_constraintStart_toStartOf="parent"
 
                 />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

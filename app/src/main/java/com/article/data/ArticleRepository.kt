@@ -6,6 +6,8 @@ import com.article.data.localdatasource.ArticleLocalDataSource
 import com.article.data.modelfromservice.ArticleResponse
 import com.article.data.modelfromservice.CreateArticleModel
 import com.article.data.remotedatasource.ArticleRemoteDataSource
+import com.config.MyApp
+import com.core.Network
 import com.core.ResultCallBack
 import com.core.RetrofitUtil
 import com.core.RoomDataBase
@@ -52,33 +54,38 @@ class ArticleRepository(
         return localDataSource.getArticleWithTag(text)
     }
 
-    suspend fun getArticleByTag(tag: String, pageNumber: Int): ResultCallBack<List<ArticleUser>> {
+    suspend fun getArticleByTag(tag: String): ResultCallBack<List<ArticleUser>> {
+        if (Network.hasActiveInternetConnection(MyApp.app.applicationContext)) {
+            val result = articleRemoteDataSource.gteArticleByTagNew(tag)
 
-        val result = articleRemoteDataSource.gteArticleByTagNew(tag, pageNumber)
+            if (result is ResultCallBack.Success) {
 
-        if (result is ResultCallBack.Success) {
-
-            articleLocalDataSource.db.tagDao().deleteTagAndArticleByTag(tag)
-            articleLocalDataSource.addUsers(result.data.articles.map {
-                it.mapToUserEntity()
-            })
-            articleLocalDataSource.addArticle(result.data.articles.map {
-                it.mapToEntity()
-            })
-
-            result.data.articles.forEach { article ->
-                articleLocalDataSource.insertTags(article.tagList.map { tag ->
-                    TagModel(tag)
+                articleLocalDataSource.db.tagDao().deleteTagAndArticleByTag(tag)
+                articleLocalDataSource.addUsers(result.data.articles.map {
+                    it.mapToUserEntity()
                 })
-                articleLocalDataSource.addArticleTag(article.tagList.map { tag ->
-                    TagAndArticleEntity(tag, article.slug)
+                articleLocalDataSource.addArticle(result.data.articles.map {
+                    it.mapToEntity()
+                })
+
+                result.data.articles.forEach { article ->
+                    articleLocalDataSource.insertTags(article.tagList.map { tag ->
+                        TagModel(tag)
+                    })
+                    articleLocalDataSource.addArticleTag(article.tagList.map { tag ->
+                        TagAndArticleEntity(tag, article.slug)
+                    })
+                }
+                return ResultCallBack.Success(result.data.articles.map {
+                    it.toArticleView()
                 })
             }
-            return ResultCallBack.Success(result.data.articles.map {
-                it.toArticleView()
-            })
+            return ResultCallBack.Error(Throwable("read from api in not successful"))
+
         }
-        return ResultCallBack.Error(Throwable("read from api in not successful"))
+
+        //read from database
+        return ResultCallBack.Success(articleLocalDataSource.getArticleByTag(tag))
 
     }
 //

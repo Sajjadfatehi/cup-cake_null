@@ -54,8 +54,8 @@ class ArticleRemoteDataSource {
     }
 
 
-    suspend fun gteArticleByTagNew(tag: String, pageNumber: Int): ResultCallBack<ArticleModel> {
-        val result = articleApi.getArticlesByTagNew(tag, pageNumber)
+    suspend fun gteArticleByTagNew(tag: String): ResultCallBack<ArticleModel> {
+        val result = articleApi.getArticlesByTagNew(tag)
         try {
             if (result.isSuccessful) {
                 result.body()?.let {

@@ -49,11 +49,27 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
 //        allArticleOfPerson.postValue(handleAllArticleOfPersonResponse(response))
 //    }
 
-    fun getAllArticleOfPersonNew(author: String) = viewModelScope.launch {
+
+    init {
+        getProfileLocal(userName)
+        // getProfile(userName)
+//
+//        getAllArticleOfPersonNewLocal(userName)
+        getAllArticleOfPersonNew(userName)
+
+
+    }
+
+    fun getAllArticleOfPersonNew(author: String) = viewModelScope.launch(Dispatchers.IO) {
         //allArticleOfPersonNew.postValue(Resource.Loading())
 
         val response = userRepository.getAllArticleOfPersonNew(author, allArticleOfPersonPage)
 
+        allArticleOfPersonNew.postValue(response)
+    }
+
+    fun getAllArticleOfPersonNewLocal(author: String) = viewModelScope.launch(Dispatchers.IO) {
+        val response = userRepository.getAllArticleOfPersonNewLocal(author)
         allArticleOfPersonNew.postValue(response)
     }
 
@@ -93,6 +109,13 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
             val response = userRepository.getFavoritedArticlesByUserName(favoritedUserName)
             allFavoriteArticleOfPersonNew.postValue(response)
         }
+
+    fun getFavoritedArticleByUserNameLocal(favoritedUserName: String) =
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = userRepository.getFavoritedArticlesByUserNameLocal(favoritedUserName)
+            allFavoriteArticleOfPersonNew.postValue(response)
+        }
+
 
     private fun handleFavoritedArticleByUserName(response: Response<AllArticleOfPerson>): Resource<AllArticleOfPerson> {
 
@@ -210,6 +233,10 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
 
     }
 
+    fun getProfileLocal(userName: String) = viewModelScope.launch(Dispatchers.IO) {
+        val response = userRepository.profileLocal(userName)
+        profile.postValue(response)
+    }
 
     fun follow(userName: String, followRequest: FollowRequest) =
         viewModelScope.launch(Dispatchers.IO) {
@@ -225,15 +252,6 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
     }
 
 
-    init {
-
-
-        // getAllArticleOfPerson(userName)
-        getAllArticleOfPersonNew(userName)
-        getProfile(userName)
-
-
-    }
 
     fun getPosts(): MutableList<ArticleView>? {
 

@@ -5,26 +5,19 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import com.article.data.ArticleDataEntity
-import com.user.data.UserEntity
 
-    @Entity(tableName = "user_favorite_article",
-    primaryKeys = ["username","slug"],
-    foreignKeys =[ ForeignKey(
-        entity = UserEntity::class,
-        parentColumns = ["username"],
-        childColumns = ["username"],
-        onDelete = CASCADE,
-        onUpdate = CASCADE
+@Entity(
+    tableName = "user_favorite_article",
+    primaryKeys = ["username", "slug"],
+    foreignKeys = [
+        ForeignKey(
+            entity = ArticleDataEntity::class,
+            parentColumns = ["slug"],
+            childColumns = ["slug"],
+            onDelete = CASCADE,
+            onUpdate = CASCADE
 
-    ),
-    ForeignKey(
-        entity = ArticleDataEntity::class,
-        parentColumns = ["slug"],
-        childColumns = ["slug"],
-        onDelete = CASCADE,
-        onUpdate = CASCADE
-
-    )]
+        )]
 )
 data class UserAndHisFavoriteArticle (
     @ColumnInfo(name = "username") val username:String,

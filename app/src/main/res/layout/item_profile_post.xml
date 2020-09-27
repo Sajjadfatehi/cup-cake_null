@@ -9,6 +9,10 @@
         <variable
             name="article"
             type="com.article.data.ArticleDataEntity" />
+
+        <variable
+            name="imageUrl"
+            type="String" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -28,7 +32,7 @@
 
             >
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/item_image_post_prof"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
@@ -36,6 +40,7 @@
                 android:scaleType="fitXY"
                 app:layout_constraintStart_toEndOf="@id/guidelineLeft"
                 app:layout_constraintTop_toBottomOf="@id/guidelineTop"
+                bind:url="@{imageUrl}"
                 tools:src="@drawable/prof_image" />
 
             <TextView
@@ -80,8 +85,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:ellipsize="end"
-
-
                 android:fontFamily="@font/is_font"
                 android:lineSpacingExtra="10sp"
                 android:maxLines="2"

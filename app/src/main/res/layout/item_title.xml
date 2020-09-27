@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -36,11 +37,8 @@
                 android:scaleType="fitXY"
                 android:contentDescription="@string/image_of_profile_desc"
                 tools:src="@drawable/prof_image"
-
-
-
+                bind:url="@{author.image}"
                 app:layout_constraintStart_toEndOf="@id/guidelineLeft2"
-
                 app:layout_constraintTop_toBottomOf="@id/guidelineTop2" />
 
             <TextView

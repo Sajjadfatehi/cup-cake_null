@@ -3,10 +3,7 @@ package com.article.data
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
-import com.user.data.UserEntity
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -14,13 +11,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 @Entity(
-    tableName = "article", foreignKeys = [ForeignKey(
-        entity = UserEntity::class,
-        parentColumns = ["username"],
-        childColumns = ["authorusername"],
-        onDelete = CASCADE,
-        onUpdate = CASCADE
-    )]
+    tableName = "article"
 )
 data class ArticleDataEntity(
     @PrimaryKey

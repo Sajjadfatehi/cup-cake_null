@@ -6,8 +6,6 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.article.data.ArticleUser
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.anull.databinding.ItemTitleBinding
 
 class ArticleAdapterDiff :
@@ -50,13 +48,8 @@ class ArticleAdapterDiff :
         var article = differ.currentList[position].articleDataEntity
         var author = differ.currentList[position].userEntity
         holder.binding.article = article
-        if (author.image != null) {
-            holder.binding.apply {
-                Glide.with(itemImageTitle.context).load(author.image).transform(
-                    CircleCrop()
-                ).into(itemImageTitle)
-            }
-        }
+        holder.binding.author = author
+
         holder.binding.executePendingBindings()
 
     }

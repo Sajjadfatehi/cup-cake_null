@@ -42,12 +42,12 @@ class HomeLocalDataSource {
         return postList
     }
 
-  suspend  fun getTagList(): List<TagModel> {
+    suspend fun getTagList(): List<TagModel> {
         tags = dao.getAllTag()
         return tags
     }
 
-    fun getArticleWithTag(text: String): List<ArticleUser> {
+    suspend fun getArticleWithTag(text: String): List<ArticleUser> {
         articles = articleDao.getArticleWithTag(text)
         return articles
     }

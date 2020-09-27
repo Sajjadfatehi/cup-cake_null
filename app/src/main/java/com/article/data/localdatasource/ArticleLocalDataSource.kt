@@ -1,6 +1,5 @@
 package com.article.data.localdatasource
 
-import android.util.Log
 import androidx.room.withTransaction
 import com.article.data.ArticleDataEntity
 import com.article.data.ArticleUser
@@ -51,9 +50,6 @@ class ArticleLocalDataSource(val db: AppDataBase) {
     }
 
     suspend fun getArticleByTag(tag: String): List<ArticleUser> {
-        Log.d("tagtest", "size issssbA: ${db.articleDao().getArticleWithTag(tag)[0]}: \n")
-        Log.d("tagtest", "size issssbB: ${db.articleDao().getArticleWithTag(tag).size}: \n")
-        Log.d("tagtest", "size issssbC: ${db.articleDao().getAllTagAndArticle()}: \n")
         return db.articleDao().getArticleWithTag(tag)
     }
 

@@ -29,10 +29,7 @@ interface ArticleApi {
     @GET("articles")
     suspend fun getArticlesByTagNew(
         @Query("tag")
-        tag: String,
-        @Query("page")
-        pageNumber: Int = 1
-
+        tag: String
     ): Response<ArticleModel>
 
     @POST("articles")
