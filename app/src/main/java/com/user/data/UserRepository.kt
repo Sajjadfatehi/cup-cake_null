@@ -19,10 +19,6 @@ import com.user.data.reomtedatasource.UserRemote
 
 class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
 
-    suspend fun getAllArticleOfPerson(author: String, pageNumber: Int) =
-        remote.getAllArticleOfPerson(author, pageNumber)
-
-
     suspend fun register(registerRequest: RegisterRequest): ResultCallBack<RegisterResponse> {
         return if (Network.isNetworkConnected()) {
             remote.register(registerRequest)
@@ -36,126 +32,156 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
         slug: String,
         ownUserName: String
     ): ResultCallBack<ArticleResponse> {
-        val result = remote.favoriteArticle(slug)
 
-        if (result is ResultCallBack.Success) {
-            local.db.withTransaction {
+        if (Network.hasActiveInternetConnection(MyApp.app)) {
+            val result = remote.favoriteArticle(slug)
 
-                local.addArticle(listOf(result.data.article.mapToEntity()))
-                local.addUserAndFavoriteArticles(
-                    listOf(
-                        UserAndHisFavoriteArticle(
-                            ownUserName,
-                            slug
+            if (result is ResultCallBack.Success) {
+                local.db.withTransaction {
+
+                    local.addArticle(listOf(result.data.article.mapToEntity()))
+                    local.addUserAndFavoriteArticles(
+                        listOf(
+                            UserAndHisFavoriteArticle(
+                                ownUserName,
+                                slug
+                            )
                         )
                     )
-                )
+
+                }
 
             }
+            return result
 
+        } else {
+            return ResultCallBack.Error(Exception("اینترنت متصل نیست"))
         }
-        return result
-
     }
 
     suspend fun unFavoriteArticle(
         slug: String,
         ownUserName: String
     ): ResultCallBack<ArticleResponse> {
-        val result = remote.unFavoriteArticle(slug)
 
-        if (result is ResultCallBack.Success) {
-            local.db.withTransaction {
+        if (Network.hasActiveInternetConnection(MyApp.app)) {
 
-                local.addArticle(listOf(result.data.article.mapToEntity()))
-                local.deleteUserAndFavoriteArticles(
-                    listOf(
-                        UserAndHisFavoriteArticle(
-                            ownUserName,
-                            slug
+            val result = remote.unFavoriteArticle(slug)
+
+            if (result is ResultCallBack.Success) {
+                local.db.withTransaction {
+
+                    local.addArticle(listOf(result.data.article.mapToEntity()))
+                    local.deleteUserAndFavoriteArticles(
+                        listOf(
+                            UserAndHisFavoriteArticle(
+                                ownUserName,
+                                slug
+                            )
                         )
                     )
-                )
+
+                }
 
             }
-
-        }
-        return result
+            return result
+        } else return ResultCallBack.Error(Exception("اینترنت متصل نیست"))
     }
 
 
     suspend fun deleteArticle(slug: String): ResultCallBack<Unit> {
-        val result = remote.deleteArticle(slug)
-        if (result is ResultCallBack.Success) {
-            local.deleteArticle(slug)
-
+        return if (Network.hasActiveInternetConnection(MyApp.app)) {
+            val result = remote.deleteArticle(slug)
+            if (result is ResultCallBack.Success) {
+                local.deleteArticle(slug)
+            }
+            result
+        } else {
+            ResultCallBack.Error(Exception("لطفا از اتصال خود به اینترنت اصمینان حاصل فرمایید"))
         }
-        Log.d("mamad", "dlet rep ${result}: ")
-        return result
+
     }
 
     suspend fun profile(userName: String): ResultCallBack<UserEntity> {
-        val result = remote.profile(userName)
+        if (Network.hasActiveInternetConnection(MyApp.app)) {
+            Log.d("TAGT", "is net ")
+            val result = remote.profile(userName)
+            if (result is ResultCallBack.Success) {
 
+                local.db.withTransaction {
 
-        if (result is ResultCallBack.Success) {
-            local.db.withTransaction {
+                    local.addUsers(listOf(result.data.profile.mapYoUserEntity()))
+                    Log.d("TAGT", "yes bb ${local.getUser(userName)}: ")
+                }
+                return ResultCallBack.Success(local.getUser(userName))
 
-                local.addUsers(listOf(result.data.profile.mapYoUserEntity()))
             }
-            return ResultCallBack.Success(local.getUser(userName))
 
+            return ResultCallBack.Error(Exception("follow failed"))
+
+        } else {
+            Log.d("TAGT", "not net ${local.getUser(userName)} ")
+            return ResultCallBack.Success(local.getUser(userName))
         }
 
-        return ResultCallBack.Error(Exception("follow failed"))
 
     }
 
     suspend fun profileLocal(userName: String): ResultCallBack<UserEntity> {
+//        Log.d("TAGT p lo ${local.getUser(userName).following}", "profileLocal: ")
         return ResultCallBack.Success(local.getUser(userName))
     }
 
     suspend fun follow(userName: String, followRequest: FollowRequest): ResultCallBack<UserEntity> {
-        val result = remote.follow(userName, followRequest)
+        if (Network.hasActiveInternetConnection(MyApp.app)) {
+            val result = remote.follow(userName, followRequest)
 
 
-        if (result is ResultCallBack.Success) {
-            local.db.withTransaction {
+            if (result is ResultCallBack.Success) {
+                local.db.withTransaction {
 
-                local.addUsers(listOf(result.data.profile.mapYoUserEntity()))
+                    local.addUsers(listOf(result.data.profile.mapYoUserEntity()))
+                }
+                return ResultCallBack.Success(local.getUser(userName))
+
             }
-            return ResultCallBack.Success(local.getUser(userName))
+            return ResultCallBack.Error(Exception("follow failed"))
 
+        } else {
+            return ResultCallBack.Error(Exception("اینترنت متصل نیست"))
         }
-
-        return ResultCallBack.Error(Exception("follow failed"))
-
     }
 
     suspend fun unFollow(userName: String): ResultCallBack<UserEntity> {
-        val result = remote.unFollow(userName)
 
-        if (result is ResultCallBack.Success) {
-            local.db.withTransaction {
+        if (Network.hasActiveInternetConnection(MyApp.app)) {
+            val result = remote.unFollow(userName)
 
-                local.addUsers(listOf(result.data.profile.mapYoUserEntity()))
+            if (result is ResultCallBack.Success) {
+                local.db.withTransaction {
+
+                    local.addUsers(listOf(result.data.profile.mapYoUserEntity()))
+                }
+                return ResultCallBack.Success(local.getUser(userName))
+
             }
-            return ResultCallBack.Success(local.getUser(userName))
 
+            return ResultCallBack.Error(Exception("follow failed"))
+
+        } else {
+            return ResultCallBack.Error(Exception("اینترنت متصل نیست"))
         }
-
-        return ResultCallBack.Error(Exception("follow failed"))
 
     }
 
 
     suspend fun getAllArticleOfPersonNew(
-        author: String,
-        pageNumber: Int
+        author: String
+
     ): MutableList<ArticleUser> {
         if (Network.hasActiveInternetConnection(MyApp.app.applicationContext)) {
 
-            val result = remote.getAllArticleOfPersonNew(author, pageNumber)
+            val result = remote.getAllArticleOfPersonNew(author)
             if (result is ResultCallBack.Success) {
                 local.db.withTransaction {
                     local.db.articleDao().deleteArticleByUserName(author)

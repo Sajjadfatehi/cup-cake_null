@@ -11,7 +11,6 @@ import com.core.Network
 import com.core.ResultCallBack
 import com.core.RetrofitUtil
 import com.core.RoomDataBase
-import com.core.util.Resource
 import com.user.data.modelfromservice.EditArticleRequest
 
 class ArticleRepository(
@@ -88,82 +87,56 @@ class ArticleRepository(
         return ResultCallBack.Success(articleLocalDataSource.getArticleByTag(tag))
 
     }
-//
-//    suspend fun getArticleByTagNewRemote(tag: String, pageNumber: Int) {
-//        val result=articleRemoteDataSource.gteArticleByTagNew(tag,pageNumber)
-//
-//        if (result is ResultCallBack.Success){
-//            articleLocalDataSource.db.withTransaction {
-//                articleLocalDataSource.db.tagDao().deleteTagAndArticleByTag(tag)
-//
-//                articleLocalDataSource.addUsers(result.data.articles.map {
-//                    it.mapToUserEntity()
-//                })
-//                articleLocalDataSource.addArticle(result.data.articles.map {
-//                    it.mapToEntity()
-//                })
-//
-//                result.data.articles.forEach { article ->
-//
-//                    articleLocalDataSource.insertTags(article.tagList.map { tag ->
-//                        TagModel(tag)
-//                    })
-//
-//                    articleLocalDataSource.addArticleTag(article.tagList.map { tag ->
-//                        TagAndArticleEntity(tag, article.slug)
-//                    })
-//                }
-//            }
-//        }
-//    }
-//
-//    fun getArticleByTagLocal(tag:String):MutableLiveData<MutableList<ArticleUser>>{
-//        return articleLocalDataSource.getArticleByTag(tag)
-//    }
 
-    suspend fun createArticle(createArticleModel: CreateArticleModel): Resource<ArticleResponse> {
-        val result = articleRemoteDataSource.createArticle(createArticleModel)
-        if (result is Resource.Success) {
 
-            articleLocalDataSource.db.withTransaction {
-                result.data?.article?.mapToUserEntity()?.let { userEntity ->
-                    articleLocalDataSource.addUsers(listOf(userEntity))
+    suspend fun createArticle(createArticleModel: CreateArticleModel): ResultCallBack<ArticleResponse> {
+        if (Network.hasActiveInternetConnection(MyApp.app.applicationContext)) {
+            val result = articleRemoteDataSource.createArticle(createArticleModel)
+            if (result is ResultCallBack.Success) {
+
+                articleLocalDataSource.db.withTransaction {
+                    result.data.article.mapToUserEntity().let { userEntity ->
+                        articleLocalDataSource.addUsers(listOf(userEntity))
+                    }
+                    result.data.article.mapToEntity().let { article ->
+                        articleLocalDataSource.insertArticle(listOf(article))
+                    }
+                    result.data.article.tagList.map { tag ->
+                        TagModel(tag)
+                    }.let { articleLocalDataSource.insertTags(it) }
+
+                    result.data.article.tagList.map { tag ->
+                        TagAndArticleEntity(tag, result.data.article.slug)
+                    }.let { articleLocalDataSource.addArticleTag(it) }
                 }
-                result.data?.article?.mapToEntity()?.let { article ->
-                    articleLocalDataSource.insertArticle(listOf(article))
-                }
-                result.data?.article?.tagList?.map { tag ->
-                    TagModel(tag)
-                }?.let { articleLocalDataSource.insertTags(it) }
 
-                result.data?.article?.tagList?.map { tag ->
-                    TagAndArticleEntity(tag, result.data.article.slug)
-                }?.let { articleLocalDataSource.addArticleTag(it) }
             }
-
+            return result
+        } else {
+            return ResultCallBack.Error(Exception("از اتصال خود به اینترنت اطمینان حاصل کنید "))
         }
-        return result
+
     }
 
 
     suspend fun updateArticle(
         slug: String,
         editArticleRequest: EditArticleRequest
-    ): Resource<ArticleResponse> {
-        val result = articleRemoteDataSource.updateArticle(slug, editArticleRequest)
+    ): ResultCallBack<ArticleResponse> {
+        return if (Network.hasActiveInternetConnection(MyApp.app)) {
+            val result = articleRemoteDataSource.updateArticle(slug, editArticleRequest)
 
-
-
-        if (result is Resource.Success) {
-            articleLocalDataSource.db.withTransaction {
-                result.data?.article?.mapToEntity()
-                    ?.let { articleLocalDataSource.updateArticle(it) }
-
+            if (result is ResultCallBack.Success) {
+                articleLocalDataSource.db.withTransaction {
+                    result.data.article.mapToEntity()
+                        .let { articleLocalDataSource.updateArticle(it) }
+                }
             }
-
-
+            result
+        } else {
+            ResultCallBack.Error(Exception("از اتصال خود به اینترنت اطمینان حاصل کنید "))
         }
-        return result
+
     }
 
     fun getUserNameFromShare() = articleLocalDataSource.getUserNameFromShare()

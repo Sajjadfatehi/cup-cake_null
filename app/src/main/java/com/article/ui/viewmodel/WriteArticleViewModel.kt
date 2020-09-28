@@ -9,7 +9,7 @@ import com.article.data.ArticleDataEntity
 import com.article.data.ArticleRepository
 import com.article.data.modelfromservice.ArticleResponse
 import com.article.data.modelfromservice.CreateArticleModel
-import com.core.util.Resource
+import com.core.ResultCallBack
 import com.google.android.material.chip.Chip
 import com.user.data.modelfromservice.EditArticleRequest
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +18,8 @@ import kotlinx.coroutines.launch
 
 class WriteArticleViewModel(val articleRepository: ArticleRepository) : ViewModel() {
 
-    var articleInCreateArticleModel: MutableLiveData<Resource<ArticleResponse>> = MutableLiveData()
+    var articleInCreateArticleModel: MutableLiveData<ResultCallBack<ArticleResponse>> =
+        MutableLiveData()
     var activity: FragmentActivity = FragmentActivity()
     val tagsChip = mutableMapOf<Chip, String>()
     var argsFromProf: Bundle = Bundle()
@@ -27,7 +28,7 @@ class WriteArticleViewModel(val articleRepository: ArticleRepository) : ViewMode
 
     var userName = ""
     var isUpdated = MutableLiveData<Boolean>()
-    var editedArticle: MutableLiveData<Resource<ArticleResponse>> = MutableLiveData()
+    var editedArticle: MutableLiveData<ResultCallBack<ArticleResponse>> = MutableLiveData()
 
 
     init {
@@ -44,7 +45,7 @@ class WriteArticleViewModel(val articleRepository: ArticleRepository) : ViewMode
 
 
     fun updateArticle(slug: String, editArticleRequest: EditArticleRequest) = viewModelScope.launch(Dispatchers.IO) {
-            editedArticle.postValue(Resource.Loading())
+        editedArticle.postValue(ResultCallBack.Loading(""))
             val response = articleRepository.updateArticle(slug, editArticleRequest)
             editedArticle.postValue(response)
         }

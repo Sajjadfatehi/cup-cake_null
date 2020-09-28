@@ -2,7 +2,10 @@ package com.user.data.api
 
 import com.article.data.ArticleModel
 import com.article.data.modelfromservice.ArticleResponse
-import com.user.data.modelfromservice.*
+import com.user.data.modelfromservice.FollowRequest
+import com.user.data.modelfromservice.Profile
+import com.user.data.modelfromservice.RegisterRequest
+import com.user.data.modelfromservice.RegisterResponse
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -11,9 +14,7 @@ interface UserApi {
     @GET("articles")
     suspend fun getAllArticleOfPerson(
         @Query("author")
-        author: String,
-        @Query("page")
-        pageNumber: Int = 1
+        author: String
 
     ): Response<ArticleModel>
 

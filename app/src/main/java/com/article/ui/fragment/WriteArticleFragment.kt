@@ -1,6 +1,7 @@
 package com.article.ui.fragment
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,10 +23,11 @@ import com.article.data.modelfromservice.CreateArticleModel
 import com.article.data.remotedatasource.ArticleRemoteDataSource
 import com.article.ui.viewmodel.WriteArticleViewModel
 import com.article.ui.viewmodel.providerfactory.WriteViewModelProviderFactory
+import com.core.ResultCallBack
 import com.core.db.AppDataBase
-import com.core.util.Resource
 import com.example.anull.R
 import com.example.anull.databinding.FragmentWriteArticleBinding
+import com.google.android.material.snackbar.Snackbar
 import com.user.data.modelfromservice.BodyOfEditedArticle
 import com.user.data.modelfromservice.EditArticleRequest
 import kotlinx.android.synthetic.main.fragment_write_article.*
@@ -63,9 +65,10 @@ class WriteArticleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val articleLocalDataSource=ArticleLocalDataSource(AppDataBase.invoke(requireContext(),MIGRATION_1_2))
-        val articleRemoteDataSource=ArticleRemoteDataSource()
-        val articleRepository = ArticleRepository(articleLocalDataSource,articleRemoteDataSource)
+        val articleLocalDataSource =
+            ArticleLocalDataSource(AppDataBase.invoke(requireContext(), MIGRATION_1_2))
+        val articleRemoteDataSource = ArticleRemoteDataSource()
+        val articleRepository = ArticleRepository(articleLocalDataSource, articleRemoteDataSource)
         val writeViewModelProvider = WriteViewModelProviderFactory(articleRepository)
         writeViewModel =
             ViewModelProvider(this, writeViewModelProvider).get(WriteArticleViewModel::class.java)
@@ -87,12 +90,14 @@ class WriteArticleFragment : Fragment() {
                     val body = edit_text.text.toString().trim()
                     val slug = writeViewModel.article.slug
 
-                    writeViewModel.updateArticle(slug, EditArticleRequest(BodyOfEditedArticle(body)))
+                    writeViewModel.updateArticle(
+                        slug,
+                        EditArticleRequest(BodyOfEditedArticle(body))
+                    )
                     writeViewModel.editedArticle
 
                 }
-            }
-            else {
+            } else {
                 //fill edit text from share pref
                 fillTitleEditText()
                 fillBodyEditText()
@@ -120,23 +125,9 @@ class WriteArticleFragment : Fragment() {
         })
 
 
-//        writeViewModel.isUpdated.observe(viewLifecycleOwner, Observer { isUpdatedSuccess ->
-//            if (isUpdatedSuccess) {
-//                hideProgress()
-//                val bundle = Bundle()
-//
-//                bundle.putString("userName", writeViewModel.userName)
-//                findNavController().navigate(
-//                    R.id.action_writeArticleFragment_to_profileFragment,
-//                    bundle
-//                )
-//                writeViewModel.isUpdated.value = false
-//            }
-//
-//        })
-        writeViewModel.editedArticle.observe(viewLifecycleOwner, Observer {response->
-            when(response){
-                is Resource.Success->{
+        writeViewModel.editedArticle.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is ResultCallBack.Success -> {
                     hideProgress()
                     val bundle = Bundle()
 
@@ -147,27 +138,51 @@ class WriteArticleFragment : Fragment() {
                     )
                     writeViewModel.isUpdated.value = false
                 }
-                is Resource.Loading->{
+                is ResultCallBack.Loading -> {
                     showProgressBar()
                 }
-            }
-        })
-
-        writeViewModel.articleInCreateArticleModel.observe(viewLifecycleOwner, Observer {response->
-
-            when(response){
-                is Resource.Success->{
+                is ResultCallBack.Error -> {
                     hideProgress()
-                    Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(
+                        requireView(),
+                        response.exception.message.toString(),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                 }
-                is Resource.Loading->{
 
-                }
-                is Resource.Error->{
-
-                }
             }
         })
+
+        writeViewModel.articleInCreateArticleModel.observe(
+            viewLifecycleOwner,
+            Observer { response ->
+
+                when (response) {
+                    is ResultCallBack.Success -> {
+                        hideProgress()
+                        Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show()
+                    }
+                    is ResultCallBack.Loading -> {
+
+                    }
+                    is ResultCallBack.Error -> {
+                        hideProgress()
+                        val snackBar = Snackbar.make(
+                            requireView(),
+                            response.exception.message.toString(),
+                            Snackbar.LENGTH_SHORT
+                        )
+                        val view = snackBar.view
+
+                        view.textAlignment = View.TEXT_ALIGNMENT_CENTER
+
+                        view.setBackgroundColor(Color.RED)
+                        snackBar.show()
+
+
+                    }
+                }
+            })
 
         binding.arrowBackWA.setOnClickListener {
             hideKeyboard()

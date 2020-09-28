@@ -25,6 +25,7 @@ import com.core.db.AppDataBase
 import com.core.util.TestAdapterClass
 import com.example.anull.R
 import com.example.anull.databinding.TestlayoutBinding
+import com.google.android.material.snackbar.Snackbar
 import com.user.data.UserEntity
 import com.user.data.UserRepository
 import com.user.data.localdatasource.UserLocalDataSource
@@ -126,9 +127,8 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack,
                     hideProgressBar()
                     response.data.let { profile ->
 
-
+//                        Log.d("TAGT p", "${profile.following}: ")
                         bindingProf.author = profile
-
                     }
 
                 }
@@ -250,7 +250,11 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack,
                     bindingProf.follow = true
                 }
                 is ResultCallBack.Error -> {
-
+                    Snackbar.make(
+                        requireView(),
+                        response.exception.message.toString(),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                 }
                 is ResultCallBack.Loading -> {
 
@@ -267,7 +271,11 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack,
                     bindingProf.follow = false
                 }
                 is ResultCallBack.Error -> {
-
+                    Snackbar.make(
+                        requireView(),
+                        response.exception.message.toString(),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                 }
                 is ResultCallBack.Loading -> {
 
@@ -280,10 +288,13 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack,
             when (response) {
                 is ResultCallBack.Success -> {
 
-
                 }
                 is ResultCallBack.Error -> {
-
+                    Snackbar.make(
+                        requireView(),
+                        response.exception.message.toString(),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                 }
                 is ResultCallBack.Loading -> {
 
@@ -300,6 +311,11 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack,
                     Log.d("hadige", "unfa ressss: ")
                 }
                 is ResultCallBack.Error -> {
+                    Snackbar.make(
+                        requireView(),
+                        response.exception.message.toString(),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
 
                 }
                 is ResultCallBack.Loading -> {

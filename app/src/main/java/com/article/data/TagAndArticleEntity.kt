@@ -13,7 +13,6 @@ import androidx.room.ForeignKey.CASCADE
     tableName = "tag_article",
     primaryKeys = ["tag", "slug"],
     foreignKeys = [
-
         ForeignKey(
             entity = ArticleDataEntity::class,
             parentColumns = ["slug"],

@@ -1,9 +1,21 @@
 package com.core
 
-suspend inline fun <T> safeApiCall(responseFunction: suspend () -> T): ResultCallBack<T> {
-    return try {
-        ResultCallBack.Success(responseFunction.invoke())
+import retrofit2.Response
+
+suspend inline fun <T> safeApiCall(responseFunction: suspend () -> Response<T>): ResultCallBack<T> {
+
+    try {
+        val result = responseFunction.invoke()
+        if (result.isSuccessful) {
+            result.body()?.let {
+                it.let {
+                    return ResultCallBack.Success(it)
+                }
+            }
+            return ResultCallBack.Error(Exception("server data failed"))
+        }
+        return ResultCallBack.Error(Exception(result.code().toString()))
     } catch (e: Exception) {
-        ResultCallBack.Error(e, null)
+        return ResultCallBack.Error(Exception("خطا در برقراری ارتباط"))
     }
 }

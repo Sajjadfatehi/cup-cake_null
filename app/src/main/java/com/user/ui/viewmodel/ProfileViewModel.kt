@@ -34,7 +34,7 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
         MutableLiveData()
     val unFavoriteArticleResponse: MutableLiveData<ResultCallBack<ArticleResponse>> =
         MutableLiveData()
-    var allArticleOfPersonPage = 1
+
     var allArticleOfPersonResponse: AllArticleOfPerson? = null
 
     var profile = MutableLiveData<ResultCallBack<UserEntity>>()
@@ -51,10 +51,12 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
 
 
     init {
+        Log.d("TAGT", "init1: ")
         getProfileLocal(userName)
-        // getProfile(userName)
+        getProfile(userName)
+        Log.d("TAGT", "init1: ")
 //
-//        getAllArticleOfPersonNewLocal(userName)
+        getAllArticleOfPersonNewLocal(userName)
         getAllArticleOfPersonNew(userName)
 
 
@@ -63,7 +65,7 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
     fun getAllArticleOfPersonNew(author: String) = viewModelScope.launch(Dispatchers.IO) {
         //allArticleOfPersonNew.postValue(Resource.Loading())
 
-        val response = userRepository.getAllArticleOfPersonNew(author, allArticleOfPersonPage)
+        val response = userRepository.getAllArticleOfPersonNew(author)
 
         allArticleOfPersonNew.postValue(response)
     }
@@ -171,13 +173,7 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
         viewModelScope.launch(Dispatchers.IO) {
             unFavoriteArticleResponse.postValue(ResultCallBack.Loading(""))
             val response = userRepository.unFavoriteArticle(slug, ownUserName)
-//                unFavoriteArticleResponse.postValue(response)
-//                if (response is ResultCallBack.Success) {
-//                    response.data.let { articleResponse ->
-//                        //   updateArticleFromList(itemNumber, articleResponse.article)
-//
-//                    }
-//                }
+            unFavoriteArticleResponse.postValue(response)
             handleUnFavoriteArticle(response, itemNumber, ownUserName, isFromRadio1)
 
         }
@@ -217,7 +213,6 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
             val response = userRepository.deleteArticle(slug)
             if (response is ResultCallBack.Success) {
 
-                Log.d("mamad", "yes deket in view model sucees: ")
                 deleteArticleFromListNew(itemNumber)
 
             }
@@ -229,12 +224,15 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
 
         profile.postValue(ResultCallBack.Loading(""))
         val response = userRepository.profile(userName)
+        Log.d("TAGT", "res re ${response}: ")
         profile.postValue(response)
 
     }
 
     fun getProfileLocal(userName: String) = viewModelScope.launch(Dispatchers.IO) {
+
         val response = userRepository.profileLocal(userName)
+        Log.d("TAGT", "res lo ${response}: ")
         profile.postValue(response)
     }
 
@@ -252,23 +250,6 @@ class ProfileViewModel(val userRepository: UserRepository, val userName: String)
     }
 
 
-
-    fun getPosts(): MutableList<ArticleView>? {
-
-//        if (postList == null) {
-//            postList = MutableLiveData()
-//        }
-//        return postList.value
-        return postList.value
-    }
-//
-//    fun deleteArticleFromList(itemNumber: Int) {
-//
-//        val tempArticle = allArticleOfPerson.value?.data?.articles!![itemNumber]
-//        val tempList = allArticleOfPerson.value!!.data?.articles!!.minus(tempArticle)
-//        val artciNew = AllArticleOfPerson(tempList.toMutableList(), tempList.size)
-//        allArticleOfPerson.postValue(Resource.Success(artciNew))
-//    }
 
     fun deleteArticleFromListNew(itemNumber: Int) {
 

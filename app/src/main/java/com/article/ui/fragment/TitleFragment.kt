@@ -1,7 +1,6 @@
 package com.article.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +20,7 @@ import com.article.ui.viewmodel.providerfactory.TitleViewModelProviderFactory
 import com.core.ResultCallBack
 import com.core.db.AppDataBase
 import com.example.anull.databinding.FragmentTitleBinding
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_title.*
 
 class TitleFragment : Fragment() {
@@ -74,9 +74,12 @@ class TitleFragment : Fragment() {
                 }
                 is ResultCallBack.Error -> {
                     hideProgressBar()
-                    response.data?.let { message ->
-                        Log.e("ProfileFragment ", "an error happened: $message ")
-                    }
+
+                    Snackbar.make(
+                        requireView(),
+                        response.exception.message.toString(),
+                        Snackbar.LENGTH_SHORT
+                    )
                 }
                 is ResultCallBack.Loading -> {
                     showProgressBar()
