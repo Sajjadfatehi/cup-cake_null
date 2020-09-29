@@ -23,6 +23,7 @@ class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
         app = this
+
         RoomDataBase.init(this)
 
         SoLoader.init(this, false)

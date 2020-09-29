@@ -1,11 +1,14 @@
 package com.core
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.databinding.BindingAdapter
+import com.config.MyApp
 import com.example.anull.R
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -135,6 +138,7 @@ fun chipInWriteArticle(view: View, chipGroup: View, tagsChip: MutableMap<Chip, S
     chipGroup as ChipGroup
     view as EditText
 
+
     view.addTextChangedListener(object : TextWatcher, View.OnClickListener {
         override fun afterTextChanged(s: Editable) {
 
@@ -164,7 +168,7 @@ fun chipInWriteArticle(view: View, chipGroup: View, tagsChip: MutableMap<Chip, S
 
 
                 //below code is for
-                // hideKeyboard()
+                hideKeyboard(view)
 
 
             }
@@ -181,3 +185,18 @@ fun chipInWriteArticle(view: View, chipGroup: View, tagsChip: MutableMap<Chip, S
     })
 
 }
+
+
+private fun hideKeyboard(view: EditText) {
+    val context = MyApp.app
+    view.let { v ->
+        val imm =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(v.windowToken, 0)
+        //below code is for when user click on edit text , adjust pan call again
+        view.clearFocus()
+    }
+}
+/*private fun setAdjustPan() {
+    val activity= MyApp.app as Activity
+    activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)}*/

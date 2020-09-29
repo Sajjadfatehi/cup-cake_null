@@ -68,14 +68,13 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="1dp"
-                android:text="@{article.createdAt}"
                 android:textAlignment="viewEnd"
                 android:textColor="#9e9e9e"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@id/item_image_post_prof"
-
                 app:layout_constraintStart_toEndOf="@id/item_image_post_prof"
                 app:layout_constraintTop_toBottomOf="@id/item_tv_name_post_prof"
+                bind:date="@{article.createdAt}"
 
                 />
 

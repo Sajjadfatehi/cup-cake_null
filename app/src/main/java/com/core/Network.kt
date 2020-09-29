@@ -18,22 +18,7 @@ object Network {
     fun isNetworkConnected(): Boolean {
 
         return true
-//        return try {
-//            val ipAddr = InetAddress.getByName("www.google.com")
-//            !ipAddr.equals("")
-//        } catch (e: java.lang.Exception) {
-//            false
-//
     }
-//    fun isConnected(context: Context?): Boolean {
-//        val info: NetworkInfo? = context?.let { getNetworkInfo(it) }
-//        return info != null && info.isConnected
-//    }
-//    fun getNetworkInfo(context: Context): NetworkInfo {
-//        val cm =
-//            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-//        return cm.activeNetworkInfo
-//    }
 
     fun hasActiveInternetConnection(context: Context?): Boolean {
         if (isNetworkAvailable(context)) {

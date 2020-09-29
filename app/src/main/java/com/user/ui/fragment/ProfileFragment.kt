@@ -83,6 +83,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack,
 
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val thisViewLifeCycleOwner = viewLifecycleOwner
@@ -115,7 +116,6 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack,
         ).get(ProfileViewModel::class.java)
 
         viewModel.isFollowing = isFollowing
-
 
         titleInProfList.add("نوشته ها")
         titleInProfList.add("علاقه مندی")

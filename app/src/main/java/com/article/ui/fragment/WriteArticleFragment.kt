@@ -120,6 +120,11 @@ class WriteArticleFragment : Fragment() {
                 write_draft.setOnClickListener {
                     saveTitleInSharePref()
                     saveBodyInSharePref()
+                    Toast.makeText(
+                        requireContext(),
+                        "مقاله در پیش نویس با موفقیت ذخیره شد",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         })
