@@ -51,4 +51,20 @@ interface ArticleApi {
         slug: String
     ): Response<ArticleResponse>
 
+    @POST("articles/{slug}/favorite")
+    suspend fun favoriteArticle(
+        @Path("slug")
+        slug: String
+
+    ): Response<ArticleResponse>
+
+
+    @DELETE("articles/{slug}/favorite")
+    suspend fun unFavoriteArticle(
+        @Path("slug")
+        slug: String
+
+    ): Response<ArticleResponse>
+
+
 }

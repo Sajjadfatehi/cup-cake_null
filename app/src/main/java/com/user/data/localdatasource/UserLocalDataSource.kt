@@ -82,4 +82,11 @@ class UserLocalDataSource(val db:AppDataBase) {
         db.articleDao().deleteArticle(slug)
     }
 
+    fun clearDb() = db.clearAllTables()
+
+    fun clearSharePref() {
+        settings.email = ""
+        settings.token = ""
+        settings.username = ""
+    }
 }

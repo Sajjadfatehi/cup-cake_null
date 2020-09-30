@@ -6,15 +6,28 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.article.data.ArticleUser
+import com.article.ui.viewmodel.TagClickListener
 import com.example.anull.databinding.ItemTitleBinding
 
-class ArticleAdapterDiff :
+class ArticleAdapterDiff(val clickListener: TagClickListener) :
     RecyclerView.Adapter<ArticleAdapterDiff.TitleViewHolder>() {
 
     inner class TitleViewHolder(var binding: ItemTitleBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
 
+            binding.cardView.setOnClickListener {
+                clickListener.onCardClick(differ.currentList[layoutPosition], layoutPosition)
+            }
+            binding.itemImageTitle.setOnClickListener {
+                clickListener.onImageClick(differ.currentList[layoutPosition].userEntity)
+            }
+            binding.itemIconTagTitle.setOnClickListener {
+                clickListener.onBookMarkClick(
+                    differ.currentList[layoutPosition].articleDataEntity.slug,
+                    differ.currentList[layoutPosition].articleDataEntity.favorited, layoutPosition
+                )
+            }
         }
     }
 

@@ -16,6 +16,7 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -53,11 +54,8 @@
                 android:textColor="#363636"
                 android:textSize="14sp"
                 android:textStyle="bold"
-
                 app:layout_constraintStart_toEndOf="@id/item_image_title"
                 app:layout_constraintTop_toTopOf="@id/item_image_title"
-
-
                 />
 
             <TextView
@@ -67,16 +65,14 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="1dp"
-                android:text="@{article.createdAt}"
                 tools:text="@string/date_of_post"
                 android:textAlignment="viewEnd"
                 android:textColor="#9e9e9e"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@id/item_image_title"
-
                 app:layout_constraintStart_toEndOf="@id/item_image_title"
                 app:layout_constraintTop_toBottomOf="@id/item_tv_name_title"
-
+                bind:date="@{article.createdAt}"
                 />
 
             <TextView
@@ -89,7 +85,7 @@
                 android:ellipsize="end"
 
                 android:lineSpacingExtra="10sp"
-                android:text="@{article.description}"
+                android:text="@{article.title}"
                 tools:text="@string/tv_item_title"
                 android:textAlignment="viewStart"
                 android:textColor="#363636"
@@ -106,14 +102,12 @@
 
             <ImageView
                 android:id="@+id/item_icon_tag_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:contentDescription="@string/tag_icon_post"
-
                 app:layout_constraintEnd_toStartOf="@id/guidelineRight2"
                 app:layout_constraintTop_toTopOf="@id/item_image_title"
-
-                app:srcCompat="@drawable/ic_bookmark" />
+                bind:isFavorites="@{article.favorited}" />
 
 
             />

@@ -25,6 +25,14 @@ class ArticleRemoteDataSource {
 
     }
 
+    suspend fun favoriteArticle(slug: String): ResultCallBack<ArticleResponse> {
+        return safeApiCall { articleApi.favoriteArticle(slug) }
+    }
+
+    suspend fun unFavoriteArticle(slug: String): ResultCallBack<ArticleResponse> {
+        return safeApiCall { articleApi.unFavoriteArticle(slug) }
+    }
+
 
     suspend fun gteArticleByTagNew(tag: String): ResultCallBack<ArticleModel> {
         return safeApiCall { articleApi.getArticlesByTagNew(tag) }

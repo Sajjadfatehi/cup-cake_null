@@ -58,7 +58,6 @@ interface UserDao {
     @Query("select * from author where username=:userName")
     suspend fun getUser(userName: String): UserEntity
 
-
     @Query("select * from article where slug in(select slug from user_favorite_article WHERE username =:userName)")
     suspend fun getFavoriteArticlesByUser(userName: String): MutableList<ArticleUser>
 

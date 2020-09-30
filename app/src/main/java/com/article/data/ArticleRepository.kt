@@ -1,15 +1,14 @@
 package com.article.data
 
 import androidx.room.withTransaction
-import com.article.data.api.ArticleApi
 import com.article.data.localdatasource.ArticleLocalDataSource
 import com.article.data.modelfromservice.ArticleResponse
 import com.article.data.modelfromservice.CreateArticleModel
+import com.article.data.modelfromservice.UserAndHisFavoriteArticle
 import com.article.data.remotedatasource.ArticleRemoteDataSource
 import com.config.MyApp
 import com.core.Network
 import com.core.ResultCallBack
-import com.core.RetrofitUtil
 import com.core.RoomDataBase
 import com.user.data.modelfromservice.EditArticleRequest
 
@@ -20,8 +19,6 @@ class ArticleRepository(
 
     val localDataSource = HomeLocalDataSource()
     val remoteDataSource = HomeRemoteDataSource()
-
-    val retrofit = RetrofitUtil.getInstance().create(ArticleApi::class.java)
 
     suspend fun getTagTitleList0(): List<TagModel> {
         val result = remoteDataSource.getAllTags()
@@ -88,7 +85,6 @@ class ArticleRepository(
 
     }
 
-
     suspend fun createArticle(createArticleModel: CreateArticleModel): ResultCallBack<ArticleResponse> {
         if (Network.hasActiveInternetConnection(MyApp.app.applicationContext)) {
             val result = articleRemoteDataSource.createArticle(createArticleModel)
@@ -118,7 +114,6 @@ class ArticleRepository(
 
     }
 
-
     suspend fun updateArticle(
         slug: String,
         editArticleRequest: EditArticleRequest
@@ -137,6 +132,66 @@ class ArticleRepository(
             ResultCallBack.Error(Exception("از اتصال خود به اینترنت اطمینان حاصل کنید "))
         }
 
+    }
+
+    suspend fun favoriteArticle(
+        slug: String,
+        ownUserName: String
+    ): ResultCallBack<ArticleResponse> {
+
+        if (Network.hasActiveInternetConnection(MyApp.app)) {
+            val result = articleRemoteDataSource.favoriteArticle(slug)
+
+            if (result is ResultCallBack.Success) {
+                articleLocalDataSource.db.withTransaction {
+
+                    articleLocalDataSource.addArticle(listOf(result.data.article.mapToEntity()))
+                    articleLocalDataSource.addUserAndFavoriteArticles(
+                        listOf(
+                            UserAndHisFavoriteArticle(
+                                ownUserName,
+                                slug
+                            )
+                        )
+                    )
+
+                }
+
+            }
+            return result
+
+        } else {
+            return ResultCallBack.Error(Exception("اینترنت متصل نیست"))
+        }
+    }
+
+    suspend fun unFavoriteArticle(
+        slug: String,
+        ownUserName: String
+    ): ResultCallBack<ArticleResponse> {
+
+        if (Network.hasActiveInternetConnection(MyApp.app)) {
+
+            val result = articleRemoteDataSource.unFavoriteArticle(slug)
+
+            if (result is ResultCallBack.Success) {
+                articleLocalDataSource.db.withTransaction {
+
+                    articleLocalDataSource.addArticle(listOf(result.data.article.mapToEntity()))
+                    articleLocalDataSource.deleteUserAndFavoriteArticles(
+                        listOf(
+                            UserAndHisFavoriteArticle(
+                                ownUserName,
+                                slug
+                            )
+                        )
+                    )
+
+                }
+
+            }
+            return result
+        } else return ResultCallBack.Error(Exception("اینترنت متصل نیست"))
     }
 
     fun getUserNameFromShare() = articleLocalDataSource.getUserNameFromShare()

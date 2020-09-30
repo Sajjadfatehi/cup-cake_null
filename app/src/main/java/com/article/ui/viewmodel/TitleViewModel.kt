@@ -5,20 +5,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.article.data.ArticleRepository
 import com.article.data.ArticleUser
+import com.article.data.modelfromservice.ArticleResponse
 import com.core.ResultCallBack
 import com.home.ui.PersonArticleModelView
+import com.user.data.modelfromservice.Article
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class TitleViewModel(val articleRepository: ArticleRepository) : ViewModel() {
+class TitleViewModel(val articleRepository: ArticleRepository, val tag: String) : ViewModel() {
 
     var list = MutableLiveData<MutableList<PersonArticleModelView>>()
-
-
     val articlesByTag: MutableLiveData<ResultCallBack<List<ArticleUser>>> = MutableLiveData()
 
+    val favoriteArticleResponse: MutableLiveData<ResultCallBack<ArticleResponse>> =
+        MutableLiveData()
+    val unFavoriteArticleResponse: MutableLiveData<ResultCallBack<ArticleResponse>> =
+        MutableLiveData()
 
-    var articlesByTagResponse: List<ArticleUser>? = null
 
     fun getArticlesByTag(tag: String) = viewModelScope.launch(Dispatchers.IO) {
 
@@ -38,29 +41,78 @@ class TitleViewModel(val articleRepository: ArticleRepository) : ViewModel() {
         return ResultCallBack.Error(Exception("error"))
     }
 
-//
-//    fun getArticleByTagNewLocal(tag:String):MutableLiveData<MutableList<ArticleUser>>{
-//       return articleRepository.getArticleByTagLocal(tag)
-//    }
-//
-//    fun getArticleByTagNewRemote(tag:String)=viewModelScope.launch(Dispatchers.IO){
-//        articleRepository.getArticleByTagNewRemote(tag,articlesByTagPage )
-//    }
 
+    fun favoriteArticle(slug: String, itemNumber: Int, ownUserName: String) =
+        viewModelScope.launch(Dispatchers.IO) {
+
+            favoriteArticleResponse.postValue(ResultCallBack.Loading(""))
+            val response = articleRepository.favoriteArticle(slug, ownUserName)
+
+            favoriteArticleResponse.postValue(response)
+            handleFavoriteArticle(response, itemNumber)
+
+        }
+
+
+    fun unFavoritedArticle(
+        slug: String,
+        itemNumber: Int,
+        ownUserName: String
+    ) =
+        viewModelScope.launch(Dispatchers.IO) {
+            unFavoriteArticleResponse.postValue(ResultCallBack.Loading(""))
+            val response = articleRepository.unFavoriteArticle(slug, ownUserName)
+            unFavoriteArticleResponse.postValue(response)
+            handleUnFavoriteArticle(response, itemNumber)
+
+        }
+
+    private fun handleFavoriteArticle(
+        response: ResultCallBack<ArticleResponse>, itemNumber: Int
+    ) {
+        if (response is ResultCallBack.Success) {
+            response.data.let { articleResponse ->
+
+                updateArticleFromList(itemNumber, articleResponse.article)
+            }
+        }
+    }
+
+    private fun handleUnFavoriteArticle(
+        response: ResultCallBack<ArticleResponse>,
+        itemNumber: Int
+    ) {
+        if (response is ResultCallBack.Success) {
+            response.data.let { articleResponse ->
+                updateArticleFromList(itemNumber, articleResponse.article)
+
+            }
+        }
+    }
+
+    fun updateArticleFromList(itemNumber: Int, article: Article) {
+
+
+        val tempList = articlesByTag.value!!
+        if (tempList is ResultCallBack.Success) {
+            val list = tempList.data.toMutableList()
+            list[itemNumber].articleDataEntity.favorited = article.favorited
+            articlesByTag.postValue(
+                ResultCallBack.Success(
+                    list
+                )
+            )
+        }
+
+
+//        articlesByTag.postValue(tempList)
+
+    }
 
     init {
-//        list.value = articleRepository.getTagTitleList()
-        getArticlesByTag("بورس")
+
+        getArticlesByTag(tag)
     }
 
-    fun getArticle(): MutableList<PersonArticleModelView>? {
-//        if (list == null) {
-//            list = MutableLiveData()
-//
-
-//        }
-//        return list
-        return list.value
-    }
 
 }

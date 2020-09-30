@@ -28,7 +28,8 @@ fun dateCalculator(textView: TextView, date: String) {
 
         var text = when (countOfDays) {
             0L -> "امروز"
-            in 1..6 -> "$countOfDays روز گذشته "
+            1L -> "دیروز"
+            in 2..6 -> "$countOfDays روز گذشته "
             in 7..30 -> "${countOfDays / 7} هفته گذشته "
             in 30..360 -> "${countOfDays / 30} ماه پیش "
             in 360..Int.MAX_VALUE -> "${countOfDays / 360} سال گذشته "

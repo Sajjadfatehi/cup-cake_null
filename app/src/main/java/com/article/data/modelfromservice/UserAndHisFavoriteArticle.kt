@@ -16,7 +16,6 @@ import com.article.data.ArticleDataEntity
             childColumns = ["slug"],
             onDelete = CASCADE,
             onUpdate = CASCADE
-
         )]
 )
 data class UserAndHisFavoriteArticle (

@@ -58,6 +58,7 @@ class WriteArticleFragment : Fragment() {
     ): View? {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_write_article, container, false)
+        binding.lifecycleOwner = this
         return binding.root
     }
 
@@ -129,7 +130,6 @@ class WriteArticleFragment : Fragment() {
             }
         })
 
-
         writeViewModel.editedArticle.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is ResultCallBack.Success -> {
@@ -165,7 +165,7 @@ class WriteArticleFragment : Fragment() {
                 when (response) {
                     is ResultCallBack.Success -> {
                         hideProgress()
-                        Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show()
+                        findNavController().navigateUp()
                     }
                     is ResultCallBack.Loading -> {
 

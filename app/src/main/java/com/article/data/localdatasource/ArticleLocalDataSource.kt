@@ -5,6 +5,7 @@ import com.article.data.ArticleDataEntity
 import com.article.data.ArticleUser
 import com.article.data.TagAndArticleEntity
 import com.article.data.TagModel
+import com.article.data.modelfromservice.UserAndHisFavoriteArticle
 import com.config.MyApp
 import com.core.db.AppDataBase
 import com.storage.data.PreferenceProperty.Companion.getPreferences
@@ -52,6 +53,18 @@ class ArticleLocalDataSource(val db: AppDataBase) {
     suspend fun getArticleByTag(tag: String): List<ArticleUser> {
         return db.articleDao().getArticleWithTag(tag)
     }
+
+
+    suspend fun deleteUserAndFavoriteArticles(userAdFavoriteArticles: List<UserAndHisFavoriteArticle>) {
+        db.userDao().insertUserAndFavoriteArticle(userAdFavoriteArticles)
+
+    }
+
+    suspend fun addUserAndFavoriteArticles(userAdFavoriteArticles: List<UserAndHisFavoriteArticle>) {
+        db.userDao().insertUserAndFavoriteArticle(userAdFavoriteArticles)
+
+    }
+
 
     fun getUserNameFromShare() = settings.username.toString()
 

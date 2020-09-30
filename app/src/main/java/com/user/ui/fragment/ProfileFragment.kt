@@ -1,6 +1,7 @@
 package com.user.ui.fragment
 
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -12,7 +13,6 @@ import android.widget.RadioButton
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,6 +36,7 @@ import com.user.ui.ClickListener
 import com.user.ui.viewmodel.ProfileViewModel
 import com.user.ui.viewmodel.providerfactory.ProfileViewModelProviderFactory
 import kotlinx.android.synthetic.main.testlayout.*
+
 
 class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack,
     SwipeRefreshLayout.OnRefreshListener {
@@ -76,9 +77,10 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        // bindingProf = TestlayoutBinding().inflate(inflater, container, false)
         bindingProf = DataBindingUtil.inflate(inflater, R.layout.testlayout, container, false)
 
+        bindingProf.lifecycleOwner = this
         return bindingProf.root
 
     }
@@ -119,9 +121,12 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack,
 
         titleInProfList.add("نوشته ها")
         titleInProfList.add("علاقه مندی")
+
+        bindingProf.swipeRefresh.setOnRefreshListener(this)
+
         bindingProf.isMyPage = viewModel.userName == viewModel.userRepository.getUserNameFromShare()
         //set profile
-        viewModel.profile.observe(thisViewLifeCycleOwner, Observer { response ->
+        viewModel.profile.observe(thisViewLifeCycleOwner, androidx.lifecycle.Observer { response ->
             when (response) {
                 is ResultCallBack.Success -> {
                     hideProgressBar()
@@ -158,14 +163,14 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack,
 
                 viewModel.getAllArticleOfPersonNew(viewModel.userName)
                 radio.setTextColor(Color.parseColor("#813ac1"))
-                requireActivity().findViewById<RadioButton>(R.id.radio2)
+                requireActivity().findViewById<RadioButton>(radio2.id)
                     .setTextColor(Color.parseColor("#363636"))
             } else if (radio.id == radio2.id) {
 
                 viewModel.getFavoritedArticleByUserName(viewModel.userName)
 
                 radio.setTextColor(Color.parseColor("#813ac1"))
-                requireActivity().findViewById<RadioButton>(R.id.radio1)
+                requireActivity().findViewById<RadioButton>(radio1.id)
                     .setTextColor(Color.parseColor("#363636"))
 
             }
@@ -173,156 +178,122 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack,
 
         setUpRecyclerView()
 
-//        viewModel.allArticleOfPerson.observe(thisViewLifeCycleOwner, Observer { response ->
-//            Log.d("asghar", "bbbbbb: ")
-//            when (response) {
-//                is Resource.Success -> {
-//                    hideProgressBar()
-//                    response.data?.let { allArticleOfPerson ->
-//                        if (titleRadioBtn.checkedRadioButtonId==radio1.id){
-//                            bindingProf.countOfArticles = allArticleOfPerson.articlesCount.toString()
-//                        }
-//
-//                        testAdapter.differ.submitList(allArticleOfPerson.articles.toList())
-//                        val totalPages = allArticleOfPerson.articlesCount / QUERY_PAGE_SIZE + 2
-//                        isLastPage = totalPages == viewModel.allArticleOfPersonPage
-//
-//                        if (isLastPage) {
-//                            recycler_posts_in_prof.setPadding(0, 0, 0, 0)
-//                        }
-//
-//                    }
-//                }
-//                is Resource.Error -> {
-//                    hideProgressBar()
-//                    response.message?.let { message ->
-//                        Log.e("ProfileFragment ", "an error happened: $message ")
-//                    }
-//                }
-//                is Resource.Loading -> {
-//                    showProgressBar()
-//                }
-//
-//
-//            }
-//
-//        })
 
+        viewModel.allArticleOfPersonNew.observe(thisViewLifeCycleOwner,
+            androidx.lifecycle.Observer { response ->
 
-        viewModel.allArticleOfPersonNew.observe(thisViewLifeCycleOwner, Observer { response ->
-
-            response?.let { allArticleOfPerson ->
+                response?.let { allArticleOfPerson ->
 //
 //                if (titleRadioBtn.checkedRadioButtonId == radio1.id) {
-                bindingProf.countOfArticles = allArticleOfPerson.size.toString()
+                    bindingProf.countOfArticles = allArticleOfPerson.size.toString()
 //                }
 
-                Log.d("ProfPage", "radio is ${titleRadioBtn.checkedRadioButtonId}: ")
-                testAdapter.differ.submitList(allArticleOfPerson.toList())
+                    Log.d("ProfPage", "radio is ${titleRadioBtn.checkedRadioButtonId}: ")
+                    testAdapter.differ.submitList(allArticleOfPerson.toList())
 
-            }
+                    swipeRefresh.isRefreshing = false
 
-        })
+                }
+
+            })
 
         viewModel.allFavoriteArticleOfPersonNew.observe(
             thisViewLifeCycleOwner,
-            Observer { response ->
-
+            androidx.lifecycle.Observer { response ->
                 response?.let { allFavoriteArticleOfPerson ->
-//
-//                if (titleRadioBtn.checkedRadioButtonId == radio1.id) {
-//                    bindingProf.countOfArticles = allFavoriteArticleOfPerson.size.toString()
-//                }
-                    Log.d("ProfPage", "radio is ${titleRadioBtn.checkedRadioButtonId}: ")
                     testAdapter.differ.submitList(allFavoriteArticleOfPerson.toList())
+                    swipeRefresh.isRefreshing = false
 
                 }
 
             })
 
 
-        viewModel.followResponse.observe(thisViewLifeCycleOwner, Observer { response ->
-            when (response) {
-                is ResultCallBack.Success -> {
-                    Log.d("bibi", "follow res ${viewModel.isFollowing}: ")
+        viewModel.followResponse.observe(thisViewLifeCycleOwner,
+            androidx.lifecycle.Observer { response ->
+                when (response) {
+                    is ResultCallBack.Success -> {
+                        Log.d("bibi", "follow res ${viewModel.isFollowing}: ")
 
-                    viewModel.isFollowing = true
-                    bindingProf.follow = true
+                        viewModel.isFollowing = true
+                        bindingProf.follow = true
+                    }
+                    is ResultCallBack.Error -> {
+                        Snackbar.make(
+                            requireView(),
+                            response.exception.message.toString(),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                    is ResultCallBack.Loading -> {
+
+                    }
                 }
-                is ResultCallBack.Error -> {
-                    Snackbar.make(
-                        requireView(),
-                        response.exception.message.toString(),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+
+            })
+
+        viewModel.unFollowResponse.observe(thisViewLifeCycleOwner,
+            androidx.lifecycle.Observer { response ->
+                when (response) {
+                    is ResultCallBack.Success -> {
+                        Log.d("bibi", "Unfollow ressss ${viewModel.isFollowing}: ")
+                        viewModel.isFollowing = false
+                        bindingProf.follow = false
+                    }
+                    is ResultCallBack.Error -> {
+                        Snackbar.make(
+                            requireView(),
+                            response.exception.message.toString(),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                    is ResultCallBack.Loading -> {
+
+                    }
                 }
-                is ResultCallBack.Loading -> {
 
+            })
+
+        viewModel.favoriteArticleResponse.observe(thisViewLifeCycleOwner,
+            androidx.lifecycle.Observer { response ->
+                when (response) {
+                    is ResultCallBack.Success -> {
+                    }
+                    is ResultCallBack.Error -> {
+                        Snackbar.make(
+                            requireView(),
+                            response.exception.message.toString(),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                    is ResultCallBack.Loading -> {
+
+                    }
                 }
-            }
 
-        })
+            })
 
-        viewModel.unFollowResponse.observe(thisViewLifeCycleOwner, Observer { response ->
-            when (response) {
-                is ResultCallBack.Success -> {
-                    Log.d("bibi", "Unfollow ressss ${viewModel.isFollowing}: ")
-                    viewModel.isFollowing = false
-                    bindingProf.follow = false
+        viewModel.unFavoriteArticleResponse.observe(thisViewLifeCycleOwner,
+            androidx.lifecycle.Observer { response ->
+
+                when (response) {
+                    is ResultCallBack.Success -> {
+
+
+                    }
+                    is ResultCallBack.Error -> {
+                        Snackbar.make(
+                            requireView(),
+                            response.exception.message.toString(),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+
+                    }
+                    is ResultCallBack.Loading -> {
+
+                    }
                 }
-                is ResultCallBack.Error -> {
-                    Snackbar.make(
-                        requireView(),
-                        response.exception.message.toString(),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
-                is ResultCallBack.Loading -> {
-
-                }
-            }
-
-        })
-
-        viewModel.favoriteArticleResponse.observe(thisViewLifeCycleOwner, Observer { response ->
-            when (response) {
-                is ResultCallBack.Success -> {
-
-                }
-                is ResultCallBack.Error -> {
-                    Snackbar.make(
-                        requireView(),
-                        response.exception.message.toString(),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
-                is ResultCallBack.Loading -> {
-
-                }
-            }
-
-        })
-
-        viewModel.unFavoriteArticleResponse.observe(thisViewLifeCycleOwner, Observer { response ->
-
-            when (response) {
-                is ResultCallBack.Success -> {
-
-                    Log.d("hadige", "unfa ressss: ")
-                }
-                is ResultCallBack.Error -> {
-                    Snackbar.make(
-                        requireView(),
-                        response.exception.message.toString(),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-
-                }
-                is ResultCallBack.Loading -> {
-
-                }
-            }
-        })
+            })
 
         follow_button.setOnClickListener {
 
@@ -341,7 +312,29 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack,
 
         }
 
-        bindingProf.swipeRefresh.setOnRefreshListener(this)
+        logOut.setOnClickListener {
+            AlertDialog.Builder(requireContext())
+
+                .setTitle("آیا اطمینان دارید میخواهید از حساب خود خارج شوید")
+                .setMessage("خروج از حساب کاربری")
+                .setPositiveButton("Yes") { dialogInterface, which ->
+
+                    findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToLoginFragment())
+                    viewModel.clearDb()
+                    viewModel.clearSharePref()
+                }
+                .setNeutralButton("Cancel") { dialogInterface, which ->
+
+                }
+                .show()
+
+
+        }
+
+
+        bindingProf.textTitleBar.setOnClickListener {
+            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToTitleFragment())
+        }
     }
 
 
@@ -380,8 +373,9 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack,
                 }
             }
 
+
             findNavController().navigate(
-                R.id.action_profileFragment_to_writeArticleFragment,
+                R.id.action_profileFragment_to_homeFragment,
                 bundle
             )
             bottomSheetFragment.dismiss()
@@ -458,12 +452,13 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack,
                 )
             }
 
-            Log.d("hadige", "on book${titleRadioBtn.checkedRadioButtonId == radio1.id}: ")
+
         } else {
-            viewModel.userRepository.getUserNameFromShare().let {
+            viewModel.userRepository.getUserNameFromShare().let { userName ->
                 viewModel.favoriteArticle(
                     slug, itemNumber,
-                    it
+                    userName,
+                    titleRadioBtn.checkedRadioButtonId == radio1.id
                 )
             }
 
@@ -503,6 +498,7 @@ class ProfileFragment : Fragment(), ClickListener, BottomSheetFragment.CallBack,
     }
 
     override fun onRefresh() {
+
         if (titleRadioBtn.checkedRadioButtonId == radio1.id) {
             viewModel.getAllArticleOfPersonNew(viewModel.userName)
         } else {

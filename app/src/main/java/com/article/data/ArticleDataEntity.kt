@@ -20,7 +20,7 @@ data class ArticleDataEntity(
     @ColumnInfo(name = "createdAt") val createdAt: String,
     @ColumnInfo(name = "authorusername") val aothorusername: String,
     @ColumnInfo(name = "description") val description: String,
-    @ColumnInfo(name = "favorited") val favorited: Boolean,
+    @ColumnInfo(name = "favorited") var favorited: Boolean,
     @ColumnInfo(name = "favoritesCount") val favoritesCount: Int,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "updatedAt") val updatedAt: String

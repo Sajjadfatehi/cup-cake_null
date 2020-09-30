@@ -1,6 +1,6 @@
 package com.user.data
 
-import android.util.Log
+
 import androidx.room.withTransaction
 import com.article.data.ArticleUser
 import com.article.data.TagAndArticleEntity
@@ -41,12 +41,7 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
 
                     local.addArticle(listOf(result.data.article.mapToEntity()))
                     local.addUserAndFavoriteArticles(
-                        listOf(
-                            UserAndHisFavoriteArticle(
-                                ownUserName,
-                                slug
-                            )
-                        )
+                        listOf(UserAndHisFavoriteArticle(ownUserName, slug))
                     )
 
                 }
@@ -88,7 +83,6 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
         } else return ResultCallBack.Error(Exception("اینترنت متصل نیست"))
     }
 
-
     suspend fun deleteArticle(slug: String): ResultCallBack<Unit> {
         return if (Network.hasActiveInternetConnection(MyApp.app)) {
             val result = remote.deleteArticle(slug)
@@ -104,14 +98,14 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
 
     suspend fun profile(userName: String): ResultCallBack<UserEntity> {
         if (Network.hasActiveInternetConnection(MyApp.app)) {
-            Log.d("TAGT", "is net ")
+
             val result = remote.profile(userName)
             if (result is ResultCallBack.Success) {
 
                 local.db.withTransaction {
 
                     local.addUsers(listOf(result.data.profile.mapYoUserEntity()))
-                    Log.d("TAGT", "yes bb ${local.getUser(userName)}: ")
+
                 }
                 return ResultCallBack.Success(local.getUser(userName))
 
@@ -120,7 +114,6 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
             return ResultCallBack.Error(Exception("follow failed"))
 
         } else {
-            Log.d("TAGT", "not net ${local.getUser(userName)} ")
             return ResultCallBack.Success(local.getUser(userName))
         }
 
@@ -128,7 +121,6 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
     }
 
     suspend fun profileLocal(userName: String): ResultCallBack<UserEntity> {
-//        Log.d("TAGT p lo ${local.getUser(userName).following}", "profileLocal: ")
         return ResultCallBack.Success(local.getUser(userName))
     }
 
@@ -174,11 +166,7 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
 
     }
 
-
-    suspend fun getAllArticleOfPersonNew(
-        author: String
-
-    ): MutableList<ArticleUser> {
+    suspend fun getAllArticleOfPersonNew(author: String): MutableList<ArticleUser> {
         if (Network.hasActiveInternetConnection(MyApp.app.applicationContext)) {
 
             val result = remote.getAllArticleOfPersonNew(author)
@@ -205,8 +193,6 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
             }
         }
 
-        Log.d("TAGT", "1a  ${local.db.userDao().getArticlesByAuthor(author).size}: ")
-        val z = 6
         return local.db.userDao().getArticlesByAuthor(author)
     }
 
@@ -216,21 +202,17 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
 
     suspend fun getFavoritedArticlesByUserName(author: String): MutableList<ArticleUser> {
         if (Network.hasActiveInternetConnection(MyApp.app.applicationContext)) {
-            Log.d("TAGTT", "-1f  ${local.db.userDao().getArticlesByAuthor(author).size}: ")
+
             val result = remote.getFavoritedArticleByUserName(author)
             if (result is ResultCallBack.Success) {
                 local.db.withTransaction {
                     local.db.articleDao().deleteFavoriteArticleOfUser(author)
-                    Log.d("TAGTT", "0f  ${local.db.userDao().getArticlesByAuthor(author).size}: ")
                     local.addUsers(result.data.articles.map {
                         it.mapToUserEntity()
                     })
-                    Log.d("TAGTT", "1f  ${local.db.userDao().getArticlesByAuthor(author).size}: ")
                     local.addArticle(result.data.articles.map {
                         it.mapToEntity()
                     })
-
-                    Log.d("TAGTT", "2f  ${local.db.userDao().getArticlesByAuthor(author).size}: ")
                     local.addUserAndFavoriteArticles(result.data.articles.map { article ->
                         UserAndHisFavoriteArticle(author, article.slug)
                     })
@@ -248,7 +230,6 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
                 }
 
             }
-            Log.d("UserRepository", "bb: ${local.db.userDao().getFavoriteArticlesByUser(author)} ")
         }
 
         return local.db.userDao().getFavoriteArticlesByUser(author)
@@ -279,6 +260,10 @@ class UserRepository(val local: UserLocalDataSource, val remote: UserRemote) {
     fun getEmailFromShare(): String {
         return local.getEmail().toString()
     }
+
+    fun clearDb() = local.clearDb()
+
+    fun clearSharePref() = local.clearSharePref()
 
 }
 
