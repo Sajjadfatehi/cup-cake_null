@@ -17,9 +17,6 @@ import com.example.anull.R
 import com.example.anull.databinding.ArticleFragmentBinding
 import kotlinx.android.synthetic.main.article_fragment.*
 
-/**
-Created by Moha.Azizi on 18/08/2020 .
- */
 class ArticleFragment : Fragment() {
     private var list = mutableListOf<CommentArticleModelEntity>()
     private var list2 = mutableListOf<RelatedArticleModelEntity>()
@@ -55,22 +52,22 @@ class ArticleFragment : Fragment() {
             }
         }
 
-        repeat(20) {
-            list.add(
-                CommentArticleModelEntity(1, 2, "shit", "Crap")
-            )
-        }
+//        repeat(20) {
+//            list.add(
+//                CommentArticleModelEntity(1, 2, "shit", "Crap")
+//            )
+//        }
         recycler_article_related.apply {
             adapter = CommentAdapter(list)
         }
-        repeat(20) {
-            list2.add(
-                RelatedArticleModelEntity(
-                    "محمد", "دوروز ثبل", true,
-                    " ین متن میتواند یک تست موقت باشد ین متن میتواند یک تست موقت باشد ین متن میتواند یک تست موقت باشد ین متن میتواند یک تست موقت باشد"
-                )
-            )
-        }
+//        repeat(20) {
+//            list2.add(
+//                RelatedArticleModelEntity(
+//                    "محمد", "دوروز ثبل", true,
+//                    " ین متن میتواند یک تست موقت باشد ین متن میتواند یک تست موقت باشد ین متن میتواند یک تست موقت باشد ین متن میتواند یک تست موقت باشد"
+//                )
+//            )
+//        }
         recycler_comment.apply {
             adapter = RelatedArticleAdapter(list2)
         }

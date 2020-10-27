@@ -5,7 +5,6 @@ import com.config.MyApp
 import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.storage.data.PreferenceProperty.Companion.getPreferences
-import com.storage.data.Settings
 import com.user.data.UserLocalDataSource
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -36,6 +35,7 @@ object RetrofitUtil {
         return Retrofit.Builder()
             .baseUrl(baseURL)
             .addConverterFactory(GsonConverterFactory.create())
+
             .client(getOkHttpClient())
             .build()
     }

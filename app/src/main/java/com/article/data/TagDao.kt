@@ -2,10 +2,6 @@ package com.article.data
 
 import androidx.room.*
 
-/**
- * Created by moha on 9/15/2020.
- */
-
 @Dao
 interface TagDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)

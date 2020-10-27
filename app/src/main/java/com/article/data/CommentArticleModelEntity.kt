@@ -5,9 +5,7 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 
-/**
-Created by Moha.Azizi on 16/08/2020 .
- */
+
 @Entity(
     tableName = "comments", foreignKeys = [ForeignKey(
         onDelete = CASCADE,

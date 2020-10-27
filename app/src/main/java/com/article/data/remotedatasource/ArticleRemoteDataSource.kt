@@ -2,11 +2,12 @@ package com.article.data.remotedatasource
 
 import com.article.data.ArticleModel
 import com.article.data.api.ArticleApi
-import com.article.data.modelfromservice.ArticleResponse
-import com.article.data.modelfromservice.CreateArticleModel
+import com.article.data.modelfromservice.*
 import com.core.ResultCallBack
 import com.core.RetrofitUtil
 import com.core.safeApiCall
+import com.core.safeApiCallResource
+import com.core.util.Resource
 import com.user.data.modelfromservice.EditArticleRequest
 
 class ArticleRemoteDataSource {
@@ -38,5 +39,17 @@ class ArticleRemoteDataSource {
         return safeApiCall { articleApi.getArticlesByTagNew(tag) }
 
     }
+
+    suspend fun createComment(
+        slug: String,
+        commentRequest: CommentRequest
+    ): Resource<CommentResponse> {
+        return safeApiCallResource { articleApi.createComment(slug, commentRequest) }
+    }
+
+    suspend fun getAllCommentsForArticle(slug: String): Resource<AllCommentsResponse> {
+        return safeApiCallResource { articleApi.getAllCommentsForArticle(slug) }
+    }
+
 
 }

@@ -2,8 +2,7 @@ package com.article.data.api
 
 import com.article.data.ArticleModel
 import com.article.data.TagResponse
-import com.article.data.modelfromservice.ArticleResponse
-import com.article.data.modelfromservice.CreateArticleModel
+import com.article.data.modelfromservice.*
 import com.user.data.modelfromservice.AllArticleOfPerson
 import com.user.data.modelfromservice.EditArticleRequest
 import retrofit2.Response
@@ -65,6 +64,19 @@ interface ArticleApi {
         slug: String
 
     ): Response<ArticleResponse>
+
+
+    @POST("articles/{slug}/comments")
+    suspend fun createComment(
+        @Path("slug") slug: String,
+        @Body commentRequest: CommentRequest
+    ): Response<CommentResponse>
+
+    @GET("articles/{slug}/comments")
+    suspend fun getAllCommentsForArticle(
+        @Path("slug")
+        slug: String
+    ): Response<AllCommentsResponse>
 
 
 }

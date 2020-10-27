@@ -2,14 +2,13 @@ package com.article.data
 
 import androidx.room.withTransaction
 import com.article.data.localdatasource.ArticleLocalDataSource
-import com.article.data.modelfromservice.ArticleResponse
-import com.article.data.modelfromservice.CreateArticleModel
-import com.article.data.modelfromservice.UserAndHisFavoriteArticle
+import com.article.data.modelfromservice.*
 import com.article.data.remotedatasource.ArticleRemoteDataSource
 import com.config.MyApp
 import com.core.Network
 import com.core.ResultCallBack
 import com.core.RoomDataBase
+import com.core.util.Resource
 import com.user.data.modelfromservice.EditArticleRequest
 
 class ArticleRepository(
@@ -193,6 +192,21 @@ class ArticleRepository(
             return result
         } else return ResultCallBack.Error(Exception("اینترنت متصل نیست"))
     }
+
+    suspend fun createComment(
+        slug: String,
+        commentRequest: CommentRequest
+    ): Resource<CommentResponse> {
+        return if (Network.hasActiveInternetConnection(MyApp.app)) {
+            val result = articleRemoteDataSource.createComment(slug, commentRequest)
+            result
+        } else {
+            Resource.Error("connect to server failed")
+        }
+
+
+    }
+
 
     fun getUserNameFromShare() = articleLocalDataSource.getUserNameFromShare()
 

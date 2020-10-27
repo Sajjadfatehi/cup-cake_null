@@ -77,5 +77,6 @@
     <string name="back_message">برای بازگشت دوباره دکمه خروج را فشار دهید</string>
     <string name="for_you">برای شما</string>
     <string name="profileWasFollow">دنبال میکنید</string>
+    <string name="comments_tv">دیدگاه کاربران</string>
 
 </resources>

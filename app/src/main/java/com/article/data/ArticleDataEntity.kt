@@ -6,9 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
-/**
- * Created by moha on 9/16/2020.
- */
+
 @Parcelize
 @Entity(
     tableName = "article"
