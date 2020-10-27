@@ -22,7 +22,7 @@ object RetrofitUtil {
         sherPref = MyApp.app.applicationContext.getPreferences(),
         userDao = null
     )
-
+//fdgf
     private var retrofit: Retrofit? = null
     private const val baseURL = "http://192.168.5.69:3000/api/"
     private val networkFlipperPlugin = NetworkFlipperPlugin()
